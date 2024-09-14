@@ -1,0 +1,210 @@
+.p-tabview-nav-container {
+    background-color: lightgrey;
+}
+
+.p-tabview .p-tabview-nav {
+    background-color: #ffdcdc !important;
+}
+
+.p-tabview-nav-container {
+    background-color: #ffdcdc !important;
+}
+
+.p-tabview-nav {
+    padding-left: 55px !important;
+}
+
+.p-tabview-panels {
+    background-color: darkgrey !important;
+}
+
+.p-tabview-selected a {
+    background-color: darkgrey !important;
+}
+
+.p-tabview-nav .p-button {
+    background-color: lightgrey !important;
+    border: 0px !important;
+    color: #6c757d !important;
+}
+
+.p-tabview-selected .p-button {
+    color: darkblue !important;
+}
+
+.p-tabview-nav .p-button:focus {
+    box-shadow: none !important;
+}
+
+
+.p-tabview-nav li a {
+    background-color: rgba(0, 0, 0, 0) !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+    box-shadow: none !important;
+    color: white !important;
+}
+
+.p-tabview .p-tabview-nav li:not(.p-tabview-selected) .p-tabview-nav-link {
+    color: black !important;
+}
+
+.p-tabview-selected .p-tabview-nav-link {
+    color: white !important;
+}
+
+
+
+.p-tabview-nav-link {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+.p-tabview-nav li:not(.p-tabview-selected):hover {
+    background-color: rgb(200, 200, 200) !important;
+}
+
+.p-tabview-selected {
+    background-color: darkgrey !important;
+}
+
+.p-tabview-selected a {
+    color: darkblue !important;
+}
+
+.p-tabview .p-tabview-nav .p-tabview-ink-bar {
+    background-color: black !important;
+}
+
+
+.p-tabview-title {
+    margin-left: 3px;
+}
+
+.p-tabview-nav .p-button {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.p-tabview-nav .p-splitbutton {
+    margin-top: 5px;
+}
+
+.logo {
+    background-color: dark;
+    margin-left: -10px;
+    top: -5px;
+    position: absolute;
+    z-index: 10000;
+}
+
+.blank {
+    background-color: #ffdcdc;
+    position: absolute;
+    z-index: 9999;
+    min-width: 55px;
+    min-height: 58px;
+}
+
+.p-splitbutton-menubutton {
+    margin-left: -20px !important;
+}
+
+.leaderboard-container {
+    border-radius: 15px;
+    margin-top: 20px;
+    background-color: white;
+    padding-bottom: 20px;
+}
+
+.leaderboard-header {
+    padding-top: 20px;
+    padding-left: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.leaderboard-menu {
+    position: absolute;
+    margin-top: 25px;
+    margin-left: 20px;
+    display: flex;
+}
+
+.leaderboard-menu .title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 8px;
+    margin-right: 5px;
+}
+
+.-logo {
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.scoreboard-container {
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 15px;
+    padding-bottom: 20px;
+}
+
+.scoreboard-header {
+    padding-top: 20px;
+    padding-left: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.scoreboard-tool {
+    padding-left: 25px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.scoreboard-menu {
+    margin-top: 25px;
+    display: flex;
+}
+
+.scoreboard-menu .title {
+    font-size: 25px;
+    font-weight: 700;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+.matchup-period {
+    margin-top: 25px;
+    display: flex;
+}
+
+.matchup-period .title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 5px;
+    ;
+    margin-right: 10px;
+}
+
+#pr_id_1_content_2 {
+    text-align: -webkit-center;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+    height: 75px!important;
+}
+
+@media screen and (max-width: 400px) {
+    .p-tabview .p-tabview-panels {
+        padding-left: 10px!important;
+        padding-right: 10px!important;
+    }
+
+    .p-datatable .p-datatable-tbody > tr > td {
+        padding: 10px!important;
+    }
+}
