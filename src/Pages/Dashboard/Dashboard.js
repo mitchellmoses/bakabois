@@ -152,6 +152,7 @@ function Dashboard() {
       const response = await axios.get('https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1446375?view=modular&view=mNav&view=mMatchupScore&view=mScoreboard&view=mSettings&view=mTopPerformers&view=mTeam');
       const teams = response.data.teams;
       const currentScoringPeriod = response.data.scoringPeriodId;
+      const leagueName = response.data.settings.name || 'BakaBois';
       
       let highestScore = 0;
       let highestScoringTeam = null;
@@ -164,13 +165,33 @@ function Dashboard() {
         }
       });
 
+      let ownerName;
+      if (highestScoringTeam.owners && highestScoringTeam.owners[0]) {
+        if (highestScoringTeam.owners[0] === "{BA328BFB-BC9E-4617-BD5D-BAA2C6F6D01F}") {
+          ownerName = "Josh";
+        } else {
+          ownerName = `${highestScoringTeam.owners[0].firstName || ''} ${highestScoringTeam.owners[0].lastName || ''}`.trim();
+        }
+      } else {
+        ownerName = 'Unknown Owner';
+      }
+
       setHighestScorer({
         name: highestScoringTeam.name,
         logo: highestScoringTeam.logo,
-        score: highestScore.toFixed(1)
+        score: highestScore.toFixed(1),
+        leagueName: leagueName,
+        ownerName: ownerName
       });
     } catch (error) {
       console.error("Error fetching highest scorer:", error);
+      setHighestScorer({
+        name: 'Unknown Team',
+        logo: '',
+        score: '0.0',
+        leagueName: 'BakaBois',
+        ownerName: 'Unknown Owner'
+      });
     }
   };
 
@@ -207,6 +228,14 @@ function Dashboard() {
                       <div className="highest-scorer-info">
                         <span className="highest-scorer-name">{highestScorer.name}</span>
                         <span className="highest-scorer-score">{highestScorer.score} points</span>
+                      </div>
+                      <div className="highest-scorer-details">
+                        {highestScorer.leagueName && (
+                          <span className="highest-scorer-league">{highestScorer.leagueName}</span>
+                        )}
+                        {highestScorer.ownerName && highestScorer.ownerName !== 'Unknown Owner' && (
+                          <span className="highest-scorer-owner">{highestScorer.ownerName}</span>
+                        )}
                       </div>
                     </div>
                   )}
