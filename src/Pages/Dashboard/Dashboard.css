@@ -297,8 +297,6 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-
-  
   margin-bottom: 10px;
   object-fit: cover;
 }
@@ -324,15 +322,16 @@
 .highest-scorer-name {
   font-size: 1.5rem;
   font-weight: bold;
+  margin-right: 10px;
   color: white;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  margin-right: 10px;
 }
 
 .highest-scorer-score {
   font-size: 1.5rem;
   font-weight: bold;
   color: #FFD700;
+  text-align: center;
 }
 
 .background-images {
@@ -378,4 +377,66 @@
 
 .highest-scorer-league {
   margin-bottom: 4px;
+}
+
+.cesar-is-stinky-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0;
+  perspective: 1000px;
+}
+
+.cesar-is-stinky-text {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+  background-color: rgba(0, 255, 0, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.cesar-is-stinky-text:hover {
+  transform: rotateX(10deg) rotateY(10deg);
+  box-shadow: 0 5px 15px rgba(0, 255, 0, 0.4);
+}
+
+.cesar-is-stinky-text .emoji {
+  font-size: 2rem;
+  margin: 0 10px;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.cesar-is-stinky-text:hover .emoji {
+  animation: bounce 0.5s infinite alternate;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+/* Add a pulsating effect to the text */
+@keyframes pulse {
+  0% {
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+  }
+  50% {
+    text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00, 0 0 40px #00ff00;
+  }
+  100% {
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+  }
+}
+
+.cesar-is-stinky-text {
+  animation: pulse 2s infinite;
 }

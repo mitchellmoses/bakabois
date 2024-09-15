@@ -10,7 +10,8 @@ import logo from "../../assets/image/logo.png";
 import img_o338 from "../../assets/image/IMG_0388.png";
 import bkImage2 from "../../assets/image/image2.jpeg";
 import axios from "axios";
-import loserImage from "../../assets/image/evan.jpg";
+import loserImage from "../../assets/image/evan.png";
+import TotalPoints from "../../Components/TotalPoints/TotalPoints";
 
 
 function Dashboard() {
@@ -250,6 +251,13 @@ function Dashboard() {
                   </div>
                 </div>
               </div>
+              <div className="cesar-is-stinky-container">
+                <h2 className="cesar-is-stinky-text">
+                  <span className="emoji">🤢</span>
+                  Cesar is Stinky
+                  <span className="emoji">💩</span>
+                </h2>
+              </div>
               <div className="background-images">
                 <div className="background-image">
                   <img src={img_o338} width="100%" height="100%" alt="Background 1" />
@@ -339,6 +347,9 @@ function Dashboard() {
               matchId={matchId.toString()}
               showBoxScore={showBoxScores}
             ></BoxScores>
+          </TabPanel>
+          <TabPanel header="Total Points" leftIcon="pi pi-chart-bar">
+            <TotalPoints />
           </TabPanel>
         </TabView>
       </div>
