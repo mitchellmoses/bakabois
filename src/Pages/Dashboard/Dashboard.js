@@ -7,9 +7,10 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { SplitButton } from "primereact/splitbutton";
 import "./Dashboard.css";
 import logo from "../../assets/image/logo.png";
-import bkImage1 from "../../assets/image/image1.jpeg";
+import img_o338 from "../../assets/image/IMG_0388.png";
 import bkImage2 from "../../assets/image/image2.jpeg";
 import axios from "axios";
+import loserImage from "../../assets/image/john.png";
 
 
 function Dashboard() {
@@ -162,12 +163,23 @@ function Dashboard() {
           onTabChange={(e) => setActiveIndex(e.index)}
         >
           <TabPanel header="Home" leftIcon="pi pi-home">
-            <div className="">
-              <div className="">
-                <img src={bkImage1} width="100%" height="100%" />
+            <div className="home-content">
+              <div className="loser-of-week">
+                <h1 className="loser-title">
+                  🌈 LOSER OF THE WEEK 🌈
+                  <span className="sparkle-effect">✨</span>
+                </h1>
+                <div className="loser-image-container">
+                  <img src={loserImage} alt="Loser of the Week" className="loser-image" />
+                </div>
               </div>
-              <div className="">
-                <img src={bkImage2} width="100%" height="100%" />
+              <div className="background-images">
+                <div className="background-image">
+                  <img src={img_o338} width="100%" height="100%" alt="Background 1" />
+                </div>
+                <div className="background-image">
+                  <img src={bkImage2} width="100%" height="100%" alt="Background 2" />
+                </div>
               </div>
             </div>
           </TabPanel>
