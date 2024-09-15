@@ -10,7 +10,7 @@ import logo from "../../assets/image/logo.png";
 import img_o338 from "../../assets/image/IMG_0388.png";
 import bkImage2 from "../../assets/image/image2.jpeg";
 import axios from "axios";
-import loserImage from "../../assets/image/john.png";
+import loserImage from "../../assets/image/evan.jpg";
 
 
 function Dashboard() {
@@ -25,6 +25,7 @@ function Dashboard() {
   const [matchId, setMatchId] = useState(1);
   const [liveMatchup, setLiveMatchup] = useState("");
   const [value, setValue] = useState(0);
+  const [highestScorer, setHighestScorer] = useState(null);
 
   const getLiveMatchup = () => {
     axios
@@ -146,6 +147,37 @@ function Dashboard() {
     setActiveIndex(3);
   };
 
+  const fetchHighestScorer = async () => {
+    try {
+      const response = await axios.get('https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1446375?view=modular&view=mNav&view=mMatchupScore&view=mScoreboard&view=mSettings&view=mTopPerformers&view=mTeam');
+      const teams = response.data.teams;
+      const currentScoringPeriod = response.data.scoringPeriodId;
+      
+      let highestScore = 0;
+      let highestScoringTeam = null;
+
+      teams.forEach(team => {
+        const currentScore = team.points;
+        if (currentScore > highestScore) {
+          highestScore = currentScore;
+          highestScoringTeam = team;
+        }
+      });
+
+      setHighestScorer({
+        name: highestScoringTeam.name,
+        logo: highestScoringTeam.logo,
+        score: highestScore.toFixed(1)
+      });
+    } catch (error) {
+      console.error("Error fetching highest scorer:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchHighestScorer();
+  }, []);
+
   return (
     <div className="min-w-full sm:dashboard">
       <div className="blank"></div>
@@ -164,6 +196,18 @@ function Dashboard() {
         >
           <TabPanel header="Home" leftIcon="pi pi-home">
             <div className="home-content">
+              <div className="highest-scorer">
+                <h2 className="highest-scorer-title">
+                  🏆 MOST POINTS SCORED 🏆
+                </h2>
+                {highestScorer && (
+                  <div className="highest-scorer-content">
+                    <img src={highestScorer.logo} alt={highestScorer.name} className="highest-scorer-logo" />
+                    <p className="highest-scorer-name">{highestScorer.name}</p>
+                    <p className="highest-scorer-score">{highestScorer.score} points</p>
+                  </div>
+                )}
+              </div>
               <div className="loser-of-week">
                 <h1 className="loser-title">
                   🌈 LOSER OF THE WEEK 🌈

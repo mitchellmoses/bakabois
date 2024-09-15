@@ -1,4 +1,5 @@
 .p-tabview-nav-container {
+
     background-color: lightgrey;
 }
 
@@ -229,17 +230,18 @@
     margin-bottom: 20px;
     color: #FF69B4; /* Hot pink color */
     text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #FF69B4, 0 0 35px #FF69B4, 0 0 40px #FF69B4, 0 0 50px #FF69B4, 0 0 75px #FF69B4;
-    animation: moveText 10s linear infinite, sparkle 1.5s infinite alternate;
+    animation: glow 1.5s ease-in-out infinite alternate;
+    position: relative;
+    display: inline-block;
 }
 
-@keyframes moveText {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
-
-@keyframes sparkle {
-    0% { opacity: 0.5; }
-    100% { opacity: 1; }
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FF69B4, 0 0 35px #FF69B4, 0 0 40px #FF69B4, 0 0 50px #FF69B4, 0 0 75px #FF69B4;
+    }
+    to {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF69B4, 0 0 70px #FF69B4, 0 0 80px #FF69B4, 0 0 100px #FF69B4, 0 0 150px #FF69B4;
+    }
 }
 
 .sparkle-effect {
@@ -247,17 +249,17 @@
     top: -10px;
     right: -10px;
     font-size: 1.5rem;
-    animation: rotate 2s linear infinite;
+    animation: sparkle 1.5s infinite alternate;
 }
 
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+@keyframes sparkle {
+    0% { opacity: 0.5; transform: scale(0.8) rotate(0deg); }
+    100% { opacity: 1; transform: scale(1.2) rotate(360deg); }
 }
 
 .loser-image-container {
     max-width: 300px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .loser-image {
@@ -282,3 +284,50 @@
     height: auto;
     object-fit: cover;
 }
+.highest-scorer {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .highest-scorer-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #FFD700;
+    text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #FFD700, 0 0 35px #FFD700, 0 0 40px #FFD700;
+    animation: shine 1.5s ease-in-out infinite alternate;
+  }
+  
+  @keyframes shine {
+    from {
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFD700, 0 0 35px #FFD700, 0 0 40px #FFD700;
+    }
+    to {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FFD700, 0 0 70px #FFD700, 0 0 80px #FFD700;
+    }
+  }
+  
+  .highest-scorer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .highest-scorer-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  .highest-scorer-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .highest-scorer-score {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #FFD700;
+  }
