@@ -211,123 +211,149 @@
 }
 
 .home-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 }
 
+.winners-losers-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 30px;
+}
+
+@media (min-width: 768px) {
+  .winners-losers-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.highest-scorer,
 .loser-of-week {
-    text-align: center;
-    margin-bottom: 30px;
+  flex: 1;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+@media (min-width: 768px) {
+  .highest-scorer,
+  .loser-of-week {
+    margin-bottom: 0;
+    max-width: 45%;
+  }
+}
+
+.highest-scorer-title,
+.loser-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  .highest-scorer-title,
+  .loser-title {
+    font-size: 2.5rem;
+  }
+}
+
+.highest-scorer-title {
+  color: #FFD700;
+  text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #FFD700, 0 0 35px #FFD700, 0 0 40px #FFD700;
+  animation: shine 1.5s ease-in-out infinite alternate;
 }
 
 .loser-title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #FF69B4; /* Hot pink color */
-    text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #FF69B4, 0 0 35px #FF69B4, 0 0 40px #FF69B4, 0 0 50px #FF69B4, 0 0 75px #FF69B4;
-    animation: glow 1.5s ease-in-out infinite alternate;
-    position: relative;
-    display: inline-block;
+  color: #FF69B4;
+  text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #FF69B4, 0 0 35px #FF69B4, 0 0 40px #FF69B4;
+  animation: sparkle 1.5s infinite alternate;
 }
 
-@keyframes glow {
-    from {
-        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FF69B4, 0 0 35px #FF69B4, 0 0 40px #FF69B4, 0 0 50px #FF69B4, 0 0 75px #FF69B4;
-    }
-    to {
-        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF69B4, 0 0 70px #FF69B4, 0 0 80px #FF69B4, 0 0 100px #FF69B4, 0 0 150px #FF69B4;
-    }
-}
-
-.sparkle-effect {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    font-size: 1.5rem;
-    animation: sparkle 1.5s infinite alternate;
+@keyframes shine {
+  from {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFD700, 0 0 35px #FFD700, 0 0 40px #FFD700;
+  }
+  to {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FFD700, 0 0 70px #FFD700, 0 0 80px #FFD700;
+  }
 }
 
 @keyframes sparkle {
-    0% { opacity: 0.5; transform: scale(0.8) rotate(0deg); }
-    100% { opacity: 1; transform: scale(1.2) rotate(360deg); }
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
 }
 
+.highest-scorer-content,
 .loser-image-container {
-    max-width: 300px;
-    margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.highest-scorer-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  object-fit: cover;
 }
 
 .loser-image {
-    width: 100%;
-    height: auto;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    border-radius: 10px;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 200px;
+  margin-bottom: 10px;
+  object-fit: contain;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.highest-scorer-info {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.highest-scorer-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-right: 10px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.highest-scorer-score {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #FFD700;
 }
 
 .background-images {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
 }
 
 .background-image {
-    width: 45%;
+  width: 100%;
+  max-width: 500px;
+  margin: 10px;
 }
 
 .background-image img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
-.highest-scorer {
-    text-align: center;
-    margin-bottom: 30px;
+
+@media (min-width: 768px) {
+  .background-image {
+    width: calc(50% - 20px);
   }
-  
-  .highest-scorer-title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #FFD700;
-    text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #FFD700, 0 0 35px #FFD700, 0 0 40px #FFD700;
-    animation: shine 1.5s ease-in-out infinite alternate;
-  }
-  
-  @keyframes shine {
-    from {
-      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFD700, 0 0 35px #FFD700, 0 0 40px #FFD700;
-    }
-    to {
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FFD700, 0 0 70px #FFD700, 0 0 80px #FFD700;
-    }
-  }
-  
-  .highest-scorer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .highest-scorer-logo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-  }
-  
-  .highest-scorer-name {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .highest-scorer-score {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #FFD700;
-  }
+}

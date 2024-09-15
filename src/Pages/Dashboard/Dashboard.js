@@ -196,25 +196,29 @@ function Dashboard() {
         >
           <TabPanel header="Home" leftIcon="pi pi-home">
             <div className="home-content">
-              <div className="highest-scorer">
-                <h2 className="highest-scorer-title">
-                  🏆 MOST POINTS SCORED 🏆
-                </h2>
-                {highestScorer && (
-                  <div className="highest-scorer-content">
-                    <img src={highestScorer.logo} alt={highestScorer.name} className="highest-scorer-logo" />
-                    <p className="highest-scorer-name">{highestScorer.name}</p>
-                    <p className="highest-scorer-score">{highestScorer.score} points</p>
+              <div className="winners-losers-container">
+                <div className="highest-scorer">
+                  <h2 className="highest-scorer-title">
+                    🏆 MOST POINTS SCORED 🏆
+                  </h2>
+                  {highestScorer && (
+                    <div className="highest-scorer-content">
+                      <img src={highestScorer.logo} alt={highestScorer.name} className="highest-scorer-logo" />
+                      <div className="highest-scorer-info">
+                        <span className="highest-scorer-name">{highestScorer.name}</span>
+                        <span className="highest-scorer-score">{highestScorer.score} points</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="loser-of-week">
+                  <h1 className="loser-title">
+                    🌈 LOSER OF THE WEEK 🌈
+                    <span className="sparkle-effect">✨</span>
+                  </h1>
+                  <div className="loser-image-container">
+                    <img src={loserImage} alt="Loser of the Week" className="loser-image" />
                   </div>
-                )}
-              </div>
-              <div className="loser-of-week">
-                <h1 className="loser-title">
-                  🌈 LOSER OF THE WEEK 🌈
-                  <span className="sparkle-effect">✨</span>
-                </h1>
-                <div className="loser-image-container">
-                  <img src={loserImage} alt="Loser of the Week" className="loser-image" />
                 </div>
               </div>
               <div className="background-images">
