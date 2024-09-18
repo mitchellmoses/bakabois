@@ -12,6 +12,7 @@ import bkImage2 from "../../assets/image/image2.jpeg";
 import axios from "axios";
 import loserImage from "../../assets/image/evan.png";
 import TotalPoints from "../../Components/TotalPoints/TotalPoints";
+import History from '../../Components/History/History';
 
 
 function Dashboard() {
@@ -350,6 +351,9 @@ function Dashboard() {
           </TabPanel>
           <TabPanel header="Total Points" leftIcon="pi pi-chart-bar">
             <TotalPoints />
+          </TabPanel>
+          <TabPanel header="History" leftIcon="pi pi-calendar">
+            <History />
           </TabPanel>
         </TabView>
       </div>
