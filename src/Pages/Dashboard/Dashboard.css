@@ -28,7 +28,7 @@
     border: 0px !important;
     color: #6c757d !important;
 }
-
+ 
 .p-tabview-selected .p-button {
     color: darkblue !important;
 }
@@ -187,7 +187,6 @@
     font-size: 22px;
     font-weight: 700;
     margin-top: 5px;
-    ;
     margin-right: 10px;
 }
 
@@ -233,7 +232,7 @@
 }
 
 .highest-scorer,
-.loser-of-week {
+.lowest-scorer {
   flex: 1;
   text-align: center;
   margin-bottom: 30px;
@@ -241,14 +240,14 @@
 
 @media (min-width: 768px) {
   .highest-scorer,
-  .loser-of-week {
+  .lowest-scorer {
     margin-bottom: 0;
     max-width: 45%;
   }
 }
 
 .highest-scorer-title,
-.loser-title {
+.lowest-scorer-title {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 20px;
@@ -256,7 +255,7 @@
 
 @media (min-width: 768px) {
   .highest-scorer-title,
-  .loser-title {
+  .lowest-scorer-title {
     font-size: 2.5rem;
   }
 }
@@ -267,7 +266,7 @@
   animation: shine 1.5s ease-in-out infinite alternate;
 }
 
-.loser-title {
+.lowest-scorer-title {
   color: #FF69B4;
   text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #FF69B4, 0 0 35px #FF69B4, 0 0 40px #FF69B4;
   animation: sparkle 1.5s infinite alternate;
@@ -287,144 +286,100 @@
   100% { opacity: 1; }
 }
 
-.highest-scorer-content {
+.highest-scorer-content,
+.lowest-scorer-content {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.highest-scorer-logo {
+.scorer-logo {
   width: 100px;
   height: 100px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-  object-fit: cover;
-}
-
-.loser-image {
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  max-height: 200px;
-  margin-bottom: 10px;
   object-fit: contain;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
 }
 
-.highest-scorer-info {
+.scorer-info {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-  flex-wrap: wrap;
 }
 
-.highest-scorer-name {
-  font-size: 1.5rem;
+.scorer-name {
+  font-size: 1.2rem;
   font-weight: bold;
-  margin-right: 10px;
   color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 5px;
 }
 
-.highest-scorer-score {
+.scorer-score {
   font-size: 1.5rem;
   font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.scorer-score.highest {
   color: #FFD700;
-  text-align: center;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
 }
 
-.background-images {
+.scorer-score.lowest {
+  color: #FF1493;
+  text-shadow: 
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+}
+
+.scorer-details {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
+  flex-direction: column;
+  align-items: center;
 }
 
-.background-image {
-  width: 100%;
-  max-width: 500px;
-  margin: 10px;
+.scorer-league,
+.scorer-owner,
+.scorer-week {
+  font-size: 0.9rem;
+  color: #ffffff;
+  margin-bottom: 2px;
+  font-weight: bold;
 }
 
-.background-image img {
-  width: 100%;
-  height: auto;
+.lowest-scorer .scorer-league,
+.lowest-scorer .scorer-owner,
+.lowest-scorer .scorer-week {
+  color: #ffffff; /* Changed to white */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Added shadow for better readability */
+}
+
+/*.lowest-scorer {
+  background-color: #4a4a4a; /* Darker background for better contrast with white text 
+}
+*/
+
+.cesar-is-stinky-container {
+  text-align: center;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f0f0f0;
   border-radius: 10px;
 }
 
-@media (min-width: 768px) {
-  .background-image {
-    width: calc(50% - 20px);
-  }
-}
-
-.highest-scorer-details {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 5px;
-}
-
-.highest-scorer-league,
-.highest-scorer-owner {
-  font-size: 1rem;
-  color: #ffffff;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  font-weight: 600;
-  text-align: center;
-}
-
-.highest-scorer-league {
-  margin-bottom: 4px;
-}
-
-.cesar-is-stinky-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 30px 0;
-  perspective: 1000px;
-}
-
 .cesar-is-stinky-text {
-  font-size: 2.5rem;
+  font-size: 24px;
   font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
-  background-color: rgba(0, 255, 0, 0.1);
-  padding: 20px;
-  border-radius: 15px;
-  transition: all 0.3s ease;
-  transform-style: preserve-3d;
+  color: #00ff00;
+  animation: pulse 2s infinite;
 }
 
-.cesar-is-stinky-text:hover {
-  transform: rotateX(10deg) rotateY(10deg);
-  box-shadow: 0 5px 15px rgba(0, 255, 0, 0.4);
-}
-
-.cesar-is-stinky-text .emoji {
-  font-size: 2rem;
+.emoji {
+  font-size: 30px;
   margin: 0 10px;
-  display: inline-block;
-  transition: transform 0.3s ease;
 }
 
-.cesar-is-stinky-text:hover .emoji {
-  animation: bounce 0.5s infinite alternate;
-}
-
-@keyframes bounce {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-10px);
-  }
-}
-
-/* Add a pulsating effect to the text */
 @keyframes pulse {
   0% {
     text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
@@ -434,9 +389,34 @@
   }
   100% {
     text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
-  } 
+  }
 }
 
-.cesar-is-stinky-text {
-  animation: pulse 2s infinite;
+.background-images-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.background-image {
+  flex: 1;
+  max-width: 50%;
+}
+
+.background-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .background-images-container {
+    flex-direction: column;
+  }
+
+  .background-image {
+    max-width: 100%;
+  }
 }

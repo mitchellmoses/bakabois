@@ -28,6 +28,7 @@ function Dashboard() {
   const [liveMatchup, setLiveMatchup] = useState("");
   const [value, setValue] = useState(0);
   const [highestScorer, setHighestScorer] = useState(null);
+  const [lowestScorer, setLowestScorer] = useState(null);
 
   const getLiveMatchup = () => {
     axios
@@ -151,39 +152,59 @@ function Dashboard() {
 
   const fetchHighestScorer = async () => {
     try {
-      const response = await axios.get('https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1446375?view=modular&view=mNav&view=mMatchupScore&view=mScoreboard&view=mSettings&view=mTopPerformers&view=mTeam');
-      const teams = response.data.teams;
-      const currentScoringPeriod = response.data.scoringPeriodId;
-      const leagueName = response.data.settings.name || 'BakaBois';
-      
+      const league1Id = 1446375;
+      const league2Id = 1869404038;
+      const [league1Response, league2Response] = await Promise.all([
+        axios.get(`https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/${league1Id}?view=modular&view=mNav&view=mMatchupScore&view=mScoreboard&view=mSettings&view=mTopPerformers&view=mTeam`),
+        axios.get(`https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/${league2Id}?view=modular&view=mNav&view=mMatchupScore&view=mScoreboard&view=mSettings&view=mTopPerformers&view=mTeam`)
+      ]);
+
+      const currentScoringPeriod = league1Response.data.scoringPeriodId;
+      const weekToShow = currentScoringPeriod > 1 ? currentScoringPeriod - 1 : 1;
+
       let highestScore = 0;
       let highestScoringTeam = null;
+      let highestScoringLeague = null;
 
-      teams.forEach(team => {
-        const currentScore = team.points;
-        if (currentScore > highestScore) {
-          highestScore = currentScore;
-          highestScoringTeam = team;
-        }
-      });
+      const getOwnerName = (ownerId, members) => {
+        const member = members.find(m => m.id === ownerId);
+        return member ? `${member.firstName} ${member.lastName}` : 'Unknown Owner';
+      };
 
-      let ownerName;
-      if (highestScoringTeam.owners && highestScoringTeam.owners[0]) {
-        if (highestScoringTeam.owners[0] === "{BA328BFB-BC9E-4617-BD5D-BAA2C6F6D01F}") {
-          ownerName = "Josh";
-        } else {
-          ownerName = `${highestScoringTeam.owners[0].firstName || ''} ${highestScoringTeam.owners[0].lastName || ''}`.trim();
-        }
-      } else {
-        ownerName = 'Unknown Owner';
-      }
+      const processLeague = (leagueData, leagueId) => {
+        leagueData.schedule.forEach(matchup => {
+          if (matchup.matchupPeriodId === weekToShow) {
+            const homeScore = matchup.home.totalPoints;
+            const awayScore = matchup.away ? matchup.away.totalPoints : 0;
+
+            if (homeScore > highestScore) {
+              highestScore = homeScore;
+              highestScoringTeam = leagueData.teams.find(team => team.id === matchup.home.teamId);
+              highestScoringLeague = leagueData.settings.name || `League ${leagueId}`;
+            }
+
+            if (awayScore > highestScore) {
+              highestScore = awayScore;
+              highestScoringTeam = leagueData.teams.find(team => team.id === matchup.away.teamId);
+              highestScoringLeague = leagueData.settings.name || `League ${leagueId}`;
+            }
+          }
+        });
+      };
+
+      processLeague(league1Response.data, league1Id);
+      processLeague(league2Response.data, league2Id);
+
+      const ownerName = getOwnerName(highestScoringTeam.primaryOwner, 
+        highestScoringLeague === league1Response.data.settings.name ? league1Response.data.members : league2Response.data.members);
 
       setHighestScorer({
         name: highestScoringTeam.name,
         logo: highestScoringTeam.logo,
         score: highestScore.toFixed(1),
-        leagueName: leagueName,
-        ownerName: ownerName
+        leagueName: highestScoringLeague,
+        ownerName: ownerName,
+        week: weekToShow
       });
     } catch (error) {
       console.error("Error fetching highest scorer:", error);
@@ -191,14 +212,97 @@ function Dashboard() {
         name: 'Unknown Team',
         logo: '',
         score: '0.0',
-        leagueName: 'BakaBois',
-        ownerName: 'Unknown Owner'
+        leagueName: 'Unknown League',
+        ownerName: 'Unknown Owner',
+        week: 0
+      });
+    }
+  };
+
+  const fetchLowestScorer = async () => {
+    try {
+      const league1Id = 1446375;
+      const league2Id = 1869404038;
+      const [league1Response, league2Response] = await Promise.all([
+        axios.get(`https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/${league1Id}?view=modular&view=mNav&view=mMatchupScore&view=mScoreboard&view=mSettings&view=mTopPerformers&view=mTeam`),
+        axios.get(`https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/${league2Id}?view=modular&view=mNav&view=mMatchupScore&view=mScoreboard&view=mSettings&view=mTopPerformers&view=mTeam`)
+      ]);
+
+      const currentScoringPeriod = league1Response.data.scoringPeriodId;
+      const weekToShow = currentScoringPeriod > 1 ? currentScoringPeriod - 1 : 1;
+
+      let lowestScore = Infinity;
+      let lowestScoringTeam = null;
+      let lowestScoringLeague = null;
+
+      const getOwnerName = (ownerId, members) => {
+        const member = members.find(m => m.id === ownerId);
+        return member ? `${member.firstName} ${member.lastName}` : 'Unknown Owner';
+      };
+
+      const processLeague = (leagueData, leagueId) => {
+        leagueData.schedule.forEach(matchup => {
+          if (matchup.matchupPeriodId === weekToShow) {
+            const homeScore = matchup.home.totalPoints;
+            const awayScore = matchup.away ? matchup.away.totalPoints : Infinity;
+
+            if (homeScore < lowestScore) {
+              lowestScore = homeScore;
+              lowestScoringTeam = leagueData.teams.find(team => team.id === matchup.home.teamId);
+              lowestScoringLeague = leagueData.settings.name || `League ${leagueId}`;
+            }
+
+            if (awayScore < lowestScore) {
+              lowestScore = awayScore;
+              lowestScoringTeam = leagueData.teams.find(team => team.id === matchup.away.teamId);
+              lowestScoringLeague = leagueData.settings.name || `League ${leagueId}`;
+            }
+          }
+        });
+      };
+
+      processLeague(league1Response.data, league1Id);
+      processLeague(league2Response.data, league2Id);
+
+      const ownerName = getOwnerName(lowestScoringTeam.primaryOwner, 
+        lowestScoringLeague === league1Response.data.settings.name ? league1Response.data.members : league2Response.data.members);
+
+      setLowestScorer({
+        name: lowestScoringTeam.name,
+        logo: lowestScoringTeam.logo,
+        score: lowestScore.toFixed(1),
+        leagueName: lowestScoringLeague,
+        ownerName: ownerName,
+        week: weekToShow
+      });
+    } catch (error) {
+      console.error("Error fetching lowest scorer:", error);
+      setLowestScorer({
+        name: 'Unknown Team',
+        logo: '',
+        score: '0.0',
+        leagueName: 'Unknown League',
+        ownerName: 'Unknown Owner',
+        week: 0
       });
     }
   };
 
   useEffect(() => {
     fetchHighestScorer();
+    fetchLowestScorer();
+
+    const checkAndUpdateScorers = () => {
+      const now = new Date();
+      if (now.getDay() === 2) { // 0 is Sunday, 1 is Monday, 2 is Tuesday
+        fetchHighestScorer();
+        fetchLowestScorer();
+      }
+    };
+
+    const dailyCheck = setInterval(checkAndUpdateScorers, 24 * 60 * 60 * 1000); // Check every 24 hours
+
+    return () => clearInterval(dailyCheck);
   }, []);
 
   return (
@@ -221,35 +325,42 @@ function Dashboard() {
             <div className="home-content">
               <div className="winners-losers-container">
                 <div className="highest-scorer">
-                  <h2 className="highest-scorer-title">
-                    🏆 MOST POINTS SCORED 🏆
-                  </h2>
+                  <h1 className="highest-scorer-title">
+                    🏆 WEEKLY WINNER 🏆
+                  </h1>
                   {highestScorer && (
                     <div className="highest-scorer-content">
-                      <img src={highestScorer.logo} alt={highestScorer.name} className="highest-scorer-logo" />
-                      <div className="highest-scorer-info">
-                        <span className="highest-scorer-name">{highestScorer.name}</span>
-                        <span className="highest-scorer-score">{highestScorer.score} points</span>
-                      </div>
-                      <div className="highest-scorer-details">
-                        {highestScorer.leagueName && (
-                          <span className="highest-scorer-league">{highestScorer.leagueName}</span>
-                        )}
-                        {highestScorer.ownerName && highestScorer.ownerName !== 'Unknown Owner' && (
-                          <span className="highest-scorer-owner">{highestScorer.ownerName}</span>
-                        )}
+                      <img src={highestScorer.logo} alt={highestScorer.name} className="scorer-logo" />
+                      <div className="scorer-info">
+                        <span className="scorer-name">{highestScorer.name}</span>
+                        <span className="scorer-score highest">{highestScorer.score} points</span>
+                        <div className="scorer-details">
+                          <span className="scorer-league">{highestScorer.leagueName}</span>
+                          <span className="scorer-owner">{highestScorer.ownerName}</span>
+                          <span className="scorer-week">Week {highestScorer.week}</span>
+                        </div>
                       </div>
                     </div>
                   )}
                 </div>
-                <div className="loser-of-week">
-                  <h1 className="loser-title">
+                <div className="lowest-scorer">
+                  <h1 className="lowest-scorer-title">
                     🌈 LOSER OF THE WEEK 🌈
-                    <span className="sparkle-effect">✨</span>
                   </h1>
-                  <div className="loser-image-container">
-                    <img src={loserImage} alt="Loser of the Week" className="loser-image" />
-                  </div>
+                  {lowestScorer && (
+                    <div className="lowest-scorer-content">
+                      <img src={lowestScorer.logo} alt={lowestScorer.name} className="scorer-logo" />
+                      <div className="scorer-info">
+                        <span className="scorer-name">{lowestScorer.name}</span>
+                        <span className="scorer-score lowest">{lowestScorer.score} points</span>
+                        <div className="scorer-details">
+                          <span className="scorer-league">{lowestScorer.leagueName}</span>
+                          <span className="scorer-owner">{lowestScorer.ownerName}</span>
+                          <span className="scorer-week">Week {lowestScorer.week}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="cesar-is-stinky-container">
@@ -259,12 +370,12 @@ function Dashboard() {
                   <span className="emoji">💩</span>
                 </h2>
               </div>
-              <div className="background-images">
+              <div className="background-images-container">
                 <div className="background-image">
-                  <img src={img_o338} width="100%" height="100%" alt="Background 1" />
+                  <img src={img_o338} alt="Background 1" />
                 </div>
                 <div className="background-image">
-                  <img src={bkImage2} width="100%" height="100%" alt="Background 2" />
+                  <img src={bkImage2} alt="Background 2" />
                 </div>
               </div>
             </div>
