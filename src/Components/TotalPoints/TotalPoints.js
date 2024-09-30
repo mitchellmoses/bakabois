@@ -5,6 +5,7 @@ import { Column } from 'primereact/column';
 import { Card } from 'primereact/card';
 import { Chart } from 'primereact/chart';
 import './TotalPoints.css';
+import Classics from '../../Components/Classics/Classics';
 
 const TotalPoints = () => {
   const [totalPoints, setTotalPoints] = useState({ league1: 0, league2: 0 });

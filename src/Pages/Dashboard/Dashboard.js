@@ -13,7 +13,8 @@ import axios from "axios";
 import loserImage from "../../assets/image/evan.png";
 import TotalPoints from "../../Components/TotalPoints/TotalPoints";
 import History from '../../Components/History/History';
-
+import Classics from '../../Components/Classics/Classics';
+import img_3690 from "../../assets/image/IMG_3690.jpg";
 
 function Dashboard() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -363,13 +364,6 @@ function Dashboard() {
                   )}
                 </div>
               </div>
-              <div className="cesar-is-stinky-container">
-                <h2 className="cesar-is-stinky-text">
-                  <span className="emoji">🤢</span>
-                  Cesar is Stinky
-                  <span className="emoji">💩</span>
-                </h2>
-              </div>
               <div className="background-images-container">
                 <div className="background-image">
                   <img src={img_o338} alt="Background 1" />
@@ -465,6 +459,9 @@ function Dashboard() {
           </TabPanel>
           <TabPanel header="History" leftIcon="pi pi-calendar">
             <History />
+          </TabPanel>
+          <TabPanel header="Classics" leftIcon="pi pi-history">
+            <Classics />
           </TabPanel>
         </TabView>
       </div>
