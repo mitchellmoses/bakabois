@@ -159,3 +159,87 @@ input[type="file"] {
     max-height: 90%;
     object-fit: contain;
 }
+
+.leaderboard {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 40px;
+}
+
+.leaderboard h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.rank {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-right: 10px;
+    width: 30px;
+    text-align: center;
+}
+
+.leaderboard-meme {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.votes {
+    font-size: 1.1em;
+    margin-left: auto;
+}
+
+.meme-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.meme-actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.vote-container {
+    display: flex;
+    align-items: center;
+}
+
+.vote-container button {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    color: #ff4136;
+}
+
+.delete-button:hover {
+    color: #ff0000;
+}
+
+.vote-container button.voted {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
