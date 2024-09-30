@@ -9,6 +9,8 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
+    "firebase": "^10.13.2",
+    "firebase-tools": "^13.20.1",
     "fs": "^0.0.1-security",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",

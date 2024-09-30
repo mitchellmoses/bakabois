@@ -1,0 +1,9 @@
+/////classics/////
+// Add Firebase for memes
+// Add authentication
+// Add a leaderboard
+// Add a way to submit memes
+// Add a way to vote on memes
+// Add a way to view the top meme
+
+/////History/////
