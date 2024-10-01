@@ -3,7 +3,7 @@ import './Classics.css';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
-import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, query, orderBy, limit, increment, deleteDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, query, orderBy, limit, increment, deleteDoc, getDoc } from "firebase/firestore";
 import Cookies from 'js-cookie';
 
 // Your web app's Firebase configuration
@@ -29,6 +29,7 @@ function Classics() {
   const [topMemes, setTopMemes] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   useEffect(() => {
     // Generate or retrieve user ID
@@ -60,36 +61,65 @@ function Classics() {
   };
 
   const fetchTopMemes = async () => {
-    const q = query(collection(db, "memes"), orderBy("votes", "desc"), limit(5));
-    const querySnapshot = await getDocs(q);
-    const memes = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setTopMemes(memes);
+    try {
+      const q = query(collection(db, "memes"), orderBy("votes", "desc"), limit(10)); // Increased limit to ensure we get enough valid memes
+      const querySnapshot = await getDocs(q);
+      const memes = [];
+      for (const docSnapshot of querySnapshot.docs) {
+        const memeData = docSnapshot.data();
+        const memeRef = doc(db, "memes", docSnapshot.id);
+        const memeDoc = await getDoc(memeRef);
+        
+        if (memeDoc.exists()) {
+          memes.push({ id: docSnapshot.id, ...memeData });
+        }
+        
+        if (memes.length === 5) break; // Stop once we have 5 valid memes
+      }
+      setTopMemes(memes);
+    } catch (error) {
+      console.error("Error fetching top memes:", error);
+    }
   };
 
-  const handleFileUpload = async (event) => {
+  const handleFileSelect = (event) => {
     const file = event.target.files[0];
     if (file) {
-      try {
-        // Upload file to Firebase Storage
-        const storageRef = ref(storage, `memes/${Date.now()}_${file.name}`);
-        await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(storageRef);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-        // Add meme metadata to Firestore
-        const newMeme = { 
-          src: downloadURL,
-          createdAt: new Date().toISOString(),
-          votes: 0,
-          uploadedBy: userId  // Add the user ID to the meme data
-        };
-        const docRef = await addDoc(collection(db, "memes"), newMeme);
-        
-        // Update local state
-        setUserMemes(prevMemes => [...prevMemes, { id: docRef.id, ...newMeme }]);
-      } catch (error) {
-        console.error("Error uploading meme:", error);
-        alert("Failed to upload meme. Please try again.");
-      }
+  const handleMemeSubmit = async (event) => {
+    event.preventDefault();
+    if (!previewImage) {
+      alert("Please select an image first!");
+      return;
+    }
+
+    try {
+      const file = await fetch(previewImage).then(r => r.blob());
+      const storageRef = ref(storage, `memes/${Date.now()}_${file.name}`);
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+
+      const newMeme = { 
+        src: downloadURL,
+        createdAt: new Date().toISOString(),
+        votes: 0,
+        uploadedBy: userId
+      };
+      const docRef = await addDoc(collection(db, "memes"), newMeme);
+      
+      setUserMemes(prevMemes => [...prevMemes, { id: docRef.id, ...newMeme }]);
+      setPreviewImage(null);
+      alert("Meme submitted successfully!");
+    } catch (error) {
+      console.error("Error uploading meme:", error);
+      alert("Failed to upload meme. Please try again.");
     }
   };
 
@@ -158,8 +188,8 @@ function Classics() {
         // Update local state
         setUserMemes(prevMemes => prevMemes.filter(meme => meme.id !== memeId));
         
-        // Refresh top memes
-        fetchTopMemes();
+        // Remove from top memes if present
+        setTopMemes(prevTopMemes => prevTopMemes.filter(meme => meme.id !== memeId));
 
         alert("Meme deleted successfully!");
       } catch (error) {
@@ -173,13 +203,38 @@ function Classics() {
     <div className="classics-container">
       <h1 className="classics-title">Fantasy Football Classic Moments</h1>
       
-      <div className="user-memes-section">
-        <h2 className="section-title">User Submitted Memes</h2>
-        <input type="file" accept="image/*" onChange={handleFileUpload} className="file-input" />
-        <div className="user-memes-grid">
+      <div className="meme-submission-section">
+        <h2 className="section-title">Submit Your Meme</h2>
+        <form onSubmit={handleMemeSubmit} className="meme-submission-form">
+          <div className="file-input-container">
+            <input 
+              type="file" 
+              accept="image/*" 
+              onChange={handleFileSelect} 
+              id="meme-file-input"
+              className="file-input"
+            />
+            <label htmlFor="meme-file-input" className="file-input-label">
+              Choose a Meme
+            </label>
+          </div>
+          {previewImage && (
+            <div className="preview-container">
+              <img src={previewImage} alt="Meme preview" className="meme-preview" />
+            </div>
+          )}
+          <button type="submit" className="submit-meme-button" disabled={!previewImage}>
+            Submit Meme
+          </button>
+        </form>
+      </div>
+
+      <div className="league-memes-section">
+        <h2 className="section-title">League Submitted Memes</h2>
+        <div className="league-memes-grid">
           {userMemes.map((meme) => (
             <div key={meme.id} className="meme-container">
-              <img src={meme.src} alt="User Meme" className="user-meme" onClick={() => openFullscreen(meme.src)} />
+              <img src={meme.src} alt="League Meme" className="league-meme" onClick={() => openFullscreen(meme.src)} />
               <div className="meme-actions">
                 <div className="vote-container">
                   <button 
@@ -210,14 +265,30 @@ function Classics() {
       <p className="classics-description glowing-text">Relive the greatest moments in our fantasy football history!</p>
 
       <div className="leaderboard">
-        <h2>Top Memes</h2>
-        {topMemes.map((meme, index) => (
-          <div key={meme.id} className="leaderboard-item">
-            <span className="rank">{index + 1}</span>
-            <img src={meme.src} alt={`Top meme ${index + 1}`} className="leaderboard-meme" />
-            <span className="votes">{meme.votes} votes</span>
-          </div>
-        ))}
+        <h2 className="leaderboard-title">Top Memes Hall of Fame</h2>
+        <div className="leaderboard-grid">
+          {topMemes.map((meme, index) => (
+            <div key={meme.id} className="leaderboard-item">
+              <div className="leaderboard-rank">{index + 1}</div>
+              <img 
+                src={meme.src} 
+                alt={`Top meme ${index + 1}`} 
+                className="leaderboard-meme"
+                onClick={() => openFullscreen(meme.src)}
+              />
+              <div className="leaderboard-info">
+                <span className="votes">{meme.votes} votes</span>
+                <button 
+                  onClick={() => voteMeme(meme.id, true)} 
+                  disabled={hasVoted(meme.id)}
+                  className={`vote-button ${hasVoted(meme.id) ? 'voted' : ''}`}
+                >
+                  👍 Upvote
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {selectedImage && (
