@@ -1,0 +1,19 @@
+.boxscore {
+    flex: 45%;
+    background-color: white;
+    border-radius: 15px;
+}
+
+.boxscore-header {
+    display: flex;
+}
+
+.boxscore-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+.boxscore-data {
+    margin-top: 5px;
+}

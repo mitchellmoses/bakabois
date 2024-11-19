@@ -1,0 +1,13 @@
+/////classics/////
+// Add Firebase for memes - DONE
+// Add authentication
+// Add a leaderboard - DONE
+// Add a way to submit memes - DONE
+// Add a way to vote on memes - DONE
+// Add a way to view the top meme - DONE
+
+/////History/////
+- Added Firebase configuration and basic setup for storing and retrieving memes
+- Integrated Firebase Analytics
+- Added voting functionality for memes
+- Created a leaderboard to display top memes within the Classics component

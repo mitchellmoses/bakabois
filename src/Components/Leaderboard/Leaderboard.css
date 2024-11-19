@@ -1,0 +1,44 @@
+body {
+    background-color: darkgrey;
+}
+
+.leaderboard {
+    background-color: white;
+}
+
+.leaderboard-heading {
+    padding-top: 20px;
+    margin-left: 255px;
+}
+
+.leaderboard .league-name {
+    margin-left: 15px;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.season-title {
+    margin-top: 15px;
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.leaderboard-table {
+    margin: auto;
+    margin-top: 90px!important;
+    padding-bottom: 20px;
+    width: 95%;
+}
+
+.teamName {
+    margin-left: 20px;
+    margin-top: auto;
+}
+
+.p-avatar {
+    min-width: 2rem;
+    min-height: 2rem;
+    width: 2rem!important;
+    height: 2rem!important;
+}

@@ -1,0 +1,18 @@
+.history-container {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.history-table {
+  margin-top: 20px;
+}
+
+.history-table .p-datatable-thead > tr > th {
+  background-color: #1565C0;
+  color: #ffffff;
+}
+
+.history-table .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #e3f2fd;
+} 

@@ -1,0 +1,33 @@
+.scoreboard {
+    background-color: white;
+}
+
+.header {
+    padding-top: 10px;
+    padding-left: 40px;
+    display: flex;
+}
+
+.-logo {
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.scoreboard .league-name {
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.match-container {
+    justify-content: center;
+    display:flex;
+    flex-wrap: wrap;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+@media screen and (min-width: 1600px) {
+    .xxl {
+        justify-content: flex-start!important;
+    }
+}

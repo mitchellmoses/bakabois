@@ -1,0 +1,256 @@
+.boxscores {
+    margin-top: 20px;
+    background-color: darkgrey;
+}
+
+.header-matchups {
+    border-radius: 15px;
+    background-color: white;
+    padding-bottom: 15px;
+}
+
+.head {
+    display: flex;
+}
+
+.-logo {
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.league-name {
+    margin-top: 10px;
+    margin-left: 15px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.matchups {
+    margin-top: 20px;
+    border-top: 1px solid lightgrey;
+}
+
+.boxscores-match {
+    height: 65px;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.match-area {
+    border-radius: 5px;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-right: 10px;
+}
+
+.current {
+    background-color: rgb(199, 252, 199) !important;
+}
+
+.match-area:hover {
+    background-color: rgb(232, 254, 232);
+}
+
+.boxscores-match .team-info {
+    margin-top: 7px;
+    display: flex;
+}
+
+.boxscores-match .away,
+.boxscores-match .home {
+    display: flex;
+    justify-content: space-between;
+}
+
+.boxscores-match .team-name {
+    margin-left: 10px;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 70px;
+    white-space: nowrap;
+}
+
+.boxscores-match .score {
+    float: right;
+    text-align: right;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 5px;
+    width: 40px;
+}
+
+.p-carousel-indicators {
+    display: none !important;
+}
+
+.boxscores .teams {
+    border-radius: 15px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    background-color: white;
+    display: flex;
+}
+
+.boxscores-away {
+    flex: 50%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 20px;
+    border-right: 2px solid lightgrey;
+}
+
+.away-team {
+    display: flex;
+}
+
+.away-info {
+    margin-left: 20px;
+}
+
+.away-name {
+    margin-top: 15px;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.away-div {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.away-manager {
+    font-size: 23px;
+    font-weight: 500;
+}
+
+.away-logo {
+    padding-top: 30px;
+    padding-left: 40px;
+}
+
+.boxscores .teams .p-avatar {
+    width: 70px !important;
+    height: 70px !important;
+}
+
+.away-score {
+    float: right;
+    margin-top: 35px;
+    margin-right: 10px;
+    font-size: 35px;
+    font-weight: 500;
+}
+
+.text-middle {
+    position: relative;
+    top: 50%;
+    transform: translate(0%,-50%);
+}
+
+.boxscores-home {
+    flex: 50%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.home-score {
+    font-size: 35px;
+    font-weight: 500;
+    margin-left: 10px;
+    margin-top: 35px;
+}
+
+.home-team {
+    display: flex;
+}
+
+.home-info {
+    margin-right: 20px;
+}
+
+.home-name {
+    text-align: right;
+    margin-top: 15px;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.home-div {
+    text-align: right;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+
+.home-manager {
+    text-align: right;
+    font-size: 23px;
+    font-weight: 500;
+}
+
+.home-logo {
+    padding-top: 30px;
+    padding-right: 40px;
+}
+
+.boxscore-container {
+    display: flex;
+    background-color: white;
+    border-radius: 15px;
+    margin-top: 20px;
+    padding: 30px 20px;
+}
+
+.team-header {
+    text-align: center;
+    max-width: 80%;
+}
+
+.mobile thead{
+    display: none;
+}
+
+.boxscore-away {
+    width: calc(50% - 120px);
+}
+
+
+.boxscore-compare {
+    max-width: 220px;
+    min-width: 220px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.boxscore-home {
+    width: calc(50% - 120px);
+    float: right;
+}
+
+@media screen and (max-width: 1200px) {
+    .p-carousel-item {
+        flex: 1 0 20%
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .p-carousel-item {
+        flex: 1 0 33%
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .p-carousel-item {
+        flex: 1 0 50%
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .p-carousel-item {
+        flex: 1 0 100%
+    }
+}
