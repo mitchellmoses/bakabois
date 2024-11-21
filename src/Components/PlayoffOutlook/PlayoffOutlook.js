@@ -4,6 +4,7 @@ import axios from "axios";
 import "./PlayoffOutlook.css";
 import { Toast } from 'primereact/toast';
 import { FaTrophy } from 'react-icons/fa';
+import Confetti from 'react-confetti';
 
 const validateImageUrl = (url) => {
   if (!url) return 'https://g.espncdn.com/lm-static/ffl/images/ffl-shield-shield.svg';
@@ -21,6 +22,8 @@ function PlayoffOutlook() {
   const [league1Teams, setLeague1Teams] = useState([]);
   const [league2Teams, setLeague2Teams] = useState([]);
   const toast = useRef(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [confettiPosition, setConfettiPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     // Fetch League 1 data (ID: 1446375)
@@ -88,7 +91,7 @@ function PlayoffOutlook() {
             projectedRank: team.currentProjectedRank || 0
           };
         })
-        .sort((a, b) => b.playoffPct - a.playoffPct);
+        .sort((a, b) => a.projectedRank - b.projectedRank);
         
         setLeague2Teams(teams);
       });
@@ -105,6 +108,18 @@ function PlayoffOutlook() {
         border: '2px solid #d32f2f',
       }
     });
+  };
+
+  const handleClinchClick = (team, event) => {
+    const cardRect = event.currentTarget.getBoundingClientRect();
+    setConfettiPosition({
+      x: cardRect.left + cardRect.width / 2,
+      y: cardRect.top + cardRect.height / 2,
+      width: cardRect.width,
+      height: cardRect.height
+    });
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 3000);
   };
 
   const renderPlayoffStatus = (leagueTeams, leagueName) => {
@@ -125,7 +140,17 @@ function PlayoffOutlook() {
 
         <div className="playoff-teams">
           {playoffTeams.map((team, index) => (
-            <Card key={team.id} className="team-card">
+            <Card 
+              key={team.id} 
+              className={`team-card ${team.playoffPct >= 0.99 ? 'clinched-card' : ''}`}
+              onClick={(e) => team.playoffPct >= 0.99 && handleClinchClick(team, e)}
+              data-chance={
+                team.playoffPct >= 0.99 ? "clinched" :
+                team.playoffPct >= 0.75 ? "high" :
+                team.playoffPct >= 0.50 ? "medium" : "low"
+              }
+              style={{ cursor: team.playoffPct >= 0.99 ? 'pointer' : 'default' }}
+            >
               <div className="team-info">
                 <img src={validateImageUrl(team.logo)} alt="" className="team-logo" />
                 <div className="team-details">
@@ -231,6 +256,28 @@ function PlayoffOutlook() {
         
         {/* Rest of your bracket content */}
       </div>
+      {showConfetti && (
+        <Confetti
+          numberOfPieces={150}
+          recycle={false}
+          confettiSource={{
+            x: confettiPosition.x,
+            y: confettiPosition.y,
+            w: 0,
+            h: 0
+          }}
+          width={confettiPosition.width}
+          height={confettiPosition.height}
+          style={{
+            position: 'fixed',
+            pointerEvents: 'none',
+            width: '100%',
+            height: '100%',
+            top: 0,
+            left: 0
+          }}
+        />
+      )}
     </div>
   );
 }

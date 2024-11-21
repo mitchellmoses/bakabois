@@ -936,4 +936,116 @@
     height: 60px;
     right: -10px;
   }
+}
+
+/* Trophy animation for clinched teams */
+.clinched-card .team-logo {
+  animation: trophyWiggle 1s ease-in-out infinite;
+}
+
+@keyframes trophyWiggle {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+/* Thanos dust effect for eliminated teams */
+.shame-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.shame-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(0, 0, 0, 0.1) 10px,
+    rgba(0, 0, 0, 0.1) 20px
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.shame-card:hover::before {
+  opacity: 1;
+  animation: dustAway 2s ease-out;
+}
+
+@keyframes dustAway {
+  0% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+}
+
+/* Dynamic background colors based on playoff chances */
+.team-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.team-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.1;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+/* Different background colors based on playoff chances */
+.team-card[data-chance="clinched"]::after {
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  opacity: 0.15;
+}
+
+.team-card[data-chance="high"]::after {
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  opacity: 0.12;
+}
+
+.team-card[data-chance="medium"]::after {
+  background: linear-gradient(135deg, #FF9800, #F57C00);
+  opacity: 0.1;
+}
+
+.team-card[data-chance="low"]::after {
+  background: linear-gradient(135deg, #FF5722, #D32F2F);
+  opacity: 0.08;
+}
+
+/* Hover effects */
+.team-card:hover::after {
+  opacity: 0.2;
+}
+
+/* Add glow effect for clinched teams */
+.clinched-card {
+  animation: clinchPulse 2s infinite;
+}
+
+@keyframes clinchPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(76, 175, 80, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(76, 175, 80, 0.4); }
+}
+
+/* Smooth transitions */
+.team-card {
+  transition: all 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1) !important;
 } 

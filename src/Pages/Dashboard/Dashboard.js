@@ -395,6 +395,9 @@ function Dashboard() {
               <Leaderboard leagueType={leagueTypeLeaderboard}></Leaderboard>
             </div>
           </TabPanel>
+          <TabPanel header="Playoff Outlook" leftIcon="pi pi-chart-line">
+            <PlayoffOutlook />
+          </TabPanel>
           <TabPanel header="Scoreboard" leftIcon="pi pi-star-fill">
             <div className="scoreboard-container">
               <div className="scoreboard-header">
@@ -463,9 +466,6 @@ function Dashboard() {
           </TabPanel>
           <TabPanel header="Classics" leftIcon="pi pi-history">
             <Classics />
-          </TabPanel>
-          <TabPanel header="Playoff Outlook" leftIcon="pi pi-chart-line">
-            <PlayoffOutlook />
           </TabPanel>
         </TabView>
       </div>

@@ -1,10 +1,14 @@
 .p-tabview-nav-container {
-
-    background-color: lightgrey;
+    background: linear-gradient(135deg, #1a237e 0%, #283593 100%) !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .p-tabview .p-tabview-nav {
-    background-color: #ffdcdc !important;
+    background: transparent !important;
+    border: none !important;
+    padding-left: 80px !important;
 }
 
 .p-tabview-nav-container {
@@ -94,19 +98,19 @@
 }
 
 .logo {
-    background-color: dark;
-    margin-left: -10px;
-    top: -5px;
-    position: absolute;
-    z-index: 10000;
+    position: fixed;
+    left: 15px;
+    top: 5px;
+    z-index: 1001;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 .blank {
-    background-color: #ffdcdc;
-    position: absolute;
-    z-index: 9999;
-    min-width: 55px;
-    min-height: 58px;
+    display: none;
 }
 
 .p-splitbutton-menubutton {
@@ -419,4 +423,53 @@
   .background-image {
     max-width: 100%;
   }
+}
+
+/* Update text colors in navigation */
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+    background: transparent !important;
+    border: none !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    transition: all 0.3s ease;
+}
+
+/* Selected tab text */
+.p-tabview-selected .p-tabview-nav-link {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Non-selected tab text */
+.p-tabview .p-tabview-nav li:not(.p-tabview-selected) .p-tabview-nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Hover state */
+.p-tabview-nav li:not(.p-tabview-selected):hover .p-tabview-nav-link {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Split button text */
+.p-tabview-nav .p-button {
+    color: rgba(255, 255, 255, 0.8) !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+.p-tabview-selected .p-button {
+    color: white !important;
+}
+
+/* Hover state for buttons */
+.p-tabview-nav .p-button:hover {
+    color: white !important;
+}
+
+/* Active indicator */
+.p-tabview .p-tabview-nav .p-tabview-ink-bar {
+    background: #ffd700 !important;
+    height: 3px !important;
 }
