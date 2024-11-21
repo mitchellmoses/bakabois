@@ -122,6 +122,30 @@ function PlayoffOutlook() {
     setTimeout(() => setShowConfetti(false), 3000);
   };
 
+  const calculateH2HRecord = (team, allTeams) => {
+    const playoffTeams = allTeams.filter(t => t.playoffPct >= 0.5 && t.id !== team.id);
+    // This would need to be calculated from actual matchup data in the API
+    return {
+      wins: 0,  // Replace with actual calculation
+      losses: 0 // Replace with actual calculation
+    };
+  };
+
+  const getScheduleStrength = (team) => {
+    const strengthScore = team.pointsFor / (team.wins + team.losses);
+    if (strengthScore > 120) return 'hard';
+    if (strengthScore > 100) return 'medium';
+    return 'easy';
+  };
+
+  const getClinchScenario = (team) => {
+    if (team.playoffPct >= 0.99) return null;
+    if (team.playoffPct >= 0.75) {
+      return "Win next week to clinch";
+    }
+    return null;
+  };
+
   const renderPlayoffStatus = (leagueTeams, leagueName) => {
     const playoffTeams = leagueTeams.filter(team => team.playoffPct >= 0.005);
     const eliminated = leagueTeams.filter(team => team.playoffPct < 0.005);
@@ -139,41 +163,64 @@ function PlayoffOutlook() {
         </div>
 
         <div className="playoff-teams">
-          {playoffTeams.map((team, index) => (
-            <Card 
-              key={team.id} 
-              className={`team-card ${team.playoffPct >= 0.99 ? 'clinched-card' : ''}`}
-              onClick={(e) => team.playoffPct >= 0.99 && handleClinchClick(team, e)}
-              data-chance={
-                team.playoffPct >= 0.99 ? "clinched" :
-                team.playoffPct >= 0.75 ? "high" :
-                team.playoffPct >= 0.50 ? "medium" : "low"
-              }
-              style={{ cursor: team.playoffPct >= 0.99 ? 'pointer' : 'default' }}
-            >
-              <div className="team-info">
-                <img src={validateImageUrl(team.logo)} alt="" className="team-logo" />
-                <div className="team-details">
-                  <span className="name">{team.name}</span>
-                  <span className="record">({team.wins}-{team.losses})</span>
-                  <div className="playoff-stats">
-                    <span className="seed">#{team.projectedRank}</span>
-                    <span 
-                      className={`playoff-chance ${team.playoffPct >= 0.99 ? 'clinch-status' : ''}`}
-                      style={{
-                        background: getPlayoffChanceColor(team.playoffPct),
-                        boxShadow: team.playoffPct >= 0.99 ? '0 0 10px rgba(46, 125, 50, 0.5)' : 'none'
-                      }}
-                    >
-                      {team.playoffPct >= 0.99 
-                        ? '🏆 CLINCHED' 
-                        : `${(team.playoffPct * 100).toFixed(1)}%`}
-                    </span>
+          {playoffTeams.map((team) => {
+            const h2hRecord = calculateH2HRecord(team, leagueTeams);
+            const scheduleStrength = getScheduleStrength(team);
+            const clinchScenario = getClinchScenario(team);
+
+            return (
+              <Card 
+                key={team.id} 
+                className={`team-card ${team.playoffPct >= 0.99 ? 'clinched-card' : ''}`}
+                onClick={(e) => team.playoffPct >= 0.99 && handleClinchClick(team, e)}
+              >
+                <div className="team-info">
+                  <img src={validateImageUrl(team.logo)} alt="" className="team-logo" />
+                  <div className="team-details">
+                    <span className="name">{team.name}</span>
+                    <span className="record">({team.wins}-{team.losses})</span>
+                    <div className="playoff-stats">
+                      <span className="seed">#{team.projectedRank}</span>
+                      <span 
+                        className={`playoff-chance ${team.playoffPct >= 0.99 ? 'clinch-status' : ''}`}
+                        style={{
+                          background: getPlayoffChanceColor(team.playoffPct),
+                          boxShadow: team.playoffPct >= 0.99 ? '0 0 10px rgba(46, 125, 50, 0.5)' : 'none'
+                        }}
+                      >
+                        {team.playoffPct >= 0.99 
+                          ? '🏆 CLINCHED' 
+                          : `${(team.playoffPct * 100).toFixed(1)}%`}
+                      </span>
+                    </div>
                   </div>
+                  <div className="playoff-probability-meter">
+                    <div 
+                      className={`probability-fill probability-${
+                        team.playoffPct >= 0.75 ? 'high' :
+                        team.playoffPct >= 0.50 ? 'medium' : 'low'
+                      }`}
+                      style={{"--probability-width": `${team.playoffPct * 100}%`}}
+                    />
+                  </div>
+                  <div className="h2h-record">
+                    <span className="h2h-record-wins">{h2hRecord.wins}W</span>
+                    -
+                    <span className="h2h-record-losses">{h2hRecord.losses}L</span>
+                    <span>vs playoff teams</span>
+                  </div>
+                  <div className={`strength-indicator sos-${scheduleStrength}`}>
+                    {scheduleStrength.toUpperCase()} SOS
+                  </div>
+                  {clinchScenario && (
+                    <div className="clinch-scenario">
+                      {clinchScenario}
+                    </div>
+                  )}
                 </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            );
+          })}
         </div>
 
         {eliminated.length > 0 && (
@@ -253,21 +300,13 @@ function PlayoffOutlook() {
         
         {renderPlayoffStatus(league1Teams, 'League A')}
         {renderPlayoffStatus(league2Teams, 'League B')}
-        
-        {/* Rest of your bracket content */}
       </div>
+      
       {showConfetti && (
         <Confetti
           numberOfPieces={150}
           recycle={false}
-          confettiSource={{
-            x: confettiPosition.x,
-            y: confettiPosition.y,
-            w: 0,
-            h: 0
-          }}
-          width={confettiPosition.width}
-          height={confettiPosition.height}
+          confettiSource={confettiPosition}
           style={{
             position: 'fixed',
             pointerEvents: 'none',

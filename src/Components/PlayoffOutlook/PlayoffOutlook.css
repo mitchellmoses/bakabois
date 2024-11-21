@@ -1048,4 +1048,247 @@
 .team-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0,0,0,0.1) !important;
+}
+
+/* Add styles for playoff probability indicators */
+
+.playoff-probability-meter {
+  position: relative;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.probability-fill {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+/* Color gradients based on probability ranges */
+.probability-high {
+  background: linear-gradient(90deg, #4CAF50, #81C784);
+  width: var(--probability-width);
+}
+
+.probability-medium {
+  background: linear-gradient(90deg, #FFA726, #FFB74D);
+  width: var(--probability-width);
+}
+
+.probability-low {
+  background: linear-gradient(90deg, #EF5350, #E57373);
+  width: var(--probability-width);
+}
+
+/* Add styles for head-to-head record display */
+.h2h-record {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75em;
+  color: #666;
+  margin-top: 4px;
+}
+
+.h2h-record-wins {
+  color: #4CAF50;
+}
+
+.h2h-record-losses {
+  color: #EF5350;
+}
+
+/* Add styles for strength of schedule indicator */
+.strength-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 0.7em;
+  margin-top: 4px;
+}
+
+.sos-easy {
+  background: rgba(76, 175, 80, 0.1);
+  color: #2E7D32;
+}
+
+.sos-medium {
+  background: rgba(255, 167, 38, 0.1);
+  color: #F57C00;
+}
+
+.sos-hard {
+  background: rgba(239, 83, 80, 0.1);
+  color: #D32F2F;
+}
+
+/* Add animation for playoff clinching scenarios */
+.clinch-scenario {
+  font-size: 0.75em;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(33, 150, 243, 0.1);
+  color: #1976D2;
+  margin-top: 6px;
+  animation: scenarioPulse 2s infinite;
+}
+
+@keyframes scenarioPulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+/* Add styles for remaining schedule difficulty */
+.schedule-difficulty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 4px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.difficulty-week {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.65em;
+}
+
+.difficulty-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.difficulty-easy { background: #4CAF50; }
+.difficulty-medium { background: #FFA726; }
+.difficulty-hard { background: #EF5350; }
+
+/* Add styles for division race indicators */
+.division-race {
+  margin-top: 8px;
+  padding: 6px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.division-standings {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.75em;
+}
+
+.division-team {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.games-behind {
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Weekly Matchup Predictor */
+.upcoming-matchups {
+  margin-top: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.upcoming-matchups h5 {
+  margin: 0 0 8px 0;
+  font-size: 0.9rem;
+  color: #424242;
+}
+
+.future-matchup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.future-matchup:last-child {
+  margin-bottom: 0;
+}
+
+.win-probability {
+  position: relative;
+  height: 20px;
+  background: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.probability-bar {
+  position: absolute;
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #81C784);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.win-probability span {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 20px;
+  color: #424242;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+  z-index: 1;
+}
+
+/* Add hover effects */
+.future-matchup:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.seed-probability:hover .probability-bar {
+  filter: brightness(1.1);
+}
+
+.streak-indicator:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
+
+/* Add animations */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.magic-number .number {
+  animation: pulse 2s infinite;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-10px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.seed-probability {
+  animation: slideIn 0.3s ease forwards;
+  animation-delay: calc(var(--index) * 0.1s);
 } 
