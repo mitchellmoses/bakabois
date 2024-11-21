@@ -425,51 +425,40 @@
   }
 }
 
-/* Update text colors in navigation */
+/* Update these styles to ensure white text */
 .p-tabview .p-tabview-nav li .p-tabview-nav-link {
     color: rgba(255, 255, 255, 0.8) !important;
     background: transparent !important;
     border: none !important;
     font-size: 13px !important;
     font-weight: 700 !important;
-    transition: all 0.3s ease;
 }
 
-/* Selected tab text */
-.p-tabview-selected .p-tabview-nav-link {
-    color: white !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Non-selected tab text */
+/* Update non-selected tab text */
 .p-tabview .p-tabview-nav li:not(.p-tabview-selected) .p-tabview-nav-link {
     color: rgba(255, 255, 255, 0.8) !important;
 }
 
-/* Hover state */
-.p-tabview-nav li:not(.p-tabview-selected):hover .p-tabview-nav-link {
+/* Update selected tab text */
+.p-tabview-selected .p-tabview-nav-link {
     color: white !important;
-    background: rgba(255, 255, 255, 0.05) !important;
 }
 
-/* Split button text */
+/* Update hover state */
+.p-tabview-nav li:not(.p-tabview-selected):hover .p-tabview-nav-link {
+    color: white !important;
+}
+
+/* Update button text in nav */
 .p-tabview-nav .p-button {
     color: rgba(255, 255, 255, 0.8) !important;
-    background: transparent !important;
-    border: none !important;
 }
 
 .p-tabview-selected .p-button {
     color: white !important;
 }
 
-/* Hover state for buttons */
-.p-tabview-nav .p-button:hover {
+/* Update focus state */
+.p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
     color: white !important;
-}
-
-/* Active indicator */
-.p-tabview .p-tabview-nav .p-tabview-ink-bar {
-    background: #ffd700 !important;
-    height: 3px !important;
 }

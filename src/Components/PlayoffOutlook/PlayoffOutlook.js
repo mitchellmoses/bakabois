@@ -3,7 +3,7 @@ import { Card } from "primereact/card";
 import axios from "axios";
 import "./PlayoffOutlook.css";
 import { Toast } from 'primereact/toast';
-import { FaTrophy } from 'react-icons/fa';
+import { FaTrophy, FaToilet } from 'react-icons/fa';
 import Confetti from 'react-confetti';
 
 const validateImageUrl = (url) => {
@@ -16,6 +16,74 @@ const validateImageUrl = (url) => {
   );
   
   return hasImageExtension ? url : 'https://g.espncdn.com/lm-static/ffl/images/ffl-shield-shield.svg';
+};
+
+const calculateShitBowlChances = (teams) => {
+  // Check if teams is undefined or empty
+  if (!teams || !Array.isArray(teams) || teams.length === 0) {
+    return [];
+  }
+
+  // Filter out any undefined teams and ensure required properties exist
+  const validTeams = teams.filter(team => 
+    team && 
+    typeof team.wins === 'number' && 
+    typeof team.losses === 'number' && 
+    typeof team.pointsFor === 'number'
+  );
+
+  if (validTeams.length === 0) {
+    return [];
+  }
+
+  // Sort teams by wins (ascending) and then by points for (ascending)
+  const sortedTeams = [...validTeams].sort((a, b) => {
+    if (a.wins === b.wins) {
+      return a.pointsFor - b.pointsFor;
+    }
+    return a.wins - b.wins;
+  });
+
+  // Get actual last place team
+  const lastPlace = sortedTeams[0];
+  const gamesRemaining = lastPlace ? 13 - (lastPlace.wins + lastPlace.losses) : 0;
+
+  return sortedTeams.map((team, index) => {
+    if (!team) return null;
+
+    let shitBowlChance = 0;
+    const gamesBack = team.wins - lastPlace.wins;
+    const isLastPlace = index === 0;
+
+    // Calculate toilet bowl chances
+    if (isLastPlace) {
+      shitBowlChance = 0.90;
+    } else if (index === 1) {
+      shitBowlChance = gamesBack <= 1 ? 0.60 : 0.40;
+    } else if (index === 2) {
+      shitBowlChance = gamesBack <= 2 ? 0.30 : 0.15;
+    } else if (index === 3 && team.wins <= lastPlace.wins + 2) {
+      shitBowlChance = 0.10;
+    }
+
+    // Adjust chances based on remaining games
+    if (gamesRemaining <= 3) {
+      if (isLastPlace) {
+        shitBowlChance = 0.95;
+      } else if (gamesBack > 1) {
+        shitBowlChance = 0;
+      }
+    }
+
+    return {
+      ...team,
+      shitBowlChance,
+      gamesBack,
+      gamesRemaining,
+      isLastPlace,
+      currentRank: index + 1
+    };
+  }).filter(team => team && team.shitBowlChance > 0);
 };
 
 function PlayoffOutlook() {
@@ -273,6 +341,169 @@ function PlayoffOutlook() {
     return '#d32f2f';
   };
 
+  const renderShitBowlSection = (league1Teams, league2Teams) => {
+    // Sort both leagues by wins/points to get true standings
+    const sortedLeague1 = [...league1Teams].sort((a, b) => {
+      if (a.wins === b.wins) return a.pointsFor - b.pointsFor;
+      return a.wins - b.wins;
+    });
+
+    const sortedLeague2 = [...league2Teams].sort((a, b) => {
+      if (a.wins === b.wins) return a.pointsFor - b.pointsFor;
+      return a.wins - b.wins;
+    });
+
+    const lastPlaceLeague1 = sortedLeague1[0];
+    const lastPlaceLeague2 = sortedLeague2[0];
+
+    // Calculate contenders for each league
+    const league1Contenders = calculateShitBowlChances(league1Teams)
+      .filter(team => team?.shitBowlChance > 0)
+      .sort((a, b) => (b?.shitBowlChance || 0) - (a?.shitBowlChance || 0));
+
+    const league2Contenders = calculateShitBowlChances(league2Teams)
+      .filter(team => team?.shitBowlChance > 0)
+      .sort((a, b) => (b?.shitBowlChance || 0) - (a?.shitBowlChance || 0));
+
+    return (
+      <div className="shit-bowl-section">
+        <div className="section-header">
+          <h4>
+            <FaToilet className="toilet-icon" />
+            The Toilet Bowl Championship
+          </h4>
+        </div>
+        
+        <div className="toilet-bowl-container">
+          {/* League A Contenders */}
+          <div className="toilet-league">
+            <h5>League A Contenders</h5>
+            <div className="toilet-contenders">
+              {league1Contenders.map(team => (
+                <Card key={team.id} className="contender-card">
+                  <div className="team-info">
+                    <img src={validateImageUrl(team.logo)} alt="" className="team-logo" />
+                    <div className="contender-info">
+                      <div className="contender-header">
+                        <span className="name">{team.name}</span>
+                        <span className="record">({team.wins}-{team.losses})</span>
+                      </div>
+                      <div className="toilet-details">
+                        <div className="status-indicator">
+                          {team.isLastPlace ? (
+                            <span className="current-status">Currently in Toilet Bowl</span>
+                          ) : (
+                            <span className="games-back">
+                              {team.gamesBack === 0 ? 'Tied for Last' : 
+                               `${team.gamesBack} ${team.gamesBack === 1 ? 'Game' : 'Games'} from Last`}
+                            </span>
+                          )}
+                        </div>
+                        <div className="remaining-games">
+                          {team.gamesRemaining} {team.gamesRemaining === 1 ? 'Game' : 'Games'} Left
+                        </div>
+                      </div>
+                      <div className="toilet-progress">
+                        <div 
+                          className="toilet-progress-fill"
+                          style={{ width: `${team.shitBowlChance * 100}%` }}
+                        >
+                          <div className="bubbles">
+                            <div className="bubble"></div>
+                            <div className="bubble"></div>
+                            <div className="bubble"></div>
+                          </div>
+                        </div>
+                        <span className="toilet-percentage">
+                          {(team.shitBowlChance * 100).toFixed(1)}% Toilet Bowl Chance
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Current Matchup */}
+          <div className="toilet-bowl-matchup">
+            <h5>Current Toilet Bowl Matchup</h5>
+            <div className="matchup-display">
+              <div className="toilet-team">
+                <img src={validateImageUrl(lastPlaceLeague1?.logo)} alt="" className="team-logo" />
+                <span className="name">{lastPlaceLeague1?.name || 'TBD'}</span>
+                <span className="record">
+                  ({lastPlaceLeague1?.wins || 0}-{lastPlaceLeague1?.losses || 0})
+                </span>
+              </div>
+              <div className="vs-container">
+                <FaToilet className="toilet-icon mega-spin" />
+                <span className="vs-text">VS</span>
+              </div>
+              <div className="toilet-team">
+                <img src={validateImageUrl(lastPlaceLeague2?.logo)} alt="" className="team-logo" />
+                <span className="name">{lastPlaceLeague2?.name || 'TBD'}</span>
+                <span className="record">
+                  ({lastPlaceLeague2?.wins || 0}-{lastPlaceLeague2?.losses || 0})
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* League B Contenders */}
+          <div className="toilet-league">
+            <h5>League B Contenders</h5>
+            <div className="toilet-contenders">
+              {league2Contenders.map(team => (
+                <Card key={team.id} className="contender-card">
+                  <div className="team-info">
+                    <img src={validateImageUrl(team.logo)} alt="" className="team-logo" />
+                    <div className="contender-info">
+                      <div className="contender-header">
+                        <span className="name">{team.name}</span>
+                        <span className="record">({team.wins}-{team.losses})</span>
+                      </div>
+                      <div className="toilet-details">
+                        <div className="status-indicator">
+                          {team.isLastPlace ? (
+                            <span className="current-status">Currently in Toilet Bowl</span>
+                          ) : (
+                            <span className="games-back">
+                              {team.gamesBack === 0 ? 'Tied for Last' : 
+                               `${team.gamesBack} ${team.gamesBack === 1 ? 'Game' : 'Games'} from Last`}
+                            </span>
+                          )}
+                        </div>
+                        <div className="remaining-games">
+                          {team.gamesRemaining} {team.gamesRemaining === 1 ? 'Game' : 'Games'} Left
+                        </div>
+                      </div>
+                      <div className="toilet-progress">
+                        <div 
+                          className="toilet-progress-fill"
+                          style={{ width: `${team.shitBowlChance * 100}%` }}
+                        >
+                          <div className="bubbles">
+                            <div className="bubble"></div>
+                            <div className="bubble"></div>
+                            <div className="bubble"></div>
+                          </div>
+                        </div>
+                        <span className="toilet-percentage">
+                          {(team.shitBowlChance * 100).toFixed(1)}% Toilet Bowl Chance
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="playoff-outlook-container">
       <Toast ref={toast} />
@@ -300,6 +531,7 @@ function PlayoffOutlook() {
         
         {renderPlayoffStatus(league1Teams, 'League A')}
         {renderPlayoffStatus(league2Teams, 'League B')}
+        {renderShitBowlSection(league1Teams, league2Teams)}
       </div>
       
       {showConfetti && (
