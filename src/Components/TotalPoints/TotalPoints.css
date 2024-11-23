@@ -1,240 +1,287 @@
 .total-points-container {
-  padding: 10px;
-  background-color: #f5f5f5;
+  padding: 1.5rem;
+  background-color: var(--surface-card);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.section-title-container {
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.section-title-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  opacity: 0.9;
   border-radius: 8px;
+  z-index: 0;
+  animation: gradientMove 8s ease infinite;
 }
 
 .total-points-title {
-  font-size: 1.8rem;
-  font-weight: bold;
+  position: relative;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0;
+  z-index: 1;
   text-align: center;
-  margin-bottom: 15px;
-  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  animation: titleGlow 2s ease-in-out infinite;
 }
 
 .league-totals {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .league-total {
-  flex: 1;
-  padding: 15px;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
-.league-total h3 {
-  font-size: 1rem;
-  margin-bottom: 5px;
-  color: #333; /* Dark gray for both league titles */
-}
-
-.total-score {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.league-a .total-score {
-  color: #1565C0; /* Blue color for League A total */
-}
-
-.league-b .total-score {
-  color: #EF6C00; /* Keeping the orange color for League B total */
-}
-
-.chart-container {
-  margin-bottom: 30px;
-}
-
-.chart-container h3 {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.table-container {
-  background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.table-container h3 {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.weekly-points-table {
-  width: 100%;
-}
-
-.weekly-points-table .p-datatable-thead > tr > th {
-  background-color: #f0f0f0;
-  color: #333;
-  font-weight: bold;
-}
-
-.weekly-points-table .p-datatable-tbody > tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.weekly-points-table .p-datatable-tbody > tr:hover {
-  background-color: #e0e0e0;
-  transition: background-color 0.3s ease;
-}
-
-.weekly-points-table .p-datatable-tbody > tr:hover .current-week::after {
-  animation: underline-glow 1s infinite;
-}
-
-@keyframes underline-glow {
-  0%, 100% {
-    box-shadow: 0 0 5px #1565C0;
-  }
-  50% {
-    box-shadow: 0 0 20px #1565C0;
-  }
-}
-
-.current-week-info {
-  text-align: center;
-  font-style: italic;
-  margin-bottom: 10px;
-  color: #666;
-}
-
-.weekly-points-table .current-week {
-  font-weight: bold;
-  color: #1565C0;
-  position: relative;
-  display: inline-block;
-}
-
-.weekly-points-table .current-week::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #1565C0;
-  animation: underline-pulse 2s infinite;
-}
-
-@keyframes underline-pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-.current-score {
-  font-size: 1.2rem;
-  color: #666;
-  margin-top: 10px;
-}
-
-.animated-score {
-  display: inline-block;
-  margin-left: 5px;
-  font-weight: bold;
-  color: #4CAF50;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.league-total {
-  /* ... existing styles */
   position: relative;
   overflow: hidden;
 }
 
-.league-total::after {
-  content: '';
+.league-total h3 {
+  color: #1e3c72;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.total-score {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.league-a .total-score {
+  color: #1e3c72;
+}
+
+.league-b .total-score {
+  color: #2a5298;
+}
+
+.chart-container {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.chart-container h3 {
+  color: #1e3c72;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.table-container {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-top: 2rem;
+}
+
+.table-container h3 {
+  color: #1e3c72;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.current-week-info {
+  text-align: center;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-weight: 600;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.2);
+}
+
+.weekly-points-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.weekly-points-table .p-datatable-thead > tr > th {
+  background: #1e3c72 !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 1rem;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+.weekly-points-table .p-datatable-tbody > tr > td {
+  padding: 1rem;
+  border: none;
+  border-bottom: 1px solid #eee;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.weekly-points-table .p-datatable-tbody > tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.weekly-points-table .p-datatable-tbody > tr:hover {
+  background: rgba(30, 60, 114, 0.05);
+}
+
+.current-week {
+  color: #1e3c72;
+  font-weight: 700;
+  position: relative;
+  padding-right: 1.5rem;
+}
+
+.current-week::after {
+  content: '(Current)';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(255, 255, 255, 0.2) 40%,
-    rgba(255, 255, 255, 0.6) 50%,
-    rgba(255, 255, 255, 0.2) 60%,
-    rgba(255, 255, 255, 0.2) 100%
-  );
-  transform: rotate(45deg);
-  animation: shine 3s infinite;
+  right: -4rem;
+  color: #2a5298;
+  font-size: 0.85rem;
+  font-style: italic;
+  opacity: 0.8;
 }
 
-@keyframes shine {
-  0% {
-    top: -50%;
-    left: -50%;
-  }
-  100% {
-    top: 150%;
-    left: 150%;
-  }
+.weekly-points-table .p-datatable-tbody > tr {
+  transition: all 0.2s ease;
 }
 
-/* Media query for larger screens */
-@media (min-width: 768px) {
+.weekly-points-table .p-datatable-tbody > tr:hover {
+  transform: translateX(5px);
+}
+
+.weekly-points-table .p-datatable-tbody > tr > td:nth-child(2),
+.weekly-points-table .p-datatable-tbody > tr > td:nth-child(3) {
+  font-weight: 600;
+  color: #1e3c72;
+}
+
+/* Mobile adjustments */
+@media screen and (max-width: 768px) {
   .total-points-container {
-    padding: 20px;
+    padding: 1rem;
   }
 
   .total-points-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   .league-totals {
-    flex-direction: row;
-    justify-content: space-around;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .league-total {
-    width: 45%;
-  }
-
-  .league-total h3 {
-    font-size: 1.5rem;
+    padding: 1rem;
   }
 
   .total-score {
-    font-size: 2.5rem;
+    font-size: 2rem;
+  }
+
+  .chart-container,
+  .table-container {
+    padding: 1rem;
+  }
+
+  .table-container h3 {
+    font-size: 1.25rem;
+  }
+
+  .current-week-info {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .weekly-points-table .p-datatable-thead > tr > th,
+  .weekly-points-table .p-datatable-tbody > tr > td {
+    padding: 0.75rem;
+    font-size: 0.9rem;
   }
 }
 
-@media (min-width: 1024px) {
-  .league-total h3 {
-    font-size: 1.5rem;
+/* Add cool animations */
+@keyframes titleGlow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
   }
+  50% {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+}
 
-  .total-score {
-    font-size: 2.5rem;
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
   }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Add a decorative line under the title */
+.section-title-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #1e3c72, transparent);
+  border-radius: 2px;
+}
+
+/* Add season text styling */
+.season-text {
+  font-size: 1.2rem;
+  color: white;
+  margin-top: 0.5rem;
+  font-style: italic;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Add week number emphasis */
+.week-number {
+  font-weight: 700;
+  color: white;
+  padding: 0 0.5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }

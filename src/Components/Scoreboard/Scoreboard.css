@@ -1,33 +1,144 @@
-.scoreboard {
-    background-color: white;
+.scoreboard-wrapper {
+  padding: 1rem;
+  background-color: var(--surface-card);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
-.header {
-    padding-top: 10px;
-    padding-left: 40px;
-    display: flex;
+.section-title-container {
+  position: relative;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
 }
 
-.-logo {
-    font-size: 30px;
-    font-weight: 900;
+.section-title-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  opacity: 0.1;
+  border-radius: 8px;
+  z-index: 0;
 }
 
-.scoreboard .league-name {
-    font-size: 25px;
-    font-weight: 900;
+.section-title {
+  position: relative;
+  color: #1e3c72;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  z-index: 1;
 }
 
-.match-container {
-    justify-content: center;
-    display:flex;
-    flex-wrap: wrap;
-    padding-left: 10px;
-    padding-right: 10px;
+.section-subtitle {
+  position: relative;
+  color: #666;
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  z-index: 1;
 }
 
-@media screen and (min-width: 1600px) {
-    .xxl {
-        justify-content: flex-start!important;
-    }
+.matchups-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 0.5rem;
+  justify-items: center;
+}
+
+.filters-container {
+  display: flex;
+  gap: 1rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 250px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: #1e3c72;
+  min-width: 60px;
+}
+
+.league-dropdown,
+.week-dropdown {
+  flex: 1;
+}
+
+/* PrimeReact Dropdown Customization */
+.p-dropdown {
+  border-radius: 8px;
+  border-color: #e0e0e0;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  border-color: #1e3c72;
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  box-shadow: 0 0 0 2px rgba(30, 60, 114, 0.1);
+  border-color: #1e3c72;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+  background: rgba(30, 60, 114, 0.1);
+  color: #1e3c72;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .scoreboard-wrapper {
+    padding: 0.5rem;
+  }
+
+  .section-title-container {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .matchups-container {
+    grid-template-columns: 1fr;
+    padding: 0.25rem;
+    gap: 0.5rem;
+  }
+
+  .filters-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+}
+
+/* Larger screen optimizations */
+@media screen and (min-width: 1200px) {
+  .matchups-container {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    max-width: 1600px;
+    margin: 0 auto;
+  }
 }

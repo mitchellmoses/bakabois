@@ -42,3 +42,233 @@ body {
     width: 2rem!important;
     height: 2rem!important;
 }
+
+.leaderboard-wrapper {
+  padding: 1rem;
+  background-color: var(--surface-card);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.section-title-container {
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
+
+.section-title {
+  position: relative;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0;
+  z-index: 1;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.section-subtitle {
+  position: relative;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0.5rem 0 0;
+  font-size: 1.1rem;
+  z-index: 1;
+  font-weight: 400;
+}
+
+.section-title-background {
+  display: none;
+}
+
+.filters-container {
+  display: flex;
+  gap: 1rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 250px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: #1e3c72;
+  min-width: 60px;
+}
+
+.league-dropdown {
+  flex: 1;
+}
+
+/* PrimeReact Dropdown Customization */
+.p-dropdown {
+  border-radius: 8px;
+  border-color: #e0e0e0;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  border-color: #1e3c72;
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  box-shadow: 0 0 0 2px rgba(30, 60, 114, 0.1);
+  border-color: #1e3c72;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+  background: rgba(30, 60, 114, 0.1);
+  color: #1e3c72;
+}
+
+.modern-table {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.team-avatar {
+  border: 2px solid #eee;
+}
+
+.team-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.team-name {
+  font-weight: 600;
+  color: #2a5298;
+}
+
+.manager-name {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.rank-cell {
+  font-weight: 600;
+  color: #1e3c72;
+}
+
+.points-cell {
+  font-family: monospace;
+  font-weight: 600;
+  color: #2a5298;
+}
+
+.record-cell {
+  font-family: monospace;
+  color: #444;
+}
+
+/* Column specific styles */
+.rank-column {
+  width: 80px;
+  text-align: center;
+}
+
+.team-column {
+  min-width: 300px;
+}
+
+.points-column {
+  width: 100px;
+  text-align: right;
+}
+
+.pct-column {
+  width: 80px;
+  text-align: right;
+}
+
+.gb-column {
+  width: 80px;
+  text-align: right;
+}
+
+.record-column {
+  width: 100px;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .team-column {
+    min-width: 200px;
+  }
+  
+  .manager-name {
+    display: none;
+  }
+  
+  .record-column {
+    display: none;
+  }
+
+  .leaderboard-wrapper {
+    padding: 0.5rem;
+  }
+
+  .section-title-container {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .filters-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+}
+
+/* PrimeReact DataTable overrides */
+.p-datatable .p-datatable-thead > tr > th {
+  background: #f8f9fa;
+  color: #1e3c72;
+  font-weight: 600;
+  padding: 1rem;
+}
+
+.p-datatable .p-datatable-tbody > tr {
+  transition: background-color 0.2s;
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+  background-color: #f8f9fa;
+}
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #fafbfc;
+}

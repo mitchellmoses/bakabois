@@ -187,7 +187,13 @@ const TotalPoints = () => {
 
   return (
     <div className="total-points-container">
-      <h2 className="total-points-title">Total Points for 2024 Season - Week {currentWeek}</h2>
+      <div className="section-title-container">
+        <div className="section-title-background"></div>
+        <h1 className="total-points-title">Total Points</h1>
+        <div className="season-text">
+          2024 Season - Week <span className="week-number">{currentWeek}</span>
+        </div>
+      </div>
       {weeklyPoints.length === 0 ? (
         <p>Loading data...</p>
       ) : (

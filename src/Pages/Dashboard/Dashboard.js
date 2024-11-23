@@ -16,32 +16,40 @@ import History from '../../Components/History/History';
 import Classics from '../../Components/Classics/Classics';
 import img_3690 from "../../assets/image/IMG_3690.jpg";
 import PlayoffOutlook from '../../Components/PlayoffOutlook/PlayoffOutlook';
+import { FaTrophy, FaToilet } from 'react-icons/fa';
 
 function Dashboard() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [leagueType, setLeagueType] = useState("league1");
   const [leagueID, setLeagueID] = useState(1446375);
-  const [leagueTypeScoreboard, setLeagueTypeScoreboard] = useState("League 1");
-  const [leagueTypeLeaderboard, setLeagueTypeLeaderboard] =
-    useState("League 1");
-  const [matchupPeriodId, setMatchupPeriodId] = useState("");
+  const [leagueTypeScoreboard, setLeagueTypeScoreboard] = useState("overall");
+  const [leagueTypeLeaderboard, setLeagueTypeLeaderboard] = useState("Overall");
+  const [matchupPeriodId, setMatchupPeriodId] = useState("NFL WEEK 1");
   const [matchups, setMatchups] = useState([]);
   const [matchId, setMatchId] = useState(1);
   const [liveMatchup, setLiveMatchup] = useState("");
   const [value, setValue] = useState(0);
   const [highestScorer, setHighestScorer] = useState(null);
   const [lowestScorer, setLowestScorer] = useState(null);
+  const [highestPlayer, setHighestPlayer] = useState(null);
+  const [closestMatchup, setClosestMatchup] = useState(null);
+  const [biggestBlowout, setBiggestBlowout] = useState(null);
 
   const getLiveMatchup = () => {
     axios
       .get("https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1446375?view=modular&view=mNav&view=mMatchupScore&view=mScoreboard&view=mSettings&view=mTopPerformers&view=mTeam", {})
       .then((response) => {
-          let result = response["data"];
-          setLiveMatchup("NFL WEEK " + result["scoringPeriodId"]);
-          setMatchupPeriodId("NFL WEEK " + result["scoringPeriodId"]);
-      }).catch((error) => {
-        console.log(error);
+        if (response.data && response.data.scoringPeriodId) {
+          const week = `NFL WEEK ${response.data.scoringPeriodId}`;
+          setLiveMatchup(week);
+          setMatchupPeriodId(week);
+        }
       })
+      .catch((error) => {
+        console.error("Error fetching live matchup:", error);
+        setLiveMatchup("NFL WEEK 1");
+        setMatchupPeriodId("NFL WEEK 1");
+      });
   }
 
   useEffect(() => {
@@ -137,19 +145,25 @@ function Dashboard() {
     setActiveIndex(0);
   };
 
-  const showBoxScore = (_leagueID, _matchId) => {
-    setLeagueID(_leagueID);
-    setMatchId(_matchId);
-    setValue(-1);
-    setActiveIndex(3);
+  const showBoxScore = (leagueID, matchId) => {
+    if (leagueID && matchId) {
+      console.log("Showing box score for:", { leagueID, matchId });
+      setLeagueID(leagueID);
+      setMatchId(matchId);
+      setValue(-1);
+      setActiveIndex(5);
+    }
   };
 
   const showBoxScores = (_leagueID, _matchId, _value) => {
-    setLeagueID(_leagueID);
-    setMatchId(_matchId);
-    setValue(_value);
-    setValue(_value);
-    setActiveIndex(3);
+    console.log("Showing box scores with:", { _leagueID, _matchId, _value });
+    if (_leagueID && _matchId) {
+      setLeagueID(_leagueID);
+      setMatchId(_matchId);
+      if (_value !== undefined) {
+        setValue(_value);
+      }
+    }
   };
 
   const fetchHighestScorer = async () => {
@@ -307,159 +321,307 @@ function Dashboard() {
     return () => clearInterval(dailyCheck);
   }, []);
 
+  useEffect(() => {
+    const fetchWeeklyStats = async () => {
+      try {
+        if (!matchupPeriodId) return;
+
+        const currentWeek = parseInt(matchupPeriodId.substring(9));
+        if (isNaN(currentWeek)) return;
+        
+        const weekToShow = currentWeek > 1 ? currentWeek - 1 : 1;
+
+        const [league1Response, league2Response] = await Promise.all([
+          axios.get(`https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1446375?view=mMatchup&view=mMatchupScore&view=mTeam&scoringPeriodId=${weekToShow}`),
+          axios.get(`https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1869404038?view=mMatchup&view=mMatchupScore&view=mTeam&scoringPeriodId=${weekToShow}`)
+        ]);
+
+        const league1Teams = new Map(league1Response.data.teams.map(team => [team.id, team]));
+        const league2Teams = new Map(league2Response.data.teams.map(team => [team.id, team]));
+
+        const allMatchups = [
+          ...league1Response.data.schedule.map(match => ({
+            ...match,
+            isLeague1: true
+          })),
+          ...league2Response.data.schedule.map(match => ({
+            ...match,
+            isLeague1: false
+          }))
+        ].filter(match => match.matchupPeriodId === weekToShow);
+
+        if (allMatchups.some(match => match.home.totalPoints > 0 || (match.away && match.away.totalPoints > 0))) {
+          let smallestDiff = Infinity;
+          let closestMatch = null;
+          let biggestDiff = -Infinity;
+          let blowoutMatch = null;
+
+          allMatchups.forEach(match => {
+            if (match.home && match.away) {
+              const diff = Math.abs(match.home.totalPoints - match.away.totalPoints);
+              const teams = match.isLeague1 ? league1Teams : league2Teams;
+              
+              match.home.team = teams.get(match.home.teamId);
+              match.away.team = teams.get(match.away.teamId);
+              
+              if (diff < smallestDiff && diff > 0) {
+                smallestDiff = diff;
+                closestMatch = match;
+              }
+              
+              if (diff > biggestDiff) {
+                biggestDiff = diff;
+                blowoutMatch = match;
+              }
+            }
+          });
+
+          const [league1Rosters, league2Rosters] = await Promise.all([
+            axios.get(`https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1446375?view=mRoster&view=mMatchup&view=mMatchupScore&scoringPeriodId=${weekToShow}`),
+            axios.get(`https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1869404038?view=mRoster&view=mMatchup&view=mMatchupScore&scoringPeriodId=${weekToShow}`)
+          ]);
+
+          let highestScore = -Infinity;
+          let bestPlayer = null;
+
+          const processRoster = (league, teams) => {
+            league.teams.forEach(team => {
+              const teamDetails = teams.get(team.id);
+              if (team.roster && team.roster.entries) {
+                team.roster.entries.forEach(entry => {
+                  if (entry.lineupSlotId <= 8) {
+                    const playerScore = entry.playerPoolEntry.appliedStatTotal || 0;
+                    
+                    console.log(`Player: ${entry.playerPoolEntry.player.fullName}, Score: ${playerScore}, Team: ${teamDetails?.name}`);
+                    
+                    if (playerScore > highestScore) {
+                      highestScore = playerScore;
+                      bestPlayer = {
+                        name: entry.playerPoolEntry.player.fullName,
+                        score: playerScore,
+                        team: teamDetails?.name || 'Unknown Team',
+                        teamLogo: teamDetails?.logo || '',
+                        position: entry.playerPoolEntry.player.defaultPositionId
+                      };
+                    }
+                  }
+                });
+              }
+            });
+          };
+
+          processRoster(league1Rosters.data, league1Teams);
+          processRoster(league2Rosters.data, league2Teams);
+
+          setHighestPlayer(bestPlayer);
+          setClosestMatchup(closestMatch);
+          setBiggestBlowout(blowoutMatch);
+        }
+      } catch (error) {
+        console.error('Error fetching weekly stats:', error);
+        setHighestPlayer(null);
+        setClosestMatchup(null);
+        setBiggestBlowout(null);
+      }
+    };
+
+    if (matchupPeriodId) {
+      fetchWeeklyStats();
+    }
+  }, [matchupPeriodId]);
+
   return (
-    <div className="min-w-full sm:dashboard">
-      <div className="blank"></div>
-      <div
-        className="logo"
-        onClick={(e) => {
-          onLogoClick();
-        }}
-      >
-        <img src={logo} alt="" width="80px" height="75px" />
-      </div>
-      <div className="card">
+    <div className="dashboard-container">
+      <div className="nav-section">
+        <div className="logo" onClick={onLogoClick}>
+          <img src={logo} alt="" width="80px" height="75px" />
+        </div>
         <TabView
           activeIndex={activeIndex}
           onTabChange={(e) => setActiveIndex(e.index)}
+          className="modern-tabs"
         >
           <TabPanel header="Home" leftIcon="pi pi-home">
-            <div className="home-content">
+            <div className="content-section">
+              <div className="section-title-container">
+                <div className="section-title-background"></div>
+                <h1 className="section-title">Weekly Highlights</h1>
+                <p className="section-subtitle">Top Performers and Notable Moments</p>
+              </div>
+
               <div className="winners-losers-container">
-                <div className="highest-scorer">
-                  <h1 className="highest-scorer-title">
-                    🏆 WEEKLY WINNER 🏆
-                  </h1>
-                  {highestScorer && (
-                    <div className="highest-scorer-content">
-                      <img src={highestScorer.logo} alt={highestScorer.name} className="scorer-logo" />
-                      <div className="scorer-info">
-                        <span className="scorer-name">{highestScorer.name}</span>
-                        <span className="scorer-score highest">{highestScorer.score} points</span>
-                        <div className="scorer-details">
-                          <span className="scorer-league">{highestScorer.leagueName}</span>
-                          <span className="scorer-owner">{highestScorer.ownerName}</span>
-                          <span className="scorer-week">Week {highestScorer.week}</span>
+                <div className="highlight-card winner-card">
+                  <div className="card-header">
+                    <FaTrophy className="trophy-icon" />
+                    <h2>Weekly Champion</h2>
+                  </div>
+                  {highestScorer ? (
+                    <div className="scorer-content">
+                      <div className="score-banner">
+                        <span className="points">{highestScorer.score || 0}</span>
+                        <span className="points-label">POINTS</span>
+                      </div>
+                      <div className="winner-details">
+                        <img 
+                          src={highestScorer.logo || 'default-logo-url'} 
+                          alt="" 
+                          className="scorer-logo pulse-animation" 
+                        />
+                        <div className="scorer-info">
+                          <span className="scorer-name glow-text">{highestScorer.name || 'TBD'}</span>
+                          <div className="scorer-details">
+                            <span className="scorer-league">{highestScorer.leagueName || 'Unknown League'}</span>
+                            <span className="scorer-owner">{highestScorer.ownerName || 'Unknown Owner'}</span>
+                            <span className="scorer-week">Week {highestScorer.week || '?'}</span>
+                          </div>
                         </div>
                       </div>
+                      <div className="confetti-overlay"></div>
+                    </div>
+                  ) : (
+                    <div className="scorer-content">
+                      <span>Loading...</span>
                     </div>
                   )}
                 </div>
-                <div className="lowest-scorer">
-                  <h1 className="lowest-scorer-title">
-                    🌈 LOSER OF THE WEEK 🌈
-                  </h1>
-                  {lowestScorer && (
-                    <div className="lowest-scorer-content">
-                      <img src={lowestScorer.logo} alt={lowestScorer.name} className="scorer-logo" />
-                      <div className="scorer-info">
-                        <span className="scorer-name">{lowestScorer.name}</span>
-                        <span className="scorer-score lowest">{lowestScorer.score} points</span>
-                        <div className="scorer-details">
-                          <span className="scorer-league">{lowestScorer.leagueName}</span>
-                          <span className="scorer-owner">{lowestScorer.ownerName}</span>
-                          <span className="scorer-week">Week {lowestScorer.week}</span>
+
+                <div className="highlight-card loser-card">
+                  <div className="card-header">
+                    <FaToilet className="toilet-icon spinning" />
+                    <h2>Weekly Shame</h2>
+                  </div>
+                  {lowestScorer ? (
+                    <div className="scorer-content">
+                      <div className="score-banner shame">
+                        <span className="points">{lowestScorer.score || 0}</span>
+                        <span className="points-label">POINTS</span>
+                      </div>
+                      <div className="loser-details">
+                        <img 
+                          src={lowestScorer.logo || 'default-logo-url'} 
+                          alt="" 
+                          className="scorer-logo shake-animation" 
+                        />
+                        <div className="scorer-info">
+                          <span className="scorer-name shame-text">{lowestScorer.name || 'TBD'}</span>
+                          <div className="scorer-details">
+                            <span className="scorer-league">{lowestScorer.leagueName || 'Unknown League'}</span>
+                            <span className="scorer-owner">{lowestScorer.ownerName || 'Unknown Owner'}</span>
+                            <span className="scorer-week">Week {lowestScorer.week || '?'}</span>
+                          </div>
                         </div>
                       </div>
+                      <div className="toilet-paper-overlay"></div>
+                    </div>
+                  ) : (
+                    <div className="scorer-content">
+                      <span>Loading...</span>
                     </div>
                   )}
-                </div>
-              </div>
-              <div className="background-images-container">
-                <div className="background-image">
-                  <img src={img_o338} alt="Background 1" />
-                </div>
-                <div className="background-image">
-                  <img src={bkImage2} alt="Background 2" />
-                </div>
-              </div>
-            </div>
-          </TabPanel>
-          <TabPanel header="Leaderboard" leftIcon="pi pi-sitemap">
-            <div className="leaderboard-container">
-              <div className="leaderboard-header">
-                <div className="-logo">
-                  <span>Standings</span>
-                </div>
-              </div>
-              <div className="leaderboard-menu">
-                <div className="title">League:</div>
-                <Dropdown
-                  value={leagueTypeLeaderboard}
-                  onChange={(e) => setLeagueTypeLeaderboard(e.value)}
-                  options={["League 1", "League 2", "Overall"]}
-                  placeholder="Select a League"
-                  className="w-full"
-                />
-              </div>
-              <Leaderboard leagueType={leagueTypeLeaderboard}></Leaderboard>
-            </div>
-          </TabPanel>
-          <TabPanel header="Playoff Outlook" leftIcon="pi pi-chart-line">
-            <PlayoffOutlook />
-          </TabPanel>
-          <TabPanel header="Scoreboard" leftIcon="pi pi-star-fill">
-            <div className="scoreboard-container">
-              <div className="scoreboard-header">
-                <div className="-logo">
-                  <span>Scoreboard</span>
-                </div>
-              </div>
-              <div className="scoreboard-tool">
-                <div className="scoreboard-menu">
-                  <div className="title">League:</div>
-                  <Dropdown
-                    value={leagueTypeScoreboard}
-                    onChange={(e) => setLeagueTypeScoreboard(e.value)}
-                    options={["League 1", "League 2", "Overall"]}
-                    placeholder="Select a City"
-                    className="w-full"
-                  />
-                </div>
-                <div className="sm:ml-5 matchup-period">
-                  <div className="title">Matchups: </div>
-                  <Dropdown
-                    value={matchupPeriodId}
-                    onChange={(e) => setMatchupPeriodId(e.value)}
-                    options={matchups}
-                    placeholder={matchupPeriodId}
-                    className="w-full"
-                  />
                 </div>
               </div>
 
-              {(leagueTypeScoreboard === "League 1" ||
-                leagueTypeScoreboard === "Overall") && (
-                  <Scoreboard
-                    leagueType="league1"
-                    showBoxScore={showBoxScore}
-                    matchupPeriodId={matchupPeriodId}
-                    liveMatchup={liveMatchup}
-                  ></Scoreboard>
-                )}
-              {(leagueTypeScoreboard === "League 2" ||
-                leagueTypeScoreboard === "Overall") && (
-                  <Scoreboard
-                    leagueType="league2"
-                    showBoxScore={showBoxScore}
-                    matchupPeriodId={matchupPeriodId}
-                    liveMatchup={liveMatchup}
-                  ></Scoreboard>
-                )}
+              <div className="weekly-stats-grid">
+                <div className="stat-card">
+                  <h3>Highest Single Player</h3>
+                  {highestPlayer ? (
+                    <div className="stat-content">
+                      <div className="player-info">
+                        <img src={highestPlayer.teamLogo || ''} alt="" className="team-logo" />
+                        <div className="player-details">
+                          <span className="player-name">{highestPlayer.name || 'N/A'}</span>
+                          <span className="player-score">{(highestPlayer.score || 0).toFixed(1)} pts</span>
+                          <span className="player-team">{highestPlayer.team || 'N/A'}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="stat-content">Loading...</div>
+                  )}
+                </div>
+
+                <div className="stat-card">
+                  <h3>Closest Matchup</h3>
+                  {closestMatchup && closestMatchup.home && closestMatchup.away ? (
+                    <div className="stat-content">
+                      <div className="matchup-info">
+                        <div className="team-vs-team">
+                          <span>{closestMatchup.home.team?.name || 'TBD'}</span>
+                          <span className="score">
+                            {(closestMatchup.home.totalPoints || 0).toFixed(1)} - {(closestMatchup.away.totalPoints || 0).toFixed(1)}
+                          </span>
+                          <span>{closestMatchup.away.team?.name || 'TBD'}</span>
+                        </div>
+                        <span className="difference">
+                          Difference: {Math.abs((closestMatchup.home.totalPoints || 0) - (closestMatchup.away.totalPoints || 0)).toFixed(1)} pts
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="stat-content">Loading...</div>
+                  )}
+                </div>
+
+                <div className="stat-card">
+                  <h3>Biggest Blowout</h3>
+                  {biggestBlowout && biggestBlowout.home && biggestBlowout.away ? (
+                    <div className="stat-content">
+                      <div className="matchup-info">
+                        <div className="team-vs-team">
+                          <span>{biggestBlowout.home.team?.name || 'TBD'}</span>
+                          <span className="score">
+                            {(biggestBlowout.home.totalPoints || 0).toFixed(1)} - {(biggestBlowout.away.totalPoints || 0).toFixed(1)}
+                          </span>
+                          <span>{biggestBlowout.away.team?.name || 'TBD'}</span>
+                        </div>
+                        <span className="difference">
+                          Margin: {Math.abs((biggestBlowout.home.totalPoints || 0) - (biggestBlowout.away.totalPoints || 0)).toFixed(1)} pts
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="stat-content">Loading...</div>
+                  )}
+                </div>
+              </div>
             </div>
+          </TabPanel>
+
+          <TabPanel header="Leaderboard" leftIcon="pi pi-sitemap">
+            <Leaderboard 
+              leagueType={leagueTypeLeaderboard}
+              onLeagueChange={(value) => setLeagueTypeLeaderboard(value)}
+            />
+          </TabPanel>
+
+          <TabPanel header="Playoff Outlook" leftIcon="pi pi-chart-line">
+            <PlayoffOutlook />
+          </TabPanel>
+
+          <TabPanel header="Scoreboard" leftIcon="pi pi-star-fill">
+            <Scoreboard
+              leagueType={leagueTypeScoreboard}
+              showBoxScore={showBoxScore}
+              matchupPeriodId={matchupPeriodId}
+              liveMatchup={liveMatchup}
+              onLeagueChange={(value) => {
+                console.log("Changing scoreboard league to:", value);
+                setLeagueTypeScoreboard(value);
+              }}
+            />
+          </TabPanel>
+          <TabPanel header="Total Points" leftIcon="pi pi-chart-bar">
+            <TotalPoints />
           </TabPanel>
           <TabPanel header="Box Score" leftIcon="pi pi-book">
             <BoxScores
               leagueID={leagueID}
               value={value}
-              matchupPeriodId={matchupPeriodId.substring(9)}
-              liveMatchup={liveMatchup.substring(9)}
-              matchId={matchId.toString()}
+              matchupPeriodId={matchupPeriodId?.substring(9)}
+              liveMatchup={liveMatchup?.substring(9)}
+              matchId={matchId?.toString()}
               showBoxScore={showBoxScores}
-            ></BoxScores>
-          </TabPanel>
-          <TabPanel header="Total Points" leftIcon="pi pi-chart-bar">
-            <TotalPoints />
+            />
           </TabPanel>
           <TabPanel header="History" leftIcon="pi pi-calendar">
             <History />

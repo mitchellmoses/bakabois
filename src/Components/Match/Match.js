@@ -1,47 +1,38 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Button } from "primereact/button";
-import { Avatar } from "primereact/avatar";
+import React from "react";
 import "./Match.css";
 
 function Match(props) {
-  const showBoxScore = () => {
-    props.showBoxScore(props.id);
+  const handleClick = () => {
+    console.log("Clicked match:", {
+      leagueId: props.leagueId,
+      id: props.id
+    });
+    
+    if (props.leagueId && props.id) {
+      props.showBoxScore(props.leagueId, props.id);
+    }
   };
+
   return (
-    <div className="lg:mx-8 match" onClick={showBoxScore}>
-      <div className="teams">
-        <div className="away">
+    <div className="match-card" onClick={handleClick}>
+      <div className="match-content">
+        <div className="team-column">
           <div className="team-info">
-            <div className="team-logo">
-              <Avatar image={props.away.logo} size="large" shape="circle" style={{ position: "relative", top: "50%", transform: "translate(0%, -50%" }} />
-            </div>
-            <div className="team-name">
-              <div style={{ position: "relative", top: "50%", transform: "translate(0%, -50%" }}>{props.away.name}</div>
-            </div>
+            <img src={props.home.logo} alt="" className="team-logo" />
+            <span className="team-name">{props.home.name}</span>
           </div>
-          <div><div className="score">
-            <div>{props.away.score}</div>
-            
-          </div></div>
-        </div>
-        <div className="home">
           <div className="team-info">
-            <div className="team-logo">
-              <Avatar image={props.home.logo} size="large" shape="circle" style={{ position: "relative", top: "50%", transform: "translate(0%, -50%" }} />
-            </div>
-            <div className="team-name">
-              <div style={{ position: "relative", top: "50%", transform: "translate(0%, -50%" }}>{props.home.name}</div>
-            </div>
+            <img src={props.away.logo} alt="" className="team-logo" />
+            <span className="team-name">{props.away.name}</span>
           </div>
-          <div><div className="score">
-            <div>{props.home.score}</div>
-            
-          </div></div>
         </div>
-      </div>
-      <div className="hidden sm:block tools">
-        <div className="box-score">
-          <Button label="Box Score" text raised onClick={showBoxScore} />
+        <div className="score-column">
+          <span className={`score ${props.projected ? 'projected-score' : 'live-score'}`}>
+            {props.home.score}
+          </span>
+          <span className={`score ${props.projected ? 'projected-score' : 'live-score'}`}>
+            {props.away.score}
+          </span>
         </div>
       </div>
     </div>

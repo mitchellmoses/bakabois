@@ -1,256 +1,890 @@
-.boxscores {
-    margin-top: 20px;
-    background-color: darkgrey;
+.boxscores-wrapper {
+  padding: 1.5rem;
+  background-color: var(--surface-card);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
-.header-matchups {
-    border-radius: 15px;
-    background-color: white;
-    padding-bottom: 15px;
+.section-title-container {
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
 }
 
-.head {
-    display: flex;
+.section-title-background {
+  display: none;
 }
 
-.-logo {
-    font-size: 30px;
-    font-weight: 900;
+.section-title {
+  position: relative;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0;
+  z-index: 1;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-.league-name {
-    margin-top: 10px;
-    margin-left: 15px;
-    font-size: 20px;
-    font-weight: 700;
+.section-subtitle {
+  position: relative;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0.5rem 0 0;
+  font-size: 1.1rem;
+  z-index: 1;
+  font-weight: 400;
 }
 
-.matchups {
-    margin-top: 20px;
-    border-top: 1px solid lightgrey;
+.matchups-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin: 0 auto;
 }
 
-.boxscores-match {
-    height: 65px;
-    margin-top: 15px;
-    margin-left: 10px;
+.boxscore-card {
+  background: white;
+  border-radius: 8px;
+  padding: 0.75rem;
+  border: 1px solid #eee;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
 }
 
-.match-area {
-    border-radius: 5px;
-    padding-left: 7px;
-    padding-right: 7px;
-    margin-right: 10px;
+.boxscore-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.current {
-    background-color: rgb(199, 252, 199) !important;
+.boxscore-card.current {
+  border: 2px solid #1e3c72;
+  background: rgba(30, 60, 114, 0.05);
+  animation: pulse 2s infinite;
 }
 
-.match-area:hover {
-    background-color: rgb(232, 254, 232);
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(30, 60, 114, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(30, 60, 114, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(30, 60, 114, 0);
+  }
 }
 
-.boxscores-match .team-info {
-    margin-top: 7px;
-    display: flex;
+.boxscore-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.boxscores-match .away,
-.boxscores-match .home {
-    display: flex;
-    justify-content: space-between;
+.boxscore-card:hover::after {
+  opacity: 1;
 }
 
-.boxscores-match .team-name {
-    margin-left: 10px;
-    font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 70px;
-    white-space: nowrap;
-}
-
-.boxscores-match .score {
-    float: right;
-    text-align: right;
-    font-size: 16px;
-    font-weight: 600;
-    margin-top: 5px;
-    width: 40px;
-}
-
-.p-carousel-indicators {
-    display: none !important;
-}
-
-.boxscores .teams {
-    border-radius: 15px;
-    margin-top: 20px;
-    padding-bottom: 20px;
-    background-color: white;
-    display: flex;
-}
-
-.boxscores-away {
-    flex: 50%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    margin-left: 20px;
-    border-right: 2px solid lightgrey;
-}
-
-.away-team {
-    display: flex;
-}
-
-.away-info {
-    margin-left: 20px;
-}
-
-.away-name {
-    margin-top: 15px;
-    font-size: 30px;
-    font-weight: 700;
-}
-
-.away-div {
-    font-size: 20px;
-    font-weight: 400;
-}
-
-.away-manager {
-    font-size: 23px;
-    font-weight: 500;
-}
-
-.away-logo {
-    padding-top: 30px;
-    padding-left: 40px;
-}
-
-.boxscores .teams .p-avatar {
-    width: 70px !important;
-    height: 70px !important;
-}
-
-.away-score {
-    float: right;
-    margin-top: 35px;
-    margin-right: 10px;
-    font-size: 35px;
-    font-weight: 500;
-}
-
-.text-middle {
-    position: relative;
-    top: 50%;
-    transform: translate(0%,-50%);
-}
-
-.boxscores-home {
-    flex: 50%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    margin-right: 20px;
-}
-
-.home-score {
-    font-size: 35px;
-    font-weight: 500;
-    margin-left: 10px;
-    margin-top: 35px;
-}
-
-.home-team {
-    display: flex;
-}
-
-.home-info {
-    margin-right: 20px;
-}
-
-.home-name {
-    text-align: right;
-    margin-top: 15px;
-    font-size: 30px;
-    font-weight: 700;
-}
-
-.home-div {
-    text-align: right;
-    font-size: 20px;
-    font-weight: 400;
-}
-
-
-.home-manager {
-    text-align: right;
-    font-size: 23px;
-    font-weight: 500;
-}
-
-.home-logo {
-    padding-top: 30px;
-    padding-right: 40px;
-}
-
-.boxscore-container {
-    display: flex;
-    background-color: white;
-    border-radius: 15px;
-    margin-top: 20px;
-    padding: 30px 20px;
-}
-
-.team-header {
-    text-align: center;
-    max-width: 80%;
-}
-
-.mobile thead{
-    display: none;
-}
-
-.boxscore-away {
-    width: calc(50% - 120px);
-}
-
-
-.boxscore-compare {
-    max-width: 220px;
-    min-width: 220px;
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-.boxscore-home {
-    width: calc(50% - 120px);
-    float: right;
-}
-
-@media screen and (max-width: 1200px) {
-    .p-carousel-item {
-        flex: 1 0 20%
-    }
-}
-
+/* Mobile adjustments */
 @media screen and (max-width: 992px) {
-    .p-carousel-item {
-        flex: 1 0 33%
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .p-carousel-item {
-        flex: 1 0 50%
-    }
+  .matchups-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media screen and (max-width: 576px) {
-    .p-carousel-item {
-        flex: 1 0 100%
-    }
+  .matchups-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .boxscore-card {
+    max-width: none;
+  }
+}
+
+.teams-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+  padding: 0 1rem;
+}
+
+.team-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.team-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+}
+
+.team-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.team-avatar {
+  width: 64px !important;
+  height: 64px !important;
+  border: 2px solid #eee;
+}
+
+.team-info {
+  flex: 1;
+}
+
+.team-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e3c72;
+  margin: 0 0 0.5rem 0;
+}
+
+.team-record {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.team-manager {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.team-score {
+  text-align: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.score-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e3c72;
+  transition: all 0.3s ease;
+}
+
+.score-value:hover {
+  transform: scale(1.1);
+  color: #2a5298;
+}
+
+.score-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.boxscore-tables {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.score-toggle-container {
+  display: none;
+}
+
+.boxscore-scores {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.boxscore-score.actual {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e3c72;
+  min-width: 40px;
+  text-align: right;
+}
+
+.boxscore-score.projected {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+  font-style: italic;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Mobile adjustments */
+@media screen and (max-width: 768px) {
+  .boxscores-wrapper {
+    padding: 0.5rem;
+  }
+
+  .teams-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .team-card {
+    padding: 1rem;
+  }
+
+  .team-avatar {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  .team-name {
+    font-size: 1.1rem;
+  }
+
+  .team-score {
+    padding: 0.75rem;
+    margin: 0.75rem 0;
+  }
+
+  .matchups-grid {
+    padding: 0.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .boxscores-match {
+    padding: 0.25rem;
+  }
+
+  .match-area {
+    padding: 0.75rem;
+  }
+
+  .match-area .team-logo img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .match-area .team-name {
+    font-size: 0.9rem;
+  }
+
+  .match-area .score {
+    font-size: 1.1rem;
+    min-width: 45px;
+  }
+
+  /* Ensure both teams show on mobile */
+  .team-roster {
+    margin-top: 1rem;
+  }
+
+  .roster-table {
+    font-size: 0.9rem;
+  }
+}
+
+/* Add/Update these styles */
+.matchups-grid {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.boxscores-match {
+  padding: 0.5rem;
+}
+
+.match-area {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #eee;
+}
+
+.match-area:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.match-area.current {
+  border: 2px solid #1e3c72;
+  background: rgba(30, 60, 114, 0.05);
+}
+
+.match-area .away,
+.match-area .home {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.match-area .team-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.match-area .team-logo img {
+  border-radius: 50%;
+  border: 2px solid #eee;
+}
+
+.match-area .team-name {
+  font-weight: 600;
+  color: #1e3c72;
+}
+
+.match-area .score {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2a5298;
+  min-width: 60px;
+  text-align: right;
+}
+
+/* Add these styles */
+.mobile-view {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .mobile-view {
+    display: block;
+  }
+
+  .desktop-view {
+    display: none;
+  }
+
+  .team-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .roster-table {
+    margin-top: 1rem;
+  }
+
+  .p-datatable .p-datatable-thead > tr > th {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .p-datatable .p-datatable-tbody > tr > td {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Add these specific styles for box score carousel cards */
+.boxscores-match {
+  padding: 0.25rem;
+}
+
+.boxscore-card {
+  background: white;
+  border-radius: 8px;
+  padding: 0.75rem;
+  border: 1px solid #eee;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  max-width: 280px; /* Make cards more compact */
+  margin: 0 auto;
+}
+
+.boxscore-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.boxscore-card.current {
+  border: 2px solid #1e3c72;
+  background: rgba(30, 60, 114, 0.05);
+}
+
+.boxscore-team-row {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0;
+  gap: 0.5rem;
+}
+
+.boxscore-team-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0; /* Enable text truncation */
+}
+
+.boxscore-team-logo {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+}
+
+.boxscore-team-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e3c72;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.boxscore-score {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e3c72;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Update carousel container styles */
+.matchups-grid {
+  margin: 1rem auto;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  max-width: 600px; /* Control carousel width */
+}
+
+/* Mobile adjustments */
+@media screen and (max-width: 768px) {
+  .boxscore-card {
+    max-width: 240px; /* Even more compact on mobile */
+    padding: 0.5rem;
+  }
+
+  .boxscore-team-logo {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+  }
+
+  .boxscore-team-name {
+    font-size: 0.8rem;
+  }
+
+  .boxscore-score {
+    font-size: 0.9rem;
+    min-width: 35px;
+  }
+
+  .matchups-grid {
+    margin: 0.5rem auto;
+    padding: 0.25rem;
+  }
+}
+
+/* Add/Update these styles */
+.desktop-view {
+  display: none;
+}
+
+@media screen and (min-width: 769px) {
+  .desktop-view {
+    display: block;
+  }
+
+  .mobile-view {
+    display: none;
+  }
+}
+
+.teams-container {
+  display: flex;
+  gap: 2rem;
+  margin: 1rem 0;
+}
+
+.team-card {
+  flex: 1;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.roster-table {
+  margin-top: 1rem;
+}
+
+/* Update DataTable styles */
+.p-datatable .p-datatable-thead > tr > th {
+  background: #f8f9fa;
+  color: #1e3c72;
+  font-weight: 600;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.75rem;
+  font-size: 0.9rem;
+}
+
+/* Responsive breakpoints for different screen sizes */
+@media screen and (max-width: 1600px) {
+  .matchups-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .matchups-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Update team card and roster styles */
+.team-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.team-roster {
+  margin-top: 1.5rem;
+  flex: 1;
+}
+
+/* Update DataTable styles for rosters */
+.roster-table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.roster-table .p-datatable-thead > tr > th {
+  background: #f8f9fa;
+  color: #1e3c72;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-color: #eee;
+  font-size: 0.9rem;
+}
+
+.roster-table .p-datatable-tbody > tr > td {
+  padding: 0.75rem;
+  border-color: #eee;
+  font-size: 0.9rem;
+}
+
+.roster-table .p-datatable-tbody > tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Column specific styles */
+.pos-column {
+  width: 60px;
+  text-align: center;
+  font-weight: 600;
+  color: #1e3c72;
+}
+
+.player-column {
+  min-width: 200px;
+}
+
+.rank-column {
+  width: 60px;
+  text-align: center;
+  color: #666;
+}
+
+.points-column {
+  width: 70px;
+  text-align: right;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+}
+
+.projected-points {
+  color: #666;
+  font-style: italic;
+}
+
+.actual-points {
+  color: #1e3c72;
+}
+
+/* Adjust spacing between elements */
+.team-header {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.team-score {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* Mobile adjustments */
+@media screen and (max-width: 768px) {
+  .team-card {
+    padding: 1rem;
+  }
+
+  .team-roster {
+    margin-top: 1rem;
+  }
+
+  .roster-table .p-datatable-thead > tr > th,
+  .roster-table .p-datatable-tbody > tr > td {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .pos-column {
+    width: 50px;
+  }
+
+  .player-column {
+    min-width: 150px;
+  }
+
+  .points-column {
+    width: 60px;
+  }
+}
+
+/* Update the matchups grid styles */
+.matchups-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.matchups-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.navigation-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.nav-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #1e3c72;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-button:hover:not(.disabled) {
+  background: #2a5298;
+  transform: translateY(-1px);
+}
+
+.nav-button.disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-size: 0.9rem;
+  color: #666;
+  min-width: 80px;
+  text-align: center;
+}
+
+/* Mobile adjustments */
+@media screen and (max-width: 992px) {
+  .matchups-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .matchups-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Add styles for projected value */
+.projected-value {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+/* Add cool styling for win probability */
+.win-probability-container {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.probability-bar-container {
+  height: 8px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+
+.probability-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+  transition: width 0.5s ease-in-out;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(30, 60, 114, 0.3);
+}
+
+.probability-text {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Add some cool hover effects */
+.boxscore-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.boxscore-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.boxscore-card:hover::after {
+  opacity: 1;
+}
+
+.boxscore-card.current {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(30, 60, 114, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(30, 60, 114, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(30, 60, 114, 0);
+  }
+}
+
+/* Add cool transitions for score changes */
+.score-value {
+  transition: all 0.3s ease;
+}
+
+.score-value:hover {
+  transform: scale(1.1);
+  color: #2a5298;
+}
+
+/* Add a cool gradient border for team cards */
+.team-card {
+  position: relative;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.team-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+}
+
+/* Add a subtle animation for roster updates */
+.roster-table tr {
+  transition: all 0.3s ease;
+}
+
+.roster-table tr:hover {
+  transform: translateX(5px);
+  background: rgba(30, 60, 114, 0.05) !important;
 }
