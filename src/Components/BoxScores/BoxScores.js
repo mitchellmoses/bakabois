@@ -170,14 +170,51 @@ function BoxScores(props) {
 
   const processTeamRoster = (entries, team) => {
     return entries
-      .filter(entry => entry.lineupSlotId <= 8) // Only starters
-      .map(entry => ({
-        position: getPositionName(entry.playerPoolEntry.player.defaultPositionId),
-        name: entry.playerPoolEntry.player.fullName,
-        projected: entry.playerPoolEntry.player.stats?.[0]?.projectedPoints || 0,
-        actual: entry.playerPoolEntry.appliedStatTotal || 0
-      }))
-      .sort((a, b) => getPositionOrder(a.position) - getPositionOrder(b.position));
+      .filter(entry => {
+        // Include all starting positions
+        const validSlots = [0, 1, 2, 3, 4, 5, 6, 7, 8, 16, 17, 20, 23];
+        return validSlots.includes(entry.lineupSlotId);
+      })
+      .map(entry => {
+        // Get the display position based on lineup slot
+        const getDisplayPosition = (slotId, defaultPos) => {
+          const slotPositions = {
+            0: 'QB',
+            2: 'RB',
+            4: 'WR',
+            6: 'TE',
+            16: 'D/ST',
+            17: 'K',
+            20: 'BENCH',
+            23: 'FLEX'
+          };
+          return slotPositions[slotId] || defaultPos;
+        };
+
+        return {
+          position: getDisplayPosition(
+            entry.lineupSlotId,
+            getPositionName(entry.playerPoolEntry.player.defaultPositionId)
+          ),
+          name: entry.playerPoolEntry.player.fullName,
+          projected: entry.playerPoolEntry.player.stats?.[0]?.projectedPoints || 0,
+          actual: entry.playerPoolEntry.appliedStatTotal || 0
+        };
+      })
+      .sort((a, b) => {
+        // Custom sort order for positions
+        const order = {
+          'QB': 1,
+          'RB': 2,
+          'WR': 3,
+          'TE': 4,
+          'FLEX': 5,
+          'D/ST': 6,
+          'K': 7,
+          'BENCH': 8
+        };
+        return (order[a.position] || 99) - (order[b.position] || 99);
+      });
   };
 
   const handleMatchupSelect = async (matchup) => {

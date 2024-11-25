@@ -1,117 +1,155 @@
 .match-card {
-  background: white;
-  border-radius: 12px;
-  padding: 1rem;
-  margin: 0.25rem;
-  width: 100%;
-  max-width: 350px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
-  cursor: pointer;
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin: 0.5rem;
+  box-shadow: 
+    5px 5px 15px rgba(0, 0, 0, 0.1),
+    -5px -5px 15px rgba(255, 255, 255, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .match-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 
+    8px 8px 20px rgba(0, 0, 0, 0.12),
+    -8px -8px 20px rgba(255, 255, 255, 0.9);
+}
+
+.match-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.match-card:hover::before {
+  opacity: 1;
 }
 
 .match-content {
   display: flex;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .team-column {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
   flex: 1;
-  min-width: 0;
-}
-
-.score-column {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  align-items: flex-end;
-  justify-content: space-between;
-  min-width: 45px;
-  flex-shrink: 0;
+  gap: 1.25rem;
 }
 
 .team-info {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  min-width: 0;
-  max-width: calc(100% - 45px);
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.team-info:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateX(5px);
 }
 
 .team-logo {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #eee;
+  box-shadow: 
+    2px 2px 5px rgba(0, 0, 0, 0.1),
+    -2px -2px 5px rgba(255, 255, 255, 0.8);
+  padding: 2px;
+  background: white;
+  transition: transform 0.2s ease;
+}
+
+.team-info:hover .team-logo {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .team-name {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  color: #2a5298;
+  color: #1e3c72;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.8);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.score-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+  min-width: 65px;
+  padding: 0.5rem;
+}
+
 .score {
   font-family: 'Roboto Mono', monospace;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: #FFD700 !important;
-  text-shadow: 
-    -1px -1px 0 #000,  
-     1px -1px 0 #000,
-    -1px  1px 0 #000,
-     1px  1px 0 #000;
-  min-width: 40px;
-  text-align: right;
-  white-space: nowrap;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
-.projected-score {
-  color: #666 !important;
-  text-shadow: none;
+.score.live-score {
+  background: linear-gradient(45deg, #1e3c72, #2a5298);
+  color: white;
+  box-shadow: 
+    3px 3px 8px rgba(0, 0, 0, 0.15),
+    -1px -1px 3px rgba(255, 255, 255, 0.6);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  animation: scorePulse 2s infinite;
+}
+
+.score.projected-score {
+  color: #666;
+  font-size: 0.9rem;
   font-style: italic;
+  opacity: 0.7;
 }
 
-.live-score {
-  color: #FFD700 !important;
-  font-weight: 800;
+@keyframes scorePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 
+      3px 3px 8px rgba(0, 0, 0, 0.15),
+      -1px -1px 3px rgba(255, 255, 255, 0.6);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 
+      4px 4px 10px rgba(0, 0, 0, 0.2),
+      -2px -2px 4px rgba(255, 255, 255, 0.7);
+  }
 }
 
 /* Mobile adjustments */
 @media screen and (max-width: 480px) {
   .match-card {
-    padding: 0.75rem;
-    margin: 0.25rem;
-    width: calc(100% - 0.5rem);
-    max-width: none;
-  }
-
-  .match-content {
-    gap: 0.25rem;
-  }
-
-  .team-info {
-    gap: 0.25rem;
+    padding: 1rem;
+    margin: 0.35rem;
   }
 
   .team-logo {
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
+    width: 28px;
+    height: 28px;
   }
 
   .team-name {
@@ -119,30 +157,33 @@
   }
 
   .score {
-    font-size: 0.9rem;
-    min-width: 35px;
+    font-size: 1rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .score.projected-score {
+    font-size: 0.75rem;
   }
 }
 
 /* Extra small screens */
 @media screen and (max-width: 360px) {
   .match-card {
-    padding: 0.5rem;
+    padding: 0.75rem;
   }
 
   .team-logo {
-    width: 20px;
-    height: 20px;
-    min-width: 20px;
+    width: 24px;
+    height: 24px;
   }
 
   .team-name {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
   }
 
   .score {
-    font-size: 0.85rem;
-    min-width: 32px;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.4rem;
   }
 }
 

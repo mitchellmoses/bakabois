@@ -600,110 +600,101 @@
 
 .team-roster {
   margin-top: 1.5rem;
-  flex: 1;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Update DataTable styles for rosters */
 .roster-table {
+  width: 100%;
+  background: white;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
+/* Table header styles */
 .roster-table .p-datatable-thead > tr > th {
-  background: #f8f9fa;
-  color: #1e3c72;
+  background: #1e3c72 !important;
+  color: white !important;
   font-weight: 600;
-  padding: 0.75rem;
-  border-color: #eee;
+  padding: 0.75rem 1rem;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Table body styles */
+.roster-table .p-datatable-tbody > tr > td {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap;
   font-size: 0.9rem;
 }
 
-.roster-table .p-datatable-tbody > tr > td {
-  padding: 0.75rem;
-  border-color: #eee;
-  font-size: 0.9rem;
+.roster-table .p-datatable-tbody > tr:nth-child(even) {
+  background: #f8f9fa;
 }
 
 .roster-table .p-datatable-tbody > tr:hover {
-  background-color: #f8f9fa;
+  background: rgba(30, 60, 114, 0.05);
 }
 
 /* Column specific styles */
 .pos-column {
-  width: 60px;
-  text-align: center;
-  font-weight: 600;
-  color: #1e3c72;
+  width: 80px;
+  min-width: 80px;
+  text-align: center !important;
 }
 
 .player-column {
   min-width: 200px;
 }
 
-.rank-column {
-  width: 60px;
-  text-align: center;
-  color: #666;
+.points-column {
+  width: 80px;
+  min-width: 80px;
+  text-align: right !important;
 }
 
-.points-column {
-  width: 70px;
-  text-align: right;
-  font-family: 'Roboto Mono', monospace;
+.actual-points {
+  color: #1e3c72;
   font-weight: 600;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .projected-points {
   color: #666;
   font-style: italic;
-}
-
-.actual-points {
-  color: #1e3c72;
-}
-
-/* Adjust spacing between elements */
-.team-header {
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #eee;
-}
-
-.team-score {
-  margin: 1rem 0;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-  text-align: center;
+  font-family: 'Roboto Mono', monospace;
 }
 
 /* Mobile adjustments */
 @media screen and (max-width: 768px) {
-  .team-card {
-    padding: 1rem;
-  }
-
-  .team-roster {
-    margin-top: 1rem;
-  }
-
   .roster-table .p-datatable-thead > tr > th,
   .roster-table .p-datatable-tbody > tr > td {
-    padding: 0.5rem;
+    padding: 0.5rem 0.75rem;
     font-size: 0.85rem;
   }
 
   .pos-column {
-    width: 50px;
+    width: 60px;
+    min-width: 60px;
   }
 
   .player-column {
-    min-width: 150px;
+    min-width: 160px;
   }
 
   .points-column {
-    width: 60px;
+    width: 70px;
+    min-width: 70px;
   }
 }
 

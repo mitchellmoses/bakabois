@@ -42,11 +42,13 @@
 }
 
 .matchups-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   padding: 0.5rem;
-  justify-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .filters-container {
@@ -119,7 +121,6 @@
   }
 
   .matchups-container {
-    grid-template-columns: 1fr;
     padding: 0.25rem;
     gap: 0.5rem;
   }

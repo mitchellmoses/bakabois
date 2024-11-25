@@ -264,56 +264,58 @@
 
 /* Update the Weekly Shame styles */
 .shame {
-  color: white !important;
+  color: #FFD700 !important; /* Gold color */
   text-shadow: 
-    0 0 10px rgba(255, 255, 255, 0.7),
-    0 0 20px rgba(255, 255, 255, 0.5);
-  animation: whiteGlow 2s infinite;
+    0 0 10px rgba(255, 215, 0, 0.7),
+    0 0 20px rgba(255, 215, 0, 0.5),
+    0 0 30px rgba(255, 215, 0, 0.3);
+  animation: goldGlow 2s infinite;
 }
 
 .shame-text {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: white;
+  color: #FFD700;
   font-weight: 700;
+  text-shadow: 
+    0 0 10px rgba(255, 215, 0, 0.5),
+    0 0 20px rgba(255, 215, 0, 0.3);
 }
 
 .shame-text::after {
   content: '🚽';
   font-size: 1.5rem;
-  filter: brightness(1000%); /* Make toilet white */
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
   animation: shake 0.5s infinite;
 }
 
-@keyframes whiteGlow {
+@keyframes goldGlow {
   0%, 100% {
     text-shadow: 
-      0 0 10px rgba(255, 255, 255, 0.7),
-      0 0 20px rgba(255, 255, 255, 0.5);
+      0 0 10px rgba(255, 215, 0, 0.7),
+      0 0 20px rgba(255, 215, 0, 0.5),
+      0 0 30px rgba(255, 215, 0, 0.3);
   }
   50% {
     text-shadow: 
-      0 0 20px rgba(255, 255, 255, 0.9),
-      0 0 30px rgba(255, 255, 255, 0.7);
+      0 0 20px rgba(255, 215, 0, 0.9),
+      0 0 30px rgba(255, 215, 0, 0.7),
+      0 0 40px rgba(255, 215, 0, 0.5);
   }
-}
-
-@keyframes shake {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-5deg); }
-  75% { transform: rotate(5deg); }
 }
 
 /* Update the points styling for shame score */
 .points.shame {
   font-size: 3.5rem;
   font-weight: 800;
-  color: white !important;
+  color: #FFD700 !important;
   text-shadow: 
-    0 0 10px rgba(255, 255, 255, 0.7),
+    0 0 10px rgba(255, 215, 0, 0.7),
+    0 0 20px rgba(255, 215, 0, 0.5),
+    0 0 30px rgba(255, 215, 0, 0.3),
     2px 2px 4px rgba(0, 0, 0, 0.3);
-  animation: whiteGlow 2s infinite;
+  animation: goldGlow 2s infinite;
   font-family: 'Roboto Mono', monospace;
 }
 

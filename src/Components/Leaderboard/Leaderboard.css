@@ -138,32 +138,39 @@ body {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin: 0.5rem 0;
 }
 
 .team-cell {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.5rem 0;
+  gap: 0.35rem;
+  padding: 0.25rem 0;
 }
 
 .team-avatar {
-  border: 2px solid #eee;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
 }
 
 .team-info {
   display: flex;
   flex-direction: column;
+  gap: 0.1rem;
 }
 
 .team-name {
+  font-size: 0.8rem;
   font-weight: 600;
   color: #2a5298;
+  line-height: 1.1;
 }
 
 .manager-name {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: #666;
+  line-height: 1.1;
 }
 
 .rank-cell {
@@ -251,6 +258,47 @@ body {
   .filter-group {
     min-width: 100%;
   }
+
+  .leaderboard-wrapper {
+    padding: 0.5rem;
+  }
+
+  .section-title-container {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .filters-container {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .p-datatable .p-datatable-thead > tr > th,
+  .p-datatable .p-datatable-tbody > tr > td {
+    padding: 0.4rem 0.3rem;
+  }
+
+  .team-avatar {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+  }
+
+  .team-name {
+    font-size: 0.8rem;
+  }
+
+  .manager-name {
+    font-size: 0.7rem;
+  }
+
+  .record-column {
+    display: none;
+  }
+
+  .gb-column {
+    display: none;
+  }
 }
 
 /* PrimeReact DataTable overrides */
@@ -258,7 +306,8 @@ body {
   background: #f8f9fa;
   color: #1e3c72;
   font-weight: 600;
-  padding: 1rem;
+  padding: 0.5rem 0.4rem;
+  font-size: 0.8rem;
 }
 
 .p-datatable .p-datatable-tbody > tr {
@@ -271,4 +320,12 @@ body {
 
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
   background-color: #fafbfc;
+}
+
+/* Ensure text doesn't wrap awkwardly */
+.rank-cell, 
+.points-cell,
+.record-cell {
+  white-space: nowrap;
+  font-size: 0.8rem;
 }
