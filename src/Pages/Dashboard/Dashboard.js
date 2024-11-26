@@ -623,9 +623,9 @@ function Dashboard() {
               showBoxScore={showBoxScores}
             />
           </TabPanel>
-          <TabPanel header="History" leftIcon="pi pi-calendar">
+          {/* <TabPanel header="History" leftIcon="pi pi-calendar">
             <History />
-          </TabPanel>
+          </TabPanel> */}
           <TabPanel header="Classics" leftIcon="pi pi-history">
             <Classics />
           </TabPanel>

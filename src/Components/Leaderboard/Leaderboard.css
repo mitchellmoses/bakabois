@@ -144,8 +144,25 @@ body {
 .team-cell {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  justify-content: center;
   padding: 0.25rem 0;
+  width: 100%;
+}
+
+.team-compact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.team-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  text-align: center;
 }
 
 .team-avatar {
@@ -157,7 +174,8 @@ body {
 .team-info {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  align-items: center;
+  width: 100%;
 }
 
 .team-name {
@@ -165,12 +183,19 @@ body {
   font-weight: 600;
   color: #2a5298;
   line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 
 .manager-name {
   font-size: 0.7rem;
   color: #666;
   line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .rank-cell {
@@ -196,7 +221,8 @@ body {
 }
 
 .team-column {
-  min-width: 300px;
+  min-width: 160px;
+  text-align: center;
 }
 
 .points-column {
@@ -222,82 +248,47 @@ body {
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
   .team-column {
-    min-width: 200px;
+    min-width: 160px;
+    max-width: 180px;
   }
   
-  .manager-name {
-    display: none;
-  }
-  
-  .record-column {
-    display: none;
-  }
-
-  .leaderboard-wrapper {
-    padding: 0.5rem;
-  }
-
-  .section-title-container {
-    margin-bottom: 1rem;
-    padding: 0.75rem;
-  }
-
-  .section-title {
-    font-size: 1.5rem;
-  }
-
-  .section-subtitle {
-    font-size: 0.9rem;
-  }
-
-  .filters-container {
+  .team-stack {
     flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .filter-group {
-    min-width: 100%;
-  }
-
-  .leaderboard-wrapper {
-    padding: 0.5rem;
-  }
-
-  .section-title-container {
-    padding: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .filters-container {
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .p-datatable .p-datatable-thead > tr > th,
-  .p-datatable .p-datatable-tbody > tr > td {
-    padding: 0.4rem 0.3rem;
+    align-items: center;
+    gap: 0.15rem;
   }
 
   .team-avatar {
-    width: 28px !important;
-    height: 28px !important;
-    min-width: 28px !important;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
   }
 
   .team-name {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    max-width: 140px;
   }
 
   .manager-name {
-    font-size: 0.7rem;
-  }
-
-  .record-column {
     display: none;
   }
+}
 
-  .gb-column {
-    display: none;
+/* Additional mobile optimizations */
+@media screen and (max-width: 480px) {
+  .team-column {
+    min-width: 120px;
+    max-width: 140px;
+  }
+  
+  .team-name {
+    max-width: 120px;
+  }
+  
+  .team-avatar {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
   }
 }
 

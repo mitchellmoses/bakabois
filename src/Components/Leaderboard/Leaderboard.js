@@ -160,10 +160,15 @@ function Leaderboard(props) {
     
     return (
       <div className="team-cell">
-        <Avatar image={url} size="large" shape="circle" className="team-avatar" />
-        <div className="team-info">
-          <span className="team-name">{team["name"]}</span>
-          <span className="manager-name">{team["manager"]}</span>
+        <div className="team-compact">
+          <div className="team-stack">
+            <Avatar image={url} size="large" shape="circle" className="team-avatar" />
+            <div className="team-info">
+              <span className="team-name" title={`${team["name"]} (${team["manager"]})`}>
+                {team["name"]}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     );
