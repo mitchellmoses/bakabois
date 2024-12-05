@@ -582,7 +582,9 @@ function Dashboard() {
               </div>
             </div>
           </TabPanel>
-
+          <TabPanel header="Toilet Bowl" leftIcon="pi pi-exclamation-triangle">
+            <ToiletBowl />
+          </TabPanel>
           <TabPanel header="Leaderboard" leftIcon="pi pi-sitemap">
             <Leaderboard 
               leagueType={leagueTypeLeaderboard}
@@ -606,9 +608,6 @@ function Dashboard() {
               }}
             />
           </TabPanel>
-          <TabPanel header="Total Points" leftIcon="pi pi-chart-bar">
-            <TotalPoints />
-          </TabPanel>
           <TabPanel header="Box Score" leftIcon="pi pi-book">
             <BoxScores
               leagueID={leagueID}
@@ -619,11 +618,11 @@ function Dashboard() {
               showBoxScore={showBoxScores}
             />  
           </TabPanel>
+          <TabPanel header="Total Points" leftIcon="pi pi-chart-bar">
+            <TotalPoints />
+          </TabPanel>
           <TabPanel header="Classics" leftIcon="pi pi-history">
             <Classics />
-          </TabPanel>
-          <TabPanel header="Toilet Bowl" leftIcon="pi pi-exclamation-triangle">
-            <ToiletBowl />
           </TabPanel>
         </TabView>
       </div>
