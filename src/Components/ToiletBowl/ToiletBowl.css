@@ -1,5 +1,5 @@
 .toilet-bowl-container {
-  background: linear-gradient(135deg, #1a2234 0%, #232f44 100%);
+  background: #000000;
   border-radius: 15px;
   padding: 20px;
   color: #e1e1e6;
@@ -42,7 +42,7 @@
 
 .team-panel {
   flex: 1;
-  background: rgba(255, 255, 255, 0.03);
+  background: #1a1a1a;
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -52,7 +52,7 @@
 }
 
 .team-panel.winning {
-  background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0.05) 100%);
+  background: #222222;
   box-shadow: 0 0 20px rgba(52, 152, 219, 0.2);
 }
 
@@ -105,13 +105,14 @@
   grid-template-columns: 50px 1fr 80px 60px;
   align-items: center;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.03);
+  background: #222222;
   border-radius: 8px;
   transition: all 0.2s ease;
+  margin-bottom: 4px;
 }
 
 .player-row:hover {
-  background: rgba(52, 152, 219, 0.1);
+  background: #333333;
   transform: translateX(5px);
 }
 
@@ -159,7 +160,7 @@
 .bench-divider {
   margin: 15px 0 10px;
   padding: 8px;
-  background: rgba(52, 152, 219, 0.1);
+  background: #333333;
   color: #3498db;
   text-align: center;
   border-radius: 6px;
@@ -173,9 +174,9 @@
   color: #3498db;
   font-size: 0.9em;
   padding: 10px;
-  background: rgba(52, 152, 219, 0.1);
+  background: #1a1a1a;
   border-radius: 8px;
-  border: 1px solid rgba(52, 152, 219, 0.2);
+  border: 1px solid #333333;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -204,16 +205,16 @@
 }
 
 .roster-list::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.03);
+  background: #1a1a1a;
 }
 
 .roster-list::-webkit-scrollbar-thumb {
-  background: rgba(52, 152, 219, 0.3);
+  background: #333333;
   border-radius: 3px;
 }
 
 .roster-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(52, 152, 219, 0.5);
+  background: #444444;
 }
 
 /* Add mobile-specific styles */
