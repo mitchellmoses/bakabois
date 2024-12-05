@@ -176,7 +176,7 @@
 .team-name {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #1e3c72;
+  color: #1e3c72 !important;
   margin: 0 0 0.5rem 0;
 }
 
@@ -475,7 +475,7 @@
 .boxscore-team-name {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #1e3c72;
+  color: #1e3c72 !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -123,3 +123,14 @@
     margin: 0 auto;
   }
 }
+
+/* Update the team name color */
+.team-name {
+  font-weight: 600;
+  color: #1e3c72 !important; /* Dark blue color */
+}
+
+.match-area .team-name {
+  font-weight: 600;
+  color: #1e3c72 !important; /* Dark blue color */
+}

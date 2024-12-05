@@ -145,14 +145,10 @@ function Dashboard() {
     setActiveIndex(0);
   };
 
-  const showBoxScore = (leagueID, matchId) => {
-    if (leagueID && matchId) {
-      console.log("Showing box score for:", { leagueID, matchId });
-      setLeagueID(leagueID);
-      setMatchId(matchId);
-      setValue(-1);
-      setActiveIndex(5);
-    }
+  const showBoxScore = (leagueId, matchId) => {
+    setLeagueID(leagueId);
+    setMatchId(matchId);
+    setActiveIndex(5);
   };
 
   const showBoxScores = (_leagueID, _matchId, _value) => {

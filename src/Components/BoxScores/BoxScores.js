@@ -122,24 +122,48 @@ function BoxScores(props) {
   };
 
   const processLeagueMatchups = (leagueData, leagueId) => {
+    if (!leagueData?.teams || !leagueData?.schedule) {
+      console.log('Missing required data for league:', leagueId);
+      return [];
+    }
+
     const teams = new Map(leagueData.teams.map(team => [team.id, team]));
     
     return leagueData.schedule
-      .filter(match => match.matchupPeriodId.toString() === props.matchupPeriodId)
-      .map(match => ({
-        id: match.id,
-        leagueId,
-        home: {
-          team: teams.get(match.home.teamId),
-          score: match.home.pointsByScoringPeriod?.[match.matchupPeriodId] || 0,
-          projected: match.home.projectedPoints || 0
-        },
-        away: {
-          team: teams.get(match.away.teamId),
-          score: match.away.pointsByScoringPeriod?.[match.matchupPeriodId] || 0,
-          projected: match.away.projectedPoints || 0
+      .filter(match => {
+        // Validate match object and required properties
+        if (!match || !match.matchupPeriodId || !match.home || !match.away) {
+          return false;
         }
-      }));
+        return match.matchupPeriodId.toString() === props.matchupPeriodId;
+      })
+      .map(match => {
+        // Get team data with validation
+        const homeTeam = teams.get(match.home.teamId);
+        const awayTeam = teams.get(match.away.teamId);
+
+        // Only process matchup if both teams exist
+        if (!homeTeam || !awayTeam) {
+          console.log('Missing team data for matchup:', match.id);
+          return null;
+        }
+
+        return {
+          id: match.id,
+          leagueId,
+          home: {
+            team: homeTeam,
+            score: match.home.pointsByScoringPeriod?.[match.matchupPeriodId] || 0,
+            projected: match.home.projectedPoints || 0
+          },
+          away: {
+            team: awayTeam,
+            score: match.away.pointsByScoringPeriod?.[match.matchupPeriodId] || 0,
+            projected: match.away.projectedPoints || 0
+          }
+        };
+      })
+      .filter(Boolean); // Remove any null entries
   };
 
   const fetchRosters = async (matchup) => {

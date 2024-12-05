@@ -10,10 +10,15 @@ function Scoreboard(props) {
   const [matchupBody, setMatchupBody] = useState([]);
   const [projected, setProjected] = useState(-1);
   const [currentLeagueType, setCurrentLeagueType] = useState("overall");
-  const [weekOptions] = useState(Array.from({length: 17}, (_, i) => ({
-    label: `NFL WEEK ${i + 1}`,
-    value: `NFL WEEK ${i + 1}`
-  })));
+  const [weekOptions] = useState([
+    ...Array.from({length: 13}, (_, i) => ({
+      label: `NFL WEEK ${i + 1}`,
+      value: `NFL WEEK ${i + 1}`
+    })),
+    { label: 'Playoff Round 1', value: 'NFL WEEK 14' },
+    { label: 'Playoff Round 2', value: 'NFL WEEK 15' },
+    { label: 'Championship', value: 'NFL WEEK 16' }
+  ]);
 
   useEffect(() => {
     if (!props.leagueType) {
@@ -75,7 +80,7 @@ function Scoreboard(props) {
   }, [matchupPeriod, props.leagueType, projected, props.liveMatchup]);
 
   const getLeagueUrl = (leagueId, scoringPeriod) => {
-    return `https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/${leagueId}?scoringPeriodId=${scoringPeriod}&view=modular&view=mNav&view=mMatchupScore&view=mScoreboard&view=mSettings&view=mTopPerformers&view=mTeam`;
+    return `https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/${leagueId}?scoringPeriodId=${scoringPeriod}&view=modular&view=mNav&view=mMatchupScore&view=mScoreboard&view=mSettings&view=mTeam&view=mRoster&view=mMatchup`;
   };
 
   const createTeamsMap = (teams) => {
@@ -96,13 +101,84 @@ function Scoreboard(props) {
   };
 
   const processMatchups = (result, teams, leagueId) => {
+    if (!result?.schedule) {
+      console.log('No schedule found for league:', leagueId);
+      return [];
+    }
+
     return result.schedule
-      .filter(match => match.matchupPeriodId.toString() === matchupPeriod.substring(9))
+      .filter(match => {
+        // First check if match exists and has required properties
+        if (!match || !match.matchupPeriodId) {
+          return false;
+        }
+
+        const matchWeek = match.matchupPeriodId.toString();
+        const selectedWeek = matchupPeriod.substring(9);
+        
+        // For playoff weeks (14+)
+        if (parseInt(selectedWeek) >= 14) {
+          return matchWeek === selectedWeek;
+        }
+        
+        return matchWeek === selectedWeek;
+      })
+      .filter(match => {
+        // Additional validation to ensure we have valid home/away teams
+        return match.home && match.away && 
+               teams[match.home.teamId?.toString()] && 
+               teams[match.away.teamId?.toString()];
+      })
       .map(match => {
         const home_team = teams[match.home.teamId.toString()];
         const away_team = teams[match.away.teamId.toString()];
         
-        if (match.home.pointsByScoringPeriod === undefined) {
+        let matchupType = '';
+        if (parseInt(matchupPeriod.substring(9)) >= 14) {
+          if (match.playoffTierType !== undefined) {
+            switch (match.playoffTierType) {
+              case 0:
+                matchupType = 'Championship';
+                break;
+              case 1:
+                matchupType = 'Semifinal';
+                break;
+              case 2:
+                matchupType = 'Quarterfinal';
+                break;
+              case 3:
+                matchupType = 'Consolation';
+                break;
+              default:
+                matchupType = 'Playoff';
+            }
+          } else {
+            const isPlayoffTeam = (teamId) => {
+              return result.teams?.find(t => 
+                t.id === teamId && t.playoffSeed && t.playoffSeed <= 6
+              );
+            };
+            
+            if (isPlayoffTeam(match.home.teamId) || isPlayoffTeam(match.away.teamId)) {
+              matchupType = 'Playoff';
+            } else {
+              matchupType = 'Consolation';
+            }
+          }
+        }
+
+        // Safely get scores with fallbacks
+        const homeScore = match.home?.pointsByScoringPeriod?.[match.matchupPeriodId] 
+          || match.home?.totalPoints 
+          || match.home?.adjustment 
+          || 0;
+        
+        const awayScore = match.away?.pointsByScoringPeriod?.[match.matchupPeriodId] 
+          || match.away?.totalPoints 
+          || match.away?.adjustment 
+          || 0;
+
+        if (!match.home?.pointsByScoringPeriod) {
           setProjected(1);
         }
 
@@ -112,17 +188,21 @@ function Scoreboard(props) {
             home={{
               name: home_team.name,
               logo: home_team.logo,
-              score: parseFloat(match.home.pointsByScoringPeriod?.[match.matchupPeriodId] || match.home.adjustment || 0).toFixed(1),
+              score: parseFloat(homeScore).toFixed(1),
+              seed: match.home?.playoffSeed
             }}
             away={{
               name: away_team.name,
               logo: away_team.logo,
-              score: parseFloat(match.away.pointsByScoringPeriod?.[match.matchupPeriodId] || match.away.adjustment || 0).toFixed(1),
+              score: parseFloat(awayScore).toFixed(1),
+              seed: match.away?.playoffSeed
             }}
             id={match.id}
             leagueId={leagueId}
             showBoxScore={props.showBoxScore}
             projected={projected}
+            matchupType={matchupType}
+            isPlayoffs={parseInt(matchupPeriod.substring(9)) >= 14}
           />
         );
       });
