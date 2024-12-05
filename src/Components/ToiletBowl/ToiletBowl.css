@@ -3,10 +3,12 @@
   border-radius: 15px;
   padding: 20px;
   color: #e1e1e6;
-  height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
   display: flex;
   flex-direction: column;
   gap: 20px;
+  position: relative;
+  padding-bottom: 60px;
 }
 
 .toilet-bowl-title {
@@ -167,10 +169,28 @@
 }
 
 .last-updated {
-  text-align: right;
-  color: #95a5a6;
-  font-size: 0.8em;
-  padding: 5px;
+  text-align: center;
+  color: #3498db;
+  font-size: 0.9em;
+  padding: 10px;
+  background: rgba(52, 152, 219, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(52, 152, 219, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: sticky;
+  bottom: 0;
+  margin: 0;
+  width: 100%;
+  z-index: 10;
+  backdrop-filter: blur(5px);
+}
+
+.update-icon {
+  animation: spin 2s linear infinite;
+  font-size: 1.1em;
 }
 
 @keyframes spin {
@@ -194,4 +214,108 @@
 
 .roster-list::-webkit-scrollbar-thumb:hover {
   background: rgba(52, 152, 219, 0.5);
+}
+
+/* Add mobile-specific styles */
+@media screen and (max-width: 768px) {
+  .toilet-bowl-container {
+    background: #000000;
+    padding: 10px;
+    height: auto;
+  }
+
+  .toilet-bowl-title {
+    font-size: 1.8em;
+    padding: 10px;
+  }
+
+  .matchup-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .team-panel {
+    padding: 15px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    max-height: none;
+  }
+
+  .team-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .team-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .team-name {
+    font-size: 1.2em;
+  }
+
+  .team-score {
+    font-size: 1.6em;
+  }
+
+  .roster-list {
+    max-height: none;
+    padding-right: 0;
+  }
+
+  .player-row {
+    grid-template-columns: 45px 1fr 60px 60px;
+    padding: 8px;
+    background: #222222;
+    margin-bottom: 4px;
+  }
+
+  .position {
+    font-size: 0.8em;
+    padding: 3px;
+  }
+
+  .player-name {
+    font-size: 0.9em;
+  }
+
+  .player-score, .player-projected {
+    font-size: 0.9em;
+  }
+
+  .vs-divider {
+    color: #ff4444;
+    font-size: 1.2em;
+    padding: 5px 0;
+  }
+
+  .bench-divider {
+    background: #333333;
+    margin: 10px 0 5px;
+    padding: 5px;
+  }
+
+  .last-updated {
+    font-size: 0.8em;
+    padding: 8px;
+    margin-top: 10px;
+  }
+
+  /* Add ESPN-style player status indicators */
+  .player-status {
+    font-size: 0.7em;
+    padding: 2px 4px;
+    border-radius: 3px;
+    margin-left: 5px;
+    background: #333;
+  }
+
+  /* Add ESPN-style projected points display */
+  .projected-score {
+    font-size: 0.8em;
+    color: #666;
+    display: block;
+    margin-top: 2px;
+  }
 } 

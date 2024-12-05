@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ToiletBowl.css';
-import { FaToilet, FaCrown, FaSadCry, FaPoop } from 'react-icons/fa';
+import { FaToilet, FaCrown, FaSadCry, FaPoop, FaSync } from 'react-icons/fa';
 
 const calculateCustomProjection = (playerStats, matchupDifficulty = 1) => {
   if (!playerStats || !playerStats.length) return 0;
@@ -302,7 +302,13 @@ function ToiletBowl() {
       </div>
 
       <div className="last-updated">
-        Last updated: {lastUpdated.toLocaleTimeString()}
+        <FaSync className="update-icon" />
+        Last updated: {lastUpdated.toLocaleTimeString([], { 
+          hour: '2-digit', 
+          minute: '2-digit', 
+          second: '2-digit',
+          hour12: true 
+        })}
       </div>
     </div>
   );
