@@ -12,11 +12,11 @@ import bkImage2 from "../../assets/image/image2.jpeg";
 import axios from "axios";
 import loserImage from "../../assets/image/evan.png";
 import TotalPoints from "../../Components/TotalPoints/TotalPoints";
-import History from '../../Components/History/History';
 import Classics from '../../Components/Classics/Classics';
 import img_3690 from "../../assets/image/IMG_3690.jpg";
 import PlayoffOutlook from '../../Components/PlayoffOutlook/PlayoffOutlook';
 import { FaTrophy, FaToilet } from 'react-icons/fa';
+import ToiletBowl from '../../Components/ToiletBowl/ToiletBowl';
 
 function Dashboard() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -621,13 +621,13 @@ function Dashboard() {
               liveMatchup={liveMatchup?.substring(9)}
               matchId={matchId?.toString()}
               showBoxScore={showBoxScores}
-            />
+            />  
           </TabPanel>
-          {/* <TabPanel header="History" leftIcon="pi pi-calendar">
-            <History />
-          </TabPanel> */}
           <TabPanel header="Classics" leftIcon="pi pi-history">
             <Classics />
+          </TabPanel>
+          <TabPanel header="Toilet Bowl" leftIcon="pi pi-exclamation-triangle">
+            <ToiletBowl />
           </TabPanel>
         </TabView>
       </div>

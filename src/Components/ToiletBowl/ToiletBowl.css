@@ -1,0 +1,197 @@
+.toilet-bowl-container {
+  background: linear-gradient(135deg, #1a2234 0%, #232f44 100%);
+  border-radius: 15px;
+  padding: 20px;
+  color: #e1e1e6;
+  height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.toilet-bowl-title {
+  text-align: center;
+  font-size: 2.5em;
+  color: #3498db;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  padding: 15px;
+  background: rgba(52, 152, 219, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(52, 152, 219, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.toilet-icon {
+  color: #3498db;
+  animation: spin 4s linear infinite;
+}
+
+.matchup-container {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.team-panel {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-height: calc(100vh - 200px);
+}
+
+.team-panel.winning {
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0.05) 100%);
+  box-shadow: 0 0 20px rgba(52, 152, 219, 0.2);
+}
+
+.team-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(52, 152, 219, 0.2);
+}
+
+.team-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #3498db;
+  padding: 2px;
+}
+
+.team-info {
+  flex: 1;
+}
+
+.team-name {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #e1e1e6;
+  margin-bottom: 5px;
+}
+
+.team-score {
+  font-size: 2em;
+  font-weight: bold;
+  color: #3498db;
+}
+
+.roster-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  max-height: calc(100vh - 300px);
+  padding-right: 10px;
+}
+
+.player-row {
+  display: grid;
+  grid-template-columns: 50px 1fr 80px 60px;
+  align-items: center;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.player-row:hover {
+  background: rgba(52, 152, 219, 0.1);
+  transform: translateX(5px);
+}
+
+.position {
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #3498db;
+  text-align: center;
+  background: rgba(52, 152, 219, 0.1);
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.player-name {
+  color: #e1e1e6;
+  padding: 0 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-score {
+  font-weight: bold;
+  color: #2ecc71;
+  text-align: right;
+}
+
+.player-projected {
+  color: #95a5a6;
+  text-align: right;
+  font-size: 0.9em;
+}
+
+.vs-divider {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+  color: #3498db;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.bench-divider {
+  margin: 15px 0 10px;
+  padding: 8px;
+  background: rgba(52, 152, 219, 0.1);
+  color: #3498db;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.last-updated {
+  text-align: right;
+  color: #95a5a6;
+  font-size: 0.8em;
+  padding: 5px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Scrollbar styling */
+.roster-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.roster-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.roster-list::-webkit-scrollbar-thumb {
+  background: rgba(52, 152, 219, 0.3);
+  border-radius: 3px;
+}
+
+.roster-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(52, 152, 219, 0.5);
+} 

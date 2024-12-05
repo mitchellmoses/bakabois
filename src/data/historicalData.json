@@ -1,86 +1,11 @@
-[
-  {
-    "year": 2013,
-    "leagueAWinner": "N/A",
-    "leagueAScore": 0,
-    "leagueBWinner": "N/A",
-    "leagueBScore": 0
-  },
-  {
-    "year": 2014,
-    "leagueAWinner": "N/A",
-    "leagueAScore": 0,
-    "leagueBWinner": "N/A",
-    "leagueBScore": 0
-  },
-  {
-    "year": 2015,
-    "leagueAWinner": "N/A",
-    "leagueAScore": 0,
-    "leagueBWinner": "N/A",
-    "leagueBScore": 0
-  },
-  {
-    "year": 2016,
-    "leagueAWinner": "N/A",
-    "leagueAScore": 0,
-    "leagueBWinner": "N/A",
-    "leagueBScore": 0
-  },
-  {
-    "year": 2017,
-    "leagueAWinner": "N/A",
-    "leagueAScore": 0,
-    "leagueBWinner": "N/A",
-    "leagueBScore": 0
-  },
-  {
-    "year": 2018,
-    "leagueAWinner": "N/A",
-    "leagueAScore": 0,
-    "leagueBWinner": "N/A",
-    "leagueBScore": 0
-  },
-  {
-    "year": 2019,
-    "leagueAWinner": "N/A",
-    "leagueAScore": 0,
-    "leagueBWinner": "N/A",
-    "leagueBScore": 0
-  },
-  {
-    "year": 2020,
-    "leagueAWinner": "N/A",
-    "leagueAScore": 0,
-    "leagueBWinner": "N/A",
-    "leagueBScore": 0
-  },
-  {
-    "year": 2021,
-    "leagueAWinner": "N/A",
-    "leagueAScore": 0,
-    "leagueBWinner": "N/A",
-    "leagueBScore": 0
-  },
-  {
-    "year": 2022,
-    "leagueAWinner": "N/A",
-    "leagueAScore": 0,
-    "leagueBWinner": "N/A",
-    "leagueBScore": 0
-  },
-  {
-    "year": 2023,
-    "leagueAWinner": "N/A",
-    "leagueAScore": 0,
-    "leagueBWinner": "N/A",
-    "leagueBScore": 0
-  },
-  {
-    "year": 2024,
-    "leagueAWinner": "N/A",
-    "leagueAScore": 0,
-    "leagueBWinner": "N/A",
-    "leagueBScore": 0
-  }
-]
+{
+  "seasons": [
+    {
+      "year": 2023,
+      "champion": "Team Name",
+      "runnerUp": "Team Name",
+      "topScorer": "Team Name",
+      "totalPoints": 2000
+    }
+  ]
+} 
