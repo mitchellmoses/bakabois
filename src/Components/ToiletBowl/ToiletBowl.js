@@ -46,6 +46,19 @@ const getMatchupDifficulty = (position, opposingTeam) => {
   return defaultDifficulty;
 };
 
+const calculateTeamScore = (roster) => {
+  if (!roster) return 0;
+  
+  // Only sum up starters (not bench)
+  const starters = roster.filter(player => player.position !== 20 && player.position !== 21);
+  
+  // Sum up actual points for each starter
+  return starters.reduce((total, player) => {
+    const points = parseFloat(player.points) || 0;
+    return total + points;
+  }, 0);
+};
+
 function ToiletBowl() {
   const [matchupData, setMatchupData] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(new Date());
@@ -136,20 +149,23 @@ function ToiletBowl() {
       };
 
       if (brettystar7 && chorizoChan) {
+        const team1Roster = getRosterWithDetails(brettystar7, brettystar7Matchup);
+        const team2Roster = getRosterWithDetails(chorizoChan, chorizoChanMatchup);
+        
         const matchupData = {
           team1: {
             name: brettystar7.name,
             logo: brettystar7.logo,
-            score: brettystar7Score,
+            score: calculateTeamScore(team1Roster),
             projectedScore: brettystar7Projected,
-            roster: getRosterWithDetails(brettystar7, brettystar7Matchup)
+            roster: team1Roster
           },
           team2: {
             name: chorizoChan.name,
             logo: chorizoChan.logo,
-            score: chorizoChanScore,
+            score: calculateTeamScore(team2Roster),
             projectedScore: chorizoChanProjected,
-            roster: getRosterWithDetails(chorizoChan, chorizoChanMatchup)
+            roster: team2Roster
           }
         };
         setMatchupData(matchupData);
