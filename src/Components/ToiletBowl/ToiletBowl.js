@@ -63,6 +63,8 @@ function ToiletBowl() {
   const [matchupData, setMatchupData] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [loading, setLoading] = useState(true);
+  const [previousScores, setPreviousScores] = useState({ team1: 0, team2: 0 });
+  const [showPoopAnimation, setShowPoopAnimation] = useState({ team1: false, team2: false });
 
   const fetchToiletBowlData = async () => {
     try {
@@ -249,11 +251,36 @@ function ToiletBowl() {
     );
   };
 
+  const checkScoreChanges = (newMatchupData) => {
+    if (!newMatchupData) return;
+
+    if (newMatchupData.team1.score > previousScores.team1) {
+      setShowPoopAnimation(prev => ({ ...prev, team1: true }));
+      setTimeout(() => setShowPoopAnimation(prev => ({ ...prev, team1: false })), 2000);
+    }
+
+    if (newMatchupData.team2.score > previousScores.team2) {
+      setShowPoopAnimation(prev => ({ ...prev, team2: true }));
+      setTimeout(() => setShowPoopAnimation(prev => ({ ...prev, team2: false })), 2000);
+    }
+
+    setPreviousScores({
+      team1: newMatchupData.team1.score,
+      team2: newMatchupData.team2.score
+    });
+  };
+
   useEffect(() => {
     fetchToiletBowlData();
     const interval = setInterval(fetchToiletBowlData, 30000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (matchupData) {
+      checkScoreChanges(matchupData);
+    }
+  }, [matchupData]);
 
   if (loading) {
     return <div className="toilet-bowl-loading">Loading Toilet Bowl...</div>;
@@ -279,6 +306,7 @@ function ToiletBowl() {
 
       <div className="matchup-container">
         <div className={`team-panel ${getWinningTeam() === matchupData?.team1 ? 'winning' : ''}`}>
+          {showPoopAnimation.team1 && <FaPoop className="poop-animation" />}
           <div className="team-header">
             <img src={matchupData?.team1?.logo} alt="" className="team-logo" />
             <div className="team-info">
@@ -299,6 +327,7 @@ function ToiletBowl() {
         <div className="vs-divider">VS</div>
 
         <div className={`team-panel ${getWinningTeam() === matchupData?.team2 ? 'winning' : ''}`}>
+          {showPoopAnimation.team2 && <FaPoop className="poop-animation" />}
           <div className="team-header">
             <img src={matchupData?.team2?.logo} alt="" className="team-logo" />
             <div className="team-info">
