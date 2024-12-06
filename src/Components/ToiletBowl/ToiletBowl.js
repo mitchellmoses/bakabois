@@ -68,6 +68,7 @@ function ToiletBowl() {
   const [previousScores, setPreviousScores] = useState({ team1: 0, team2: 0 });
   const [showPoopAnimation, setShowPoopAnimation] = useState({ team1: false, team2: false });
   const [poopAudio] = useState(new Audio(poopSound));
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchToiletBowlData = async () => {
     try {
@@ -272,6 +273,14 @@ function ToiletBowl() {
     poopAudio.play();
   };
 
+  const handleFlush = async () => {
+    setIsRefreshing(true);
+    const flushSound = new Audio('/flush-sound.mp3');
+    flushSound.play();
+    await fetchToiletBowlData();
+    setTimeout(() => setIsRefreshing(false), 2000);
+  };
+
   useEffect(() => {
     fetchToiletBowlData();
     const interval = setInterval(fetchToiletBowlData, 30000);
@@ -285,7 +294,32 @@ function ToiletBowl() {
   }, [matchupData]);
 
   if (loading) {
-    return <div className="toilet-bowl-loading">Loading Toilet Bowl...</div>;
+    return (
+      <div className="plumbing-loading">
+        <div className="pipe-system">
+          <div className="pipe horizontal"></div>
+          <div className="pipe vertical"></div>
+          <div className="pipe corner"></div>
+          <div className="water-drop"></div>
+          <div className="water-drop"></div>
+          <div className="water-drop"></div>
+          <FaToilet className="toilet-icon" />
+        </div>
+        <div className="loading-text">
+          <span>P</span>
+          <span>L</span>
+          <span>U</span>
+          <span>M</span>
+          <span>B</span>
+          <span>I</span>
+          <span>N</span>
+          <span>G</span>
+          <span>.</span>
+          <span>.</span>
+          <span>.</span>
+        </div>
+      </div>
+    );
   }
 
   const getWinningTeam = () => {
@@ -308,6 +342,12 @@ function ToiletBowl() {
 
       <div className="matchup-container">
         <div className={`team-panel ${getWinningTeam() === matchupData?.team1 ? 'winning' : 'losing'}`}>
+          {getWinningTeam() === matchupData?.team1 && (
+            <div className="winner-trophy">
+              <FaTrophy className="trophy-icon" />
+              <span className="winner-label">Current Leader</span>
+            </div>
+          )}
           {showPoopAnimation.team1 && <FaPoop className="poop-animation" />}
           {getLosingTeam() === matchupData?.team1 && (
             <div className="loser-effects">
@@ -340,6 +380,12 @@ function ToiletBowl() {
         <div className="vs-divider">VS</div>
 
         <div className={`team-panel ${getWinningTeam() === matchupData?.team2 ? 'winning' : 'losing'}`}>
+          {getWinningTeam() === matchupData?.team2 && (
+            <div className="winner-trophy">
+              <FaTrophy className="trophy-icon" />
+              <span className="winner-label">Current Leader</span>
+            </div>
+          )}
           {showPoopAnimation.team2 && <FaPoop className="poop-animation" />}
           {getLosingTeam() === matchupData?.team2 && (
             <div className="loser-effects">
@@ -379,6 +425,13 @@ function ToiletBowl() {
           hour12: true 
         })}
       </div>
+
+      <button 
+        className={`flush-button ${isRefreshing ? 'flushing' : ''}`}
+        onClick={handleFlush}
+      >
+        <FaToilet /> Flush for Updates
+      </button>
     </div>
   );
 }

@@ -49,6 +49,8 @@
   flex-direction: column;
   position: relative;
   max-height: calc(100vh - 200px);
+  position: relative;
+  overflow: visible;
 }
 
 .team-panel.winning {
@@ -479,6 +481,66 @@
   pointer-events: none;
 }
 
+.team-panel.losing::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(
+    circle at center,
+    #3498db 0%,
+    rgba(52, 152, 219, 0.8) 20%,
+    rgba(52, 152, 219, 0.4) 40%,
+    transparent 70%
+  );
+  opacity: 0.15;
+  transform-origin: center;
+  animation: swirl 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes swirl {
+  0% { 
+    transform: translate(-50%, -50%) rotate(0deg) scale(1); 
+    opacity: 0.15;
+  }
+  50% { 
+    transform: translate(-50%, -50%) rotate(360deg) scale(0.5); 
+    opacity: 0.25;
+  }
+  100% { 
+    transform: translate(-50%, -50%) rotate(720deg) scale(0.1); 
+    opacity: 0;
+  }
+}
+
+/* Add bubbles to the swirl */
+.team-panel.losing::before {
+  content: '💧';
+  position: absolute;
+  font-size: 20px;
+  animation: bubble 3s ease-in infinite;
+  opacity: 0.6;
+}
+
+@keyframes bubble {
+  0% {
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 0) scale(0.5);
+    opacity: 0.6;
+  }
+  100% {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0) rotate(360deg) scale(1.5);
+    opacity: 0;
+  }
+}
+
 /* Update the loser name styles */
 .team-name.loser {
   cursor: pointer;
@@ -506,4 +568,195 @@
 
 .team-name.loser:hover::after {
   opacity: 1;
+} 
+
+.toilet-paper-trail {
+  position: absolute;
+  width: 100%;
+  height: 20px;
+  background: repeating-linear-gradient(
+    45deg,
+    #fff 0px,
+    #fff 10px,
+    #f0f0f0 10px,
+    #f0f0f0 20px
+  );
+  animation: paperTrail 10s linear infinite;
+}
+
+@keyframes paperTrail {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+} 
+
+.toilet-trophy-3d {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform-style: preserve-3d;
+  animation: float3D 4s ease-in-out infinite;
+}
+
+@keyframes float3D {
+  0%, 100% { transform: translateX(-50%) rotateX(0deg) rotateY(0deg); }
+  50% { transform: translateX(-50%) rotateX(10deg) rotateY(180deg); }
+} 
+
+.bubble {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: bubbleFloat 3s ease-in infinite;
+}
+
+@keyframes bubbleFloat {
+  0% { transform: translateY(100%) scale(0); opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { transform: translateY(-100%) scale(1); opacity: 0; }
+} 
+
+/* Add these trophy animation styles */
+.winner-trophy {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  z-index: 10;
+}
+
+.trophy-icon {
+  font-size: 3em;
+  color: #ffd700;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+  animation: floatTrophy 3s ease-in-out infinite;
+}
+
+.winner-label {
+  font-size: 0.8em;
+  color: #ffd700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  animation: glowText 2s ease-in-out infinite;
+}
+
+@keyframes floatTrophy {
+  0%, 100% { 
+    transform: translateY(0) rotate(0deg); 
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+  }
+  50% { 
+    transform: translateY(-10px) rotate(5deg); 
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+  }
+}
+
+@keyframes glowText {
+  0%, 100% { text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+  50% { text-shadow: 0 0 15px rgba(255, 215, 0, 0.8); }
+} 
+
+.plumbing-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.pipe-system {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.pipe {
+  position: absolute;
+  background: #333;
+  border: 2px solid #444;
+}
+
+.pipe.horizontal {
+  width: 100px;
+  height: 20px;
+  top: 50%;
+  left: 0;
+}
+
+.pipe.vertical {
+  width: 20px;
+  height: 100px;
+  top: 50%;
+  right: 50px;
+}
+
+.pipe.corner {
+  width: 40px;
+  height: 40px;
+  border-radius: 0 0 20px 0;
+  top: 50%;
+  left: 80px;
+}
+
+.water-drop {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #3498db;
+  border-radius: 50%;
+  animation: flowThrough 3s infinite;
+}
+
+.water-drop:nth-child(2) { animation-delay: 1s; }
+.water-drop:nth-child(3) { animation-delay: 2s; }
+
+.loading-text {
+  display: flex;
+  gap: 5px;
+}
+
+.loading-text span {
+  color: #3498db;
+  font-size: 24px;
+  animation: bobUpDown 1s infinite;
+  animation-delay: calc(var(--i) * 0.1s);
+}
+
+@keyframes flowThrough {
+  0% {
+    left: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+  50% {
+    left: 90px;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+  75% {
+    left: 90px;
+    top: 100%;
+    transform: translate(0, -50%);
+  }
+  100% {
+    left: 90px;
+    top: 100%;
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes bobUpDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 } 
