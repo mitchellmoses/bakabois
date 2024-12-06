@@ -3,6 +3,7 @@ import axios from 'axios';
 import './ToiletBowl.css';
 import { FaToilet, FaCrown, FaSadCry, FaPoop, FaSync, FaTrophy, FaSkull, FaToiletPaper, FaBomb } from 'react-icons/fa';
 import { GiTrophy } from 'react-icons/gi';
+import poopSound from '../../assets/image/poop.mp3';
 
 const calculateCustomProjection = (playerStats, matchupDifficulty = 1) => {
   if (!playerStats || !playerStats.length) return 0;
@@ -66,6 +67,7 @@ function ToiletBowl() {
   const [loading, setLoading] = useState(true);
   const [previousScores, setPreviousScores] = useState({ team1: 0, team2: 0 });
   const [showPoopAnimation, setShowPoopAnimation] = useState({ team1: false, team2: false });
+  const [poopAudio] = useState(new Audio(poopSound));
 
   const fetchToiletBowlData = async () => {
     try {
@@ -265,6 +267,11 @@ function ToiletBowl() {
     });
   };
 
+  const handleLoserClick = () => {
+    poopAudio.currentTime = 0;
+    poopAudio.play();
+  };
+
   useEffect(() => {
     fetchToiletBowlData();
     const interval = setInterval(fetchToiletBowlData, 30000);
@@ -316,7 +323,10 @@ function ToiletBowl() {
           <div className="team-header">
             <img src={matchupData?.team1?.logo} alt="" className="team-logo" />
             <div className="team-info">
-              <div className="team-name">{matchupData?.team1?.name || 'Loading...'}</div>
+              <div className={`team-name ${getLosingTeam() === matchupData?.team1 ? 'loser' : ''}`}
+                   onClick={getLosingTeam() === matchupData?.team1 ? handleLoserClick : undefined}>
+                {matchupData?.team1?.name || 'Loading...'}
+              </div>
               <div className="team-score">
                 {matchupData?.team1?.score?.toFixed(2) || '0.00'}
               </div>
@@ -345,7 +355,10 @@ function ToiletBowl() {
           <div className="team-header">
             <img src={matchupData?.team2?.logo} alt="" className="team-logo" />
             <div className="team-info">
-              <div className="team-name">{matchupData?.team2?.name || 'Loading...'}</div>
+              <div className={`team-name ${getLosingTeam() === matchupData?.team2 ? 'loser' : ''}`}
+                   onClick={getLosingTeam() === matchupData?.team2 ? handleLoserClick : undefined}>
+                {matchupData?.team2?.name || 'Loading...'}
+              </div>
               <div className="team-score">
                 {matchupData?.team2?.score?.toFixed(2) || '0.00'}
               </div>

@@ -477,4 +477,33 @@
     rgba(255, 0, 0, 0.05) 20px
   );
   pointer-events: none;
+}
+
+/* Update the loser name styles */
+.team-name.loser {
+  cursor: pointer;
+  position: relative;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-name.loser::after {
+  content: '🔊';
+  font-size: 1.2em;
+  opacity: 0.7;
+  position: static;
+  transform: none;
+}
+
+.team-name.loser:hover {
+  background: rgba(255, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.team-name.loser:hover::after {
+  opacity: 1;
 } 
