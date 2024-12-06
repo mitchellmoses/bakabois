@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ToiletBowl.css';
-import { FaToilet, FaCrown, FaSadCry, FaPoop, FaSync } from 'react-icons/fa';
+import { FaToilet, FaCrown, FaSadCry, FaPoop, FaSync, FaTrophy, FaSkull, FaToiletPaper, FaBomb } from 'react-icons/fa';
+import { GiTrophy } from 'react-icons/gi';
 
 const calculateCustomProjection = (playerStats, matchupDifficulty = 1) => {
   if (!playerStats || !playerStats.length) return 0;
@@ -228,12 +229,6 @@ function ToiletBowl() {
         <div className="player-score">
           {(player.points || 0).toFixed(1)}
         </div>
-        <div className="player-projected">
-          {(player.projectedPoints || 0).toFixed(1)}
-          <span className="espn-projection">
-            ({(player.espnProjection || 0).toFixed(1)})
-          </span>
-        </div>
       </div>
     );
 
@@ -305,17 +300,25 @@ function ToiletBowl() {
       </h1>
 
       <div className="matchup-container">
-        <div className={`team-panel ${getWinningTeam() === matchupData?.team1 ? 'winning' : ''}`}>
+        <div className={`team-panel ${getWinningTeam() === matchupData?.team1 ? 'winning' : 'losing'}`}>
           {showPoopAnimation.team1 && <FaPoop className="poop-animation" />}
+          {getLosingTeam() === matchupData?.team1 && (
+            <div className="loser-effects">
+              <FaToiletPaper className="toilet-paper spinning" />
+              <FaBomb className="poop-explosion" />
+              <div className="toilet-trophy">
+                <FaToilet className="toilet-icon rotating" />
+                <span className="trophy-text">Toilet Trophy Contender</span>
+              </div>
+              <FaSadCry className="sad-face bouncing" />
+            </div>
+          )}
           <div className="team-header">
             <img src={matchupData?.team1?.logo} alt="" className="team-logo" />
             <div className="team-info">
               <div className="team-name">{matchupData?.team1?.name || 'Loading...'}</div>
               <div className="team-score">
                 {matchupData?.team1?.score?.toFixed(2) || '0.00'}
-                <span className="projected-score">
-                  (Proj: {matchupData?.team1?.projectedScore?.toFixed(2) || '0.00'})
-                </span>
               </div>
             </div>
           </div>
@@ -326,17 +329,25 @@ function ToiletBowl() {
 
         <div className="vs-divider">VS</div>
 
-        <div className={`team-panel ${getWinningTeam() === matchupData?.team2 ? 'winning' : ''}`}>
+        <div className={`team-panel ${getWinningTeam() === matchupData?.team2 ? 'winning' : 'losing'}`}>
           {showPoopAnimation.team2 && <FaPoop className="poop-animation" />}
+          {getLosingTeam() === matchupData?.team2 && (
+            <div className="loser-effects">
+              <FaToiletPaper className="toilet-paper spinning" />
+              <FaBomb className="poop-explosion" />
+              <div className="toilet-trophy">
+                <FaToilet className="toilet-icon rotating" />
+                <span className="trophy-text">Toilet Trophy Contender</span>
+              </div>
+              <FaSadCry className="sad-face bouncing" />
+            </div>
+          )}
           <div className="team-header">
             <img src={matchupData?.team2?.logo} alt="" className="team-logo" />
             <div className="team-info">
               <div className="team-name">{matchupData?.team2?.name || 'Loading...'}</div>
               <div className="team-score">
                 {matchupData?.team2?.score?.toFixed(2) || '0.00'}
-                <span className="projected-score">
-                  (Proj: {matchupData?.team2?.projectedScore?.toFixed(2) || '0.00'})
-                </span>
               </div>
             </div>
           </div>
