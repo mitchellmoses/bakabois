@@ -17,6 +17,7 @@ import img_3690 from "../../assets/image/IMG_3690.jpg";
 import PlayoffOutlook from '../../Components/PlayoffOutlook/PlayoffOutlook';
 import { FaTrophy, FaToilet } from 'react-icons/fa';
 import ToiletBowl from '../../Components/ToiletBowl/ToiletBowl';
+import CommissionerBowl from '../../Components/CommissionerBowl/CommissionerBowl';
 
 function Dashboard() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -582,8 +583,8 @@ function Dashboard() {
               </div>
             </div>
           </TabPanel>
-          <TabPanel header="Toilet Bowl" leftIcon="pi pi-exclamation-triangle">
-            <ToiletBowl />
+          <TabPanel header="Commissioner Bowl" leftIcon="pi pi-crown">
+            <CommissionerBowl />
           </TabPanel>
           <TabPanel header="Leaderboard" leftIcon="pi pi-sitemap">
             <Leaderboard 
@@ -591,11 +592,6 @@ function Dashboard() {
               onLeagueChange={(value) => setLeagueTypeLeaderboard(value)}
             />
           </TabPanel>
-
-          <TabPanel header="Playoff Outlook" leftIcon="pi pi-chart-line">
-            <PlayoffOutlook />
-          </TabPanel>
-
           <TabPanel header="Scoreboard" leftIcon="pi pi-star-fill">
             <Scoreboard
               leagueType={leagueTypeScoreboard}
@@ -620,6 +616,12 @@ function Dashboard() {
           </TabPanel>
           <TabPanel header="Total Points" leftIcon="pi pi-chart-bar">
             <TotalPoints />
+          </TabPanel>
+          <TabPanel header="Toilet Bowl" leftIcon="pi pi-exclamation-triangle">
+            <ToiletBowl />
+          </TabPanel>
+          <TabPanel header="Playoff Outlook" leftIcon="pi pi-chart-line">
+            <PlayoffOutlook />
           </TabPanel>
           <TabPanel header="Classics" leftIcon="pi pi-history">
             <Classics />

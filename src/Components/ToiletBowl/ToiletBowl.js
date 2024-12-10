@@ -226,7 +226,10 @@ function ToiletBowl() {
     const bench = sortedRoster.filter(player => player.position === 20 || player.position === 21);
 
     const renderPlayerRow = (player, isBench = false) => (
-      <div className={`player-row ${isBench ? 'bench' : ''}`}>
+      <div 
+        key={`${player.playerId}-${player.position}`} 
+        className={`player-row ${isBench ? 'bench' : ''}`}
+      >
         <div className="position">{getPositionName(player.position)}</div>
         <div className="player-name">{player.playerName || 'Unknown'}</div>
         <div className="player-score">
@@ -237,12 +240,12 @@ function ToiletBowl() {
 
     return (
       <>
-        {starters.map((player, index) => renderPlayerRow(player, false))}
+        {starters.map((player) => renderPlayerRow(player, false))}
         
         {bench.length > 0 && (
           <>
-            <div className="bench-divider">Bench</div>
-            {bench.map((player, index) => renderPlayerRow(player, true))}
+            <div className="bench-divider" key="bench-divider">Bench</div>
+            {bench.map((player) => renderPlayerRow(player, true))}
           </>
         )}
       </>
