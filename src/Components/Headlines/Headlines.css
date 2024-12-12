@@ -51,11 +51,18 @@
   width: 100%;
 }
 
+.headlines-subheader {
+  color: #fff;
+  margin: 8px 0 4px 0;
+  font-size: 1.1em;
+}
+
 .headline-bullet {
   color: #ffd700;
   font-size: 1.2em;
   line-height: 1.4;
   flex-shrink: 0;
+  text-decoration: none;
 }
 
 .headline-text {
@@ -69,6 +76,7 @@
   font-size: 0.9em;
   margin-left: auto;
   margin-top: 2px;
+  text-decoration: none;
 }
 
 /* Mobile styles */
@@ -99,4 +107,21 @@
 
 .headline-item {
   animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Remove underlines from ESPN links */
+.headlines-list.espn a {
+  text-decoration: none;
+}
+
+/* Add underline just to the headline text in ESPN articles */
+.headlines-list.espn .headline-text {
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.5);  /* Subtle underline */
+  text-underline-offset: 2px;  /* Space between text and underline */
+}
+
+/* Optional: Make underline more visible on hover */
+.headlines-list.espn a:hover .headline-text {
+  text-decoration-color: #fff;
 } 
