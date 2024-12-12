@@ -18,6 +18,7 @@ import PlayoffOutlook from '../../Components/PlayoffOutlook/PlayoffOutlook';
 import { FaTrophy, FaToilet } from 'react-icons/fa';
 import ToiletBowl from '../../Components/ToiletBowl/ToiletBowl';
 import CommissionerBowl from '../../Components/CommissionerBowl/CommissionerBowl';
+import Headlines from '../../Components/Headlines/Headlines';
 
 function Dashboard() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -445,6 +446,8 @@ function Dashboard() {
                 <h1 className="section-title">Weekly Highlights</h1>
                 <p className="section-subtitle">Top Performers and Notable Moments</p>
               </div>
+
+              <Headlines />
 
               <div className="winners-losers-container">
                 <div className="highlight-card winner-card">
