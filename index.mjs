@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const MONGODB_URI = 'mongodb+srv://admin:SING4pinkpink!@cluster0.p4w1u.mongodb.net/fantasy_headlines';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 export const handler = async (event) => {
     let client;
