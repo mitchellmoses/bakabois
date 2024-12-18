@@ -9,7 +9,6 @@ function BoxScores(props) {
   const [leagueName, setLeagueName] = useState("");
   const [matchups, setMatchups] = useState([]);
   const [selectedMatchup, setSelectedMatchup] = useState(null);
-  const [showProjected, setShowProjected] = useState(true);
   const [homeRoster, setHomeRoster] = useState([]);
   const [awayRoster, setAwayRoster] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -131,18 +130,15 @@ function BoxScores(props) {
     
     return leagueData.schedule
       .filter(match => {
-        // Validate match object and required properties
         if (!match || !match.matchupPeriodId || !match.home || !match.away) {
           return false;
         }
         return match.matchupPeriodId.toString() === props.matchupPeriodId;
       })
       .map(match => {
-        // Get team data with validation
         const homeTeam = teams.get(match.home.teamId);
         const awayTeam = teams.get(match.away.teamId);
 
-        // Only process matchup if both teams exist
         if (!homeTeam || !awayTeam) {
           console.log('Missing team data for matchup:', match.id);
           return null;
@@ -153,17 +149,15 @@ function BoxScores(props) {
           leagueId,
           home: {
             team: homeTeam,
-            score: match.home.pointsByScoringPeriod?.[match.matchupPeriodId] || 0,
-            projected: match.home.projectedPoints || 0
+            score: match.home.pointsByScoringPeriod?.[match.matchupPeriodId] || 0
           },
           away: {
             team: awayTeam,
-            score: match.away.pointsByScoringPeriod?.[match.matchupPeriodId] || 0,
-            projected: match.away.projectedPoints || 0
+            score: match.away.pointsByScoringPeriod?.[match.matchupPeriodId] || 0
           }
         };
       })
-      .filter(Boolean); // Remove any null entries
+      .filter(Boolean);
   };
 
   const fetchRosters = async (matchup) => {
@@ -195,12 +189,10 @@ function BoxScores(props) {
   const processTeamRoster = (entries, team) => {
     return entries
       .filter(entry => {
-        // Include all starting positions
         const validSlots = [0, 1, 2, 3, 4, 5, 6, 7, 8, 16, 17, 20, 23];
         return validSlots.includes(entry.lineupSlotId);
       })
       .map(entry => {
-        // Get the display position based on lineup slot
         const getDisplayPosition = (slotId, defaultPos) => {
           const slotPositions = {
             0: 'QB',
@@ -221,12 +213,10 @@ function BoxScores(props) {
             getPositionName(entry.playerPoolEntry.player.defaultPositionId)
           ),
           name: entry.playerPoolEntry.player.fullName,
-          projected: entry.playerPoolEntry.player.stats?.[0]?.projectedPoints || 0,
           actual: entry.playerPoolEntry.appliedStatTotal || 0
         };
       })
       .sort((a, b) => {
-        // Custom sort order for positions
         const order = {
           'QB': 1,
           'RB': 2,
@@ -253,10 +243,6 @@ function BoxScores(props) {
       matchup.leagueId
     );
     setH2hRecord(record);
-  };
-
-  const toggleProjectedScores = () => {
-    setShowProjected(!showProjected);
   };
 
   const handlePageChange = (direction) => {
@@ -322,18 +308,8 @@ function BoxScores(props) {
   return (
     <div className="boxscores-wrapper">
       <div className="section-title-container">
-        <div className="section-title-background"></div>
         <h1 className="section-title">Box Scores</h1>
         <p className="section-subtitle">Week {props.matchupPeriodId} Matchups</p>
-      </div>
-
-      <div className="score-toggle-container">
-        <button 
-          className={`score-toggle-btn ${showProjected ? 'projected' : 'actual'}`}
-          onClick={toggleProjectedScores}
-        >
-          {showProjected ? 'Show Actual Scores' : 'Show Projected Scores'}
-        </button>
       </div>
 
       <div className="matchups-section">
@@ -344,10 +320,7 @@ function BoxScores(props) {
               <div 
                 key={`${match.leagueId}-${match.id}`}
                 className={`boxscore-card ${selectedMatchup?.id === match.id && selectedMatchup?.leagueId === match.leagueId ? 'current' : ''}`}
-                onClick={() => {
-                  console.log("Clicking matchup:", match); // Debug log
-                  handleMatchupSelect(match);
-                }}
+                onClick={() => handleMatchupSelect(match)}
               >
                 <div className="boxscore-team-row">
                   <div className="boxscore-team-info">
@@ -356,7 +329,6 @@ function BoxScores(props) {
                   </div>
                   <div className="boxscore-scores">
                     <span className="boxscore-score actual">{v(match.home.score)}</span>
-                    <span className="boxscore-score projected">({v(match.home.projected)})</span>
                   </div>
                 </div>
                 <div className="boxscore-team-row">
@@ -366,7 +338,6 @@ function BoxScores(props) {
                   </div>
                   <div className="boxscore-scores">
                     <span className="boxscore-score actual">{v(match.away.score)}</span>
-                    <span className="boxscore-score projected">({v(match.away.projected)})</span>
                   </div>
                 </div>
               </div>
@@ -397,105 +368,69 @@ function BoxScores(props) {
         <div className="teams-container">
           <div className="team-card">
             <div className="team-header">
-              <Avatar image={selectedMatchup.home.team.logo} shape="circle" className="team-avatar" />
-              <div className="team-info">
-                <h3 className="team-name">{selectedMatchup.home.team.name}</h3>
-                <div className="team-record">{selectedMatchup.home.team.record?.overall?.summary || ''}</div>
+              <div className="team-main-info">
+                <img src={selectedMatchup.home.team.logo} alt="" className="team-avatar" />
+                <div className="team-details">
+                  <h3 className="team-name">{selectedMatchup.home.team.name}</h3>
+                  <div className="team-record">{selectedMatchup.home.team.record?.overall?.summary || ''}</div>
+                </div>
+              </div>
+              <div className="team-score-display">
+                <div className="score-value">{v(selectedMatchup.home.score)}</div>
+                <div className="score-label">POINTS</div>
               </div>
             </div>
-            <div className="team-score">
-              <div className="score-value">
-                {v(selectedMatchup.home.score)}
+            <div className="roster-section">
+              <div className="roster-header">
+                <div className="roster-header-pos">POS</div>
+                <div className="roster-header-player">PLAYER</div>
+                <div className="roster-header-points">PTS</div>
               </div>
-              <div className="score-label">
-                Actual Score
-              </div>
-              <div className="projected-value">
-                Projected: {v(selectedMatchup.home.projected)}
-              </div>
-            </div>
-            <div className="team-roster">
-              <DataTable 
-                value={homeRoster} 
-                className="roster-table" 
-                stripedRows
-              >
-                <Column 
-                  field="position" 
-                  header="POS" 
-                  className="pos-column"
-                  bodyStyle={{ textAlign: 'center' }}
-                />
-                <Column 
-                  field="name" 
-                  header="PLAYER" 
-                  className="player-column"
-                />
-                <Column 
-                  field="actual" 
-                  header="FPTS" 
-                  className="points-column actual-points"
-                  body={(rowData) => v(rowData.actual)}
-                />
-                <Column 
-                  field="projected" 
-                  header="PROJ" 
-                  className="points-column projected-points"
-                  body={(rowData) => v(rowData.projected)}
-                />
-              </DataTable>
+              {homeRoster.map((player, index) => (
+                <div key={index} className={`roster-row ${player.position === 'BENCH' ? 'bench-row' : ''}`}>
+                  {player.position === 'BENCH' && index > 0 && homeRoster[index - 1].position !== 'BENCH' && (
+                    <div className="bench-divider">BENCH</div>
+                  )}
+                  <div className="roster-pos">{player.position}</div>
+                  <div className="roster-player">{player.name}</div>
+                  <div className="roster-points">{v(player.actual)}</div>
+                </div>
+              ))}
             </div>
           </div>
 
+          <div className="matchup-vs">VS</div>
+
           <div className="team-card">
             <div className="team-header">
-              <Avatar image={selectedMatchup.away.team.logo} shape="circle" className="team-avatar" />
-              <div className="team-info">
-                <h3 className="team-name">{selectedMatchup.away.team.name}</h3>
-                <div className="team-record">{selectedMatchup.away.team.record?.overall?.summary || ''}</div>
+              <div className="team-main-info">
+                <img src={selectedMatchup.away.team.logo} alt="" className="team-avatar" />
+                <div className="team-details">
+                  <h3 className="team-name">{selectedMatchup.away.team.name}</h3>
+                  <div className="team-record">{selectedMatchup.away.team.record?.overall?.summary || ''}</div>
+                </div>
+              </div>
+              <div className="team-score-display">
+                <div className="score-value">{v(selectedMatchup.away.score)}</div>
+                <div className="score-label">POINTS</div>
               </div>
             </div>
-            <div className="team-score">
-              <div className="score-value">
-                {v(selectedMatchup.away.score)}
+            <div className="roster-section">
+              <div className="roster-header">
+                <div className="roster-header-pos">POS</div>
+                <div className="roster-header-player">PLAYER</div>
+                <div className="roster-header-points">PTS</div>
               </div>
-              <div className="score-label">
-                Actual Score
-              </div>
-              <div className="projected-value">
-                Projected: {v(selectedMatchup.away.projected)}
-              </div>
-            </div>
-            <div className="team-roster">
-              <DataTable 
-                value={awayRoster} 
-                className="roster-table" 
-                stripedRows
-              >
-                <Column 
-                  field="position" 
-                  header="POS" 
-                  className="pos-column"
-                  bodyStyle={{ textAlign: 'center' }}
-                />
-                <Column 
-                  field="name" 
-                  header="PLAYER" 
-                  className="player-column"
-                />
-                <Column 
-                  field="actual" 
-                  header="FPTS" 
-                  className="points-column actual-points"
-                  body={(rowData) => v(rowData.actual)}
-                />
-                <Column 
-                  field="projected" 
-                  header="PROJ" 
-                  className="points-column projected-points"
-                  body={(rowData) => v(rowData.projected)}
-                />
-              </DataTable>
+              {awayRoster.map((player, index) => (
+                <div key={index} className={`roster-row ${player.position === 'BENCH' ? 'bench-row' : ''}`}>
+                  {player.position === 'BENCH' && index > 0 && awayRoster[index - 1].position !== 'BENCH' && (
+                    <div className="bench-divider">BENCH</div>
+                  )}
+                  <div className="roster-pos">{player.position}</div>
+                  <div className="roster-player">{player.name}</div>
+                  <div className="roster-points">{v(player.actual)}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
