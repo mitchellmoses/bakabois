@@ -19,8 +19,11 @@ import { FaTrophy, FaToilet } from 'react-icons/fa';
 import ToiletBowl from '../../Components/ToiletBowl/ToiletBowl';
 import CommissionerBowl from '../../Components/CommissionerBowl/CommissionerBowl';
 import Headlines from '../../Components/Headlines/Headlines';
+import ChampionshipRace from '../../Components/ChampionshipRace/ChampionshipRace';
+import { useLocation } from "react-router-dom";
 
 function Dashboard() {
+  const location = useLocation();
   const [activeIndex, setActiveIndex] = useState(0);
   const [leagueType, setLeagueType] = useState("league1");
   const [leagueID, setLeagueID] = useState(1446375);
@@ -36,6 +39,14 @@ function Dashboard() {
   const [highestPlayer, setHighestPlayer] = useState(null);
   const [closestMatchup, setClosestMatchup] = useState(null);
   const [biggestBlowout, setBiggestBlowout] = useState(null);
+
+  const getBoxScoreTabIndex = () => {
+    const tabHeaders = [
+      "Home", "Championship Race", "Leaderboard", "Scoreboard", "Box Score",
+      "Total Points", "Playoff Outlook", "Toilet Bowl", "Commissioner Bowl", "Classics"
+    ];
+    return tabHeaders.indexOf("Box Score");
+  };
 
   const getLiveMatchup = () => {
     axios
@@ -64,6 +75,16 @@ function Dashboard() {
       getLiveMatchup();
     
   }, [activeIndex]);
+
+  useEffect(() => {
+    // Handle navigation from ChampionshipRace
+    if (location.state?.showScoreboard) {
+      const { leagueId, teamId, scoringPeriodId } = location.state;
+      setMatchupPeriodId(`NFL WEEK ${scoringPeriodId}`);
+      setLeagueTypeScoreboard(leagueId === '1446375' ? 'league1' : 'league2');
+      setActiveIndex(3); // Scoreboard tab index
+    }
+  }, [location]);
 
   const tabLeagueTemplate = (options) => {
     const items = [
@@ -150,7 +171,7 @@ function Dashboard() {
   const showBoxScore = (leagueId, matchId) => {
     setLeagueID(leagueId);
     setMatchId(matchId);
-    setActiveIndex(5);
+    setActiveIndex(getBoxScoreTabIndex());
   };
 
   const showBoxScores = (_leagueID, _matchId, _value) => {
@@ -586,8 +607,8 @@ function Dashboard() {
               </div>
             </div>
           </TabPanel>
-          <TabPanel header="Commissioner Bowl" leftIcon="pi pi-crown">
-            <CommissionerBowl />
+          <TabPanel header="Championship Race" leftIcon="pi pi-flag">
+            <ChampionshipRace />
           </TabPanel>
           <TabPanel header="Leaderboard" leftIcon="pi pi-sitemap">
             <Leaderboard 
@@ -620,11 +641,14 @@ function Dashboard() {
           <TabPanel header="Total Points" leftIcon="pi pi-chart-bar">
             <TotalPoints />
           </TabPanel>
+          <TabPanel header="Playoff Outlook" leftIcon="pi pi-chart-line">
+            <PlayoffOutlook />
+          </TabPanel>
           <TabPanel header="Toilet Bowl" leftIcon="pi pi-exclamation-triangle">
             <ToiletBowl />
           </TabPanel>
-          <TabPanel header="Playoff Outlook" leftIcon="pi pi-chart-line">
-            <PlayoffOutlook />
+          <TabPanel header="Commissioner Bowl" leftIcon="pi pi-crown">
+            <CommissionerBowl />
           </TabPanel>
           <TabPanel header="Classics" leftIcon="pi pi-history">
             <Classics />

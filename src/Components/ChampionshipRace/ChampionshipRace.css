@@ -1,0 +1,234 @@
+.championship-race-container {
+  padding: 2rem;
+  background: #1e2761;
+  border-radius: 16px;
+  color: white;
+  min-height: calc(100vh - 120px);
+}
+
+.championship-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.championship-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ffd700, transparent);
+}
+
+.championship-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(45deg, #ffffff 0%, #e3f2fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  letter-spacing: 1px;
+}
+
+.championship-subtitle {
+  color: #90caf9;
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.championship-team-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.8rem;
+  color: white;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.championship-team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.team-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.team-crown {
+  font-size: 1.8rem;
+  color: #ffd700;
+  filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3));
+}
+
+.team-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.owner-name {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  position: absolute;
+  top: 100%;
+  left: 3.3rem;
+  margin-top: 0.2rem;
+}
+
+.team-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.stat-icon {
+  font-size: 1.4rem;
+  color: #ffd700;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.stat-value {
+  margin-left: auto;
+  font-weight: 700;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.form-bar {
+  flex: 1;
+  height: 0.6rem !important;
+}
+
+.form-bar .p-progressbar {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+}
+
+.form-bar .p-progressbar-value {
+  background: linear-gradient(90deg, #ffd700, #ffa726) !important;
+  border-radius: 8px !important;
+}
+
+.key-players {
+  margin-top: 1rem;
+}
+
+.key-players h3 {
+  font-size: 1.2rem;
+  color: white;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.player-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+.player-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.player-name {
+  font-size: 1rem;
+  color: white;
+  font-weight: 500;
+}
+
+.player-points {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffd700;
+  background: rgba(255, 215, 0, 0.1);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+}
+
+@media (max-width: 768px) {
+  .championship-race-container {
+    padding: 1.5rem;
+  }
+
+  .teams-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .championship-title {
+    font-size: 2rem;
+  }
+  
+  .championship-team-card {
+    padding: 1.5rem;
+  }
+
+  .team-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .owner-name {
+    left: 3rem;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-5px) rotate(5deg); }
+}
+
+.team-crown {
+  animation: float 3s ease-in-out infinite;
+} 

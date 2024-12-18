@@ -1,0 +1,75 @@
+# BakaBois Feature Breakdown
+
+----------------------------------------
+V1 - LEGACY "OLD SHITTY SITE"
+----------------------------------------
+• Basic league info display
+• Simple team listings
+• Basic player stats
+• Minimal UI/UX
+• Manual data updates
+• Basic navigation
+
+----------------------------------------
+V2 - CURRENT PRODUCTION
+----------------------------------------
+• Redesigned UI/UX
+• Improved data structure
+• Better performance
+• Enhanced navigation
+• League standings
+• Team profiles
+• Player profiles
+
+----------------------------------------
+V3 - JARVIS/HISTORY (IN DEVELOPMENT)
+----------------------------------------
+[Authentication] src/lib/auth/auth.ts
+• User Management
+  - Registration/Login
+  - Profile management
+  - Session handling
+  - OAuth (Discord/Google)
+• User Preferences
+  - Favorite teams
+  - Notification settings
+  - UI preferences
+  - Display settings
+
+[History System] src/components/History/HistoryContainer.tsx
+• Chat History
+  - Conversation logs
+  - Context preservation
+  - Search functionality
+  - Filters (date/topic)
+• User Activity
+  - Page visits
+  - Search history
+  - Team/Player lookups
+  - Interaction tracking
+• League Activity
+  - Trade history
+  - Draft history
+  - Team changes
+  - League updates
+
+----------------------------------------
+V4 - AGENT REPORTERS (FUTURE)
+----------------------------------------
+[News Generation]
+• Live trade analysis
+• Player performance reports
+• Team status updates
+• League trend analysis
+
+[Agent System]
+• Automated news creation
+• Real-time updates
+• League standings monitoring
+• Activity tracking
+
+[Integration Features]
+• History-aware reporting
+• Personalized news feeds
+• Context-aware updates
+• Cross-reference capabilities 
