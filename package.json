@@ -71,5 +71,6 @@
       "\\.(css|less|scss|sass)$": "identity-obj-proxy"
     },
     "testEnvironment": "jsdom"
-  }
+  },
+  "proxy": "https://lm-api-reads.fantasy.espn.com"
 }
