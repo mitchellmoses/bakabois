@@ -3,41 +3,37 @@ import './ChampionshipRace.css';
 import { FaCrown, FaTrophy, FaFire, FaBolt, FaChartLine } from 'react-icons/fa';
 import { ProgressBar } from 'primereact/progressbar';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const calculateChampionshipOdds = (team) => {
-  // Weight factors (total should = 1)
   const WEIGHTS = {
-    record: 0.25,
-    pointsFor: 0.15,
-    recentForm: 0.20,
-    h2hWins: 0.10,
-    recentPoints: 0.30
+    record: 0.30,             // Regular season record
+    pointsFor: 0.30,          // Season-long scoring potential
+    marginOfVictory: 0.15,    // Points per game differential
+    playoffScoring: 0.25      // How well they're scoring in playoffs
   };
 
-  // Calculate record score (max 100)
-  const recordScore = ((team.record.wins / (team.record.wins + team.record.losses)) * 100);
+  // Calculate record score including playoff wins
+  const totalGames = team.record.wins + team.record.losses;
+  const winPct = ((team.record.wins + 2) / (totalGames + 2)) * 100;
+  const recordScore = winPct;
 
-  // Calculate season-long points score (normalize around 1800 points being average)
-  const pointsScore = ((team.pointsFor - 1800) / 200) * 100 + 50;
+  // Points scoring relative to league average
+  const pointsScore = ((team.pointsFor - 1500) / 300) * 100;
 
-  // Recent form is already on a 0-100 scale
-  const formScore = team.recentForm;
+  // Points per game including playoff games
+  const marginScore = ((team.pointsFor / (totalGames + 2)) - 100) * 2;
 
-  // H2H score based on wins against playoff teams
-  const h2hScore = team.h2hWins ? team.h2hWins * 25 : 50;
-
-  // Calculate recent points score (last 3 weeks)
-  // Assuming higher recent scoring indicates better championship chances
-  const recentPointsScore = ((team.pointsFor / 13) * 3 > 450) ? 100 : 
-                           ((team.pointsFor / 13) * 3 - 300) / 1.5;
+  // Calculate playoff scoring (average of last two weeks relative to 100 points)
+  const avgPlayoffPoints = team.playoffPoints.reduce((sum, pts) => sum + pts, 0) / 2;
+  const playoffScore = ((avgPlayoffPoints - 100) / 50) * 100;
 
   // Calculate weighted score
   const totalScore = (
     recordScore * WEIGHTS.record +
     pointsScore * WEIGHTS.pointsFor +
-    formScore * WEIGHTS.recentForm +
-    h2hScore * WEIGHTS.h2hWins +
-    recentPointsScore * WEIGHTS.recentPoints
+    marginScore * WEIGHTS.marginOfVictory +
+    playoffScore * WEIGHTS.playoffScoring
   );
 
   const finalScore = Math.round(totalScore / 4);
@@ -45,9 +41,8 @@ const calculateChampionshipOdds = (team) => {
   console.log(`Odds calculation for ${team.name}:`, {
     recordScore,
     pointsScore,
-    formScore,
-    h2hScore,
-    recentPointsScore,
+    marginScore,
+    playoffScore,
     totalScore,
     finalScore
   });
@@ -60,9 +55,12 @@ const calculateRecentForm = (team, leagueData) => {
     // Get the team's schedule from league data
     const teamSchedule = leagueData.schedule
       .filter(game => {
+        if (!game || !game.away || !game.home) return false;
         const awayTeamId = game.away.teamId;
         const homeTeamId = game.home.teamId;
-        return awayTeamId === team.teamId || homeTeamId === team.teamId;
+        // Only include games with actual scores
+        const hasScores = (game.away?.totalPoints > 0 || game.home?.totalPoints > 0);
+        return hasScores && (awayTeamId === team.teamId || homeTeamId === team.teamId);
       })
       // Sort by matchupPeriodId in descending order to get most recent games
       .sort((a, b) => b.matchupPeriodId - a.matchupPeriodId)
@@ -97,6 +95,45 @@ const calculateRecentForm = (team, leagueData) => {
   }
 };
 
+const calculateStreak = (schedule, teamId) => {
+  if (!schedule) {
+    console.log(`No schedule data for team ${teamId}`);
+    return 0;
+  }
+  
+  const recentGames = schedule
+    .filter(game => {
+      if (!game || !game.away || !game.home) return false;
+      // Only include games that have actual scores (completed games)
+      const hasScores = (game.away?.totalPoints > 0 || game.home?.totalPoints > 0);
+      return hasScores && (
+        game.home?.teamId?.toString() === teamId.toString() || 
+        game.away?.teamId?.toString() === teamId.toString()
+      );
+    })
+    .sort((a, b) => b.matchupPeriodId - a.matchupPeriodId);
+
+  console.log(`Recent games for team ${teamId}:`, recentGames);
+
+  let streak = 0;
+  for (let game of recentGames) {
+    const isHome = game.home?.teamId?.toString() === teamId.toString();
+    const teamScore = isHome ? game.home?.totalPoints || 0 : game.away?.totalPoints || 0;
+    const oppScore = isHome ? game.away?.totalPoints || 0 : game.home?.totalPoints || 0;
+    
+    console.log(`Game ${game.matchupPeriodId}: ${teamScore} vs ${oppScore}`);
+    
+    if (teamScore > oppScore) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+  
+  console.log(`Final streak for team ${teamId}: ${streak}`);
+  return streak;
+};
+
 const PLAYOFF_TEAMS = {
   gay: {
     owner: "Gay",
@@ -105,15 +142,11 @@ const PLAYOFF_TEAMS = {
     teamId: "1",
     color: "#1e3c72",
     gradient: "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)",
-    record: { wins: 10, losses: 4 },
-    pointsFor: 1850.5,
-    recentForm: 85,
-    h2hWins: 2,
-    keyPlayers: [
-      { name: "Christian McCaffrey", points: 28.5 },
-      { name: "Deebo Samuel", points: 24.2 },
-      { name: "Brock Purdy", points: 21.8 }
-    ]
+    record: { wins: 11, losses: 2 },
+    pointsFor: 1648,
+    playoffPoints: [174.5, 140.0],
+    championshipOpponent: "Drake",
+    championshipGame: "Semifinal 1"
   },
   drakesmydad: {
     owner: "Drake",
@@ -122,15 +155,11 @@ const PLAYOFF_TEAMS = {
     teamId: "2",
     color: "#2E7D32",
     gradient: "linear-gradient(135deg, #2E7D32 0%, #388E3C 100%)",
-    record: { wins: 9, losses: 5 },
-    pointsFor: 1820.3,
-    recentForm: 80,
-    h2hWins: 1,
-    keyPlayers: [
-      { name: "Tyreek Hill", points: 26.4 },
-      { name: "Travis Etienne", points: 19.8 },
-      { name: "Trevor Lawrence", points: 18.5 }
-    ]
+    record: { wins: 7, losses: 6 },
+    pointsFor: 1458,
+    playoffPoints: [172.3, 147.3],
+    championshipOpponent: "Gay",
+    championshipGame: "Semifinal 1"
   },
   thebeast: {
     owner: "Kent Baldy",
@@ -139,15 +168,11 @@ const PLAYOFF_TEAMS = {
     teamId: "3",
     color: "#6A1B9A",
     gradient: "linear-gradient(135deg, #6A1B9A 0%, #8E24AA 100%)",
-    record: { wins: 8, losses: 6 },
-    pointsFor: 1780.8,
-    recentForm: 75,
-    h2hWins: 1,
-    keyPlayers: [
-      { name: "Lamar Jackson", points: 25.6 },
-      { name: "Stefon Diggs", points: 20.3 },
-      { name: "Breece Hall", points: 18.9 }
-    ]
+    record: { wins: 7, losses: 6 },
+    pointsFor: 1539.8,
+    playoffPoints: [168.1, 146.8],
+    championshipOpponent: "Stanford",
+    championshipGame: "Semifinal 2"
   },
   stanford: {
     owner: "Kyle Stanford",
@@ -156,15 +181,11 @@ const PLAYOFF_TEAMS = {
     teamId: "4",
     color: "#C62828",
     gradient: "linear-gradient(135deg, #C62828 0%, #E53935 100%)",
-    record: { wins: 11, losses: 3 },
-    pointsFor: 1890.2,
-    recentForm: 90,
-    h2hWins: 3,
-    keyPlayers: [
-      { name: "CeeDee Lamb", points: 27.1 },
-      { name: "Dak Prescott", points: 23.4 },
-      { name: "Raheem Mostert", points: 19.7 }
-    ]
+    record: { wins: 8, losses: 5 },
+    pointsFor: 1428,
+    playoffPoints: [124.3, 114.0],
+    championshipOpponent: "Beast",
+    championshipGame: "Semifinal 2"
   }
 };
 
@@ -174,19 +195,18 @@ function ChampionshipRace() {
   const [teams, setTeams] = useState(PLAYOFF_TEAMS);
 
   useEffect(() => {
-    // Simple initialization without API calls
-    const initializeTeams = () => {
+    const initializeTeams = async () => {
       setLoading(true);
       try {
         const updatedTeams = { ...teams };
-        
-        // Calculate odds for each team
+
+        // Calculate championship odds for each team using existing data
         Object.keys(updatedTeams).forEach(teamKey => {
           const team = updatedTeams[teamKey];
           team.championshipOdds = calculateChampionshipOdds(team);
         });
 
-        // Normalize odds to ensure they sum to 100
+        // Normalize odds
         const totalOdds = Object.values(updatedTeams).reduce((sum, team) => sum + team.championshipOdds, 0);
         Object.keys(updatedTeams).forEach(teamKey => {
           updatedTeams[teamKey].championshipOdds = Math.round((updatedTeams[teamKey].championshipOdds / totalOdds) * 100);
@@ -216,6 +236,16 @@ function ChampionshipRace() {
 
   const renderTeamCard = (teamKey) => {
     const stats = teams[teamKey];
+    const playoffAvg = (stats.playoffPoints[0] + stats.playoffPoints[1]) / 2;
+    
+    // Calculate average of all playoff teams
+    const allTeamAverages = Object.values(teams).map(team => 
+      (team.playoffPoints[0] + team.playoffPoints[1]) / 2
+    );
+    const overallPlayoffAvg = allTeamAverages.reduce((a, b) => a + b, 0) / allTeamAverages.length;
+    
+    // Compare this team's avg to overall avg
+    const comparedToAvg = playoffAvg - overallPlayoffAvg;
 
     return (
       <div 
@@ -236,25 +266,20 @@ function ChampionshipRace() {
           </div>
           
           <div className="stat-item">
-            <FaFire className="stat-icon" />
-            <span className="stat-label">Recent Form</span>
-            <ProgressBar 
-              value={stats.recentForm || 0} 
-              className="form-bar"
-              showValue={false}
-            />
-          </div>
-
-          <div className="key-players">
-            <h3>Key Players</h3>
-            <div className="players-list">
-              {stats.keyPlayers.map((player, index) => (
-                <div key={index} className="player-item">
-                  <span className="player-name">{player.name}</span>
-                  <span className="player-points">{player.points.toFixed(1)} pts</span>
-                </div>
-              ))}
+            <FaBolt className="stat-icon" />
+            <span className="stat-label">Playoff Scoring</span>
+            <div className="playoff-stats">
+              <span className="avg">{playoffAvg.toFixed(1)}</span>
+              <span className={`trend ${comparedToAvg > 0 ? 'positive' : 'negative'}`}>
+                {comparedToAvg > 0 ? '↑' : '↓'} {Math.abs(comparedToAvg).toFixed(1)}
+              </span>
             </div>
+          </div>
+          
+          <div className="stat-item matchup-info">
+            <FaTrophy className="stat-icon" />
+            <span className="stat-label">{stats.championshipGame}</span>
+            <span className="vs">vs {stats.championshipOpponent}</span>
           </div>
         </div>
       </div>

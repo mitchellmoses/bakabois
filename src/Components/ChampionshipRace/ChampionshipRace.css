@@ -245,4 +245,33 @@
   text-align: center;
   padding: 1rem;
   font-style: italic;
+}
+
+.playoff-stats {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.playoff-stats .avg {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+}
+
+.playoff-stats .trend {
+  font-size: 0.9rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+}
+
+.playoff-stats .trend.positive {
+  background: rgba(46, 125, 50, 0.3);
+  color: #81c784;
+}
+
+.playoff-stats .trend.negative {
+  background: rgba(198, 40, 40, 0.3);
+  color: #ef9a9a;
 } 
