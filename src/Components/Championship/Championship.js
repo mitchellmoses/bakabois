@@ -15,7 +15,7 @@ const calculateTeamScore = (roster) => {
     const points = parseFloat(player.points) || 0;
     return total + points;
   }, 0);
-};
+}; 
 
 const getPositionName = (positionId) => {
   const positions = {
