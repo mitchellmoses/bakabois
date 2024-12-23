@@ -20,6 +20,7 @@ import ToiletBowl from '../../Components/ToiletBowl/ToiletBowl';
 import CommissionerBowl from '../../Components/CommissionerBowl/CommissionerBowl';
 import Headlines from '../../Components/Headlines/Headlines';
 import ChampionshipRace from '../../Components/ChampionshipRace/ChampionshipRace';
+import Championship from '../../Components/Championship/Championship';
 import { useLocation } from "react-router-dom";
 
 function Dashboard() {
@@ -39,11 +40,15 @@ function Dashboard() {
   const [highestPlayer, setHighestPlayer] = useState(null);
   const [closestMatchup, setClosestMatchup] = useState(null);
   const [biggestBlowout, setBiggestBlowout] = useState(null);
+  const [championshipTeams, setChampionshipTeams] = useState({
+    gay: null,
+    theBeast: null
+  });
 
   const getBoxScoreTabIndex = () => {
     const tabHeaders = [
-      "Home", "Championship Race", "Leaderboard", "Scoreboard", "Box Score",
-      "Total Points", "Playoff Outlook", "Toilet Bowl", "Commissioner Bowl", "Classics"
+      "Home", "Championship", "Leaderboard", "Scoreboard", "Box Score",
+      "Total Points", "Playoff Outlook", "Toilet Bowl", "Commissioner Bowl", "Classics", "Championship Race"
     ];
     return tabHeaders.indexOf("Box Score");
   };
@@ -449,6 +454,32 @@ function Dashboard() {
     }
   }, [matchupPeriodId]);
 
+  const fetchChampionshipData = async () => {
+    try {
+      const scoringPeriodId = 17; // Championship week
+      
+      const [league1Response, league2Response] = await Promise.all([
+        axios.get(`https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1446375?view=mMatchup&view=mMatchupScore&view=mRoster&view=mTeam&view=mProjectedScore&scoringPeriodId=${scoringPeriodId}`),
+        axios.get(`https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1869404038?view=mMatchup&view=mMatchupScore&view=mRoster&view=mTeam&view=mProjectedScore&scoringPeriodId=${scoringPeriodId}`)
+      ]);
+
+      const gay = league2Response.data.teams.find(team => team.id === 7);
+      const theBeast = league1Response.data.teams.find(team => 
+        team.name.toUpperCase().includes('THE BEAST')
+      );
+
+      setChampionshipTeams({ gay, theBeast });
+    } catch (error) {
+      console.error('Error fetching championship data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchChampionshipData();
+    const interval = setInterval(fetchChampionshipData, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="dashboard-container">
       <div className="nav-section">
@@ -466,6 +497,27 @@ function Dashboard() {
                 <div className="section-title-background"></div>
                 <h1 className="section-title">Weekly Highlights</h1>
                 <p className="section-subtitle">Top Performers and Notable Moments</p>
+              </div>
+
+              <div className="championship-score-banner">
+                <div className="championship-score-header">
+                  <FaTrophy className="championship-trophy" />
+                  <h2>CHAMPIONSHIP MATCHUP</h2>
+                  <FaTrophy className="championship-trophy" />
+                </div>
+                <div className="championship-teams">
+                  <div className="championship-team">
+                    <img src={championshipTeams.gay?.logo} alt="" className="team-logo-champ" />
+                    <span className="team-name-champ">{championshipTeams.gay?.name || 'Loading...'}</span>
+                    <span className="team-score-champ">{(championshipTeams.gay?.score || 0).toFixed(2)}</span>
+                  </div>
+                  <div className="championship-vs">VS</div>
+                  <div className="championship-team">
+                    <img src={championshipTeams.theBeast?.logo} alt="" className="team-logo-champ" />
+                    <span className="team-name-champ">{championshipTeams.theBeast?.name || 'Loading...'}</span>
+                    <span className="team-score-champ">{(championshipTeams.theBeast?.score || 0).toFixed(2)}</span>
+                  </div>
+                </div>
               </div>
 
               <Headlines />
@@ -607,8 +659,8 @@ function Dashboard() {
               </div>
             </div>
           </TabPanel>
-          <TabPanel header="Championship Race" leftIcon="pi pi-flag">
-            <ChampionshipRace />
+          <TabPanel header="Championship" leftIcon="pi pi-trophy">
+            <Championship />
           </TabPanel>
           <TabPanel header="Leaderboard" leftIcon="pi pi-sitemap">
             <Leaderboard 
@@ -652,6 +704,9 @@ function Dashboard() {
           </TabPanel>
           <TabPanel header="Classics" leftIcon="pi pi-history">
             <Classics />
+          </TabPanel>
+          <TabPanel header="Championship Race" leftIcon="pi pi-flag">
+            <ChampionshipRace />
           </TabPanel>
         </TabView>
       </div>

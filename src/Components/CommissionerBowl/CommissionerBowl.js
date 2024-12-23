@@ -54,7 +54,7 @@ function CommissionerBowl() {
 
   const fetchCommissionerBowlData = async () => {
     try {
-      const scoringPeriodId = 15; // Playoff Round 2
+      const scoringPeriodId = 16; // Changed from 15 to 16 for Championship week
       
       // Get both leagues' data
       const [league1Response, league2Response] = await Promise.all([
