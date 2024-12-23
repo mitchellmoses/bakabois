@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Championship.css';
-import { FaTrophy, FaCrown, FaBolt, FaFire, FaSync, FaFootballBall, FaClock, FaRoad } from 'react-icons/fa';
+import { FaTrophy, FaCrown, FaBolt, FaFire, FaSync, FaFootballBall, FaClock } from 'react-icons/fa';
 import { GiTrophy, GiTrophyCup } from 'react-icons/gi';
 
 const calculateTeamScore = (roster) => {
@@ -105,118 +105,6 @@ const GameCountdown = () => {
       <div className="countdown-text">
         <span className="countdown-label">CHRISTMAS DAY CHAMPIONSHIP</span>
         <span className="countdown-time">{timeLeft}</span>
-      </div>
-    </div>
-  );
-};
-
-const ChampionshipCountdown = () => {
-  const [timeLeft, setTimeLeft] = useState('');
-  
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const gameTime = new Date('2023-12-25T12:00:00');
-      const now = new Date();
-      const difference = gameTime - now;
-      
-      if (difference > 0) {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((difference / 1000 / 60) % 60);
-        const seconds = Math.floor((difference / 1000) % 60);
-        
-        return { days, hours, minutes, seconds };
-      }
-      return null;
-    };
-
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  if (!timeLeft) return null;
-
-  return (
-    <div className="championship-countdown">
-      <div className="countdown-header">
-        <FaClock className="countdown-icon" />
-        <h2>CHAMPIONSHIP KICKOFF</h2>
-        <FaClock className="countdown-icon" />
-      </div>
-      <div className="countdown-units">
-        <div className="countdown-unit">
-          <span className="unit-value">{timeLeft.days}</span>
-          <span className="unit-label">DAYS</span>
-        </div>
-        <div className="countdown-unit">
-          <span className="unit-value">{timeLeft.hours}</span>
-          <span className="unit-label">HOURS</span>
-        </div>
-        <div className="countdown-unit">
-          <span className="unit-value">{timeLeft.minutes}</span>
-          <span className="unit-label">MINUTES</span>
-        </div>
-        <div className="countdown-unit">
-          <span className="unit-value">{timeLeft.seconds}</span>
-          <span className="unit-label">SECONDS</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const ChampionshipPath = ({ team1, team2 }) => {
-  return (
-    <div className="championship-path">
-      <h2 className="path-title">
-        <FaRoad className="path-icon" />
-        Road to the Championship
-      </h2>
-      <div className="path-container">
-        <div className="team-path">
-          <img src={team1?.logo} alt="" className="path-logo" />
-          <div className="path-details">
-            <h3>{team1?.name}</h3>
-            <div className="path-stats">
-              <div className="stat">
-                <span className="stat-label">Regular Season</span>
-                <span className="stat-value">10-4</span>
-              </div>
-              <div className="stat">
-                <span className="stat-label">Points For</span>
-                <span className="stat-value">1,845.2</span>
-              </div>
-              <div className="stat">
-                <span className="stat-label">Playoff Seed</span>
-                <span className="stat-value">#1</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="path-vs">VS</div>
-        <div className="team-path">
-          <img src={team2?.logo} alt="" className="path-logo" />
-          <div className="path-details">
-            <h3>{team2?.name}</h3>
-            <div className="path-stats">
-              <div className="stat">
-                <span className="stat-label">Regular Season</span>
-                <span className="stat-value">9-5</span>
-              </div>
-              <div className="stat">
-                <span className="stat-label">Points For</span>
-                <span className="stat-value">1,789.6</span>
-              </div>
-              <div className="stat">
-                <span className="stat-label">Playoff Seed</span>
-                <span className="stat-value">#2</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -463,8 +351,6 @@ function Championship() {
       </div>
 
       <GameCountdown />
-      <ChampionshipCountdown />
-      <ChampionshipPath team1={matchupData?.team1} team2={matchupData?.team2} />
     </div>
   );
 }
