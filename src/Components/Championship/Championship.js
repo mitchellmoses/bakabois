@@ -268,14 +268,9 @@ function Championship() {
     <div className="championship-container">
       <h1 className="championship-title">
         <FaTrophy className="trophy-icon" />
-        11th Anniversary Championship
+        11th Anniversary BakaBowl
         <FaTrophy className="trophy-icon" />
       </h1>
-      <div className="championship-subtitle">
-        <FaBolt className="subtitle-icon" />
-        The Ultimate Battle for Fantasy Glory
-        <FaFire className="subtitle-icon" />
-      </div>
       <div className="prize-pool">
         <GiTrophyCup className="prize-icon" />
         <div className="prize-text">
@@ -288,9 +283,14 @@ function Championship() {
             <span className="prize-amount-second">$400</span>
           </div>
         </div>
+        <div className="championship-narrative">
+          <FaCrown className="narrative-icon" />
+          Will 2-Time Champion Kent Defend His Crown or Will a Newcomer Rise to Glory?
+          <FaCrown className="narrative-icon" />
+        </div>
         <GiTrophyCup className="prize-icon" />
       </div>
-
+      
       <div className="matchup-container">
         <div className={`team-panel ${isWinning(matchupData?.team1?.score, matchupData?.team2?.score) ? 'winning' : ''}`}>
           {isWinning(matchupData?.team1?.score, matchupData?.team2?.score) && 

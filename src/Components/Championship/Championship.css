@@ -428,9 +428,9 @@
 }
 
 .prize-pool {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr 2fr auto;
   align-items: center;
-  justify-content: center;
   gap: 20px;
   margin: 20px 0;
   padding: 15px;
@@ -646,4 +646,35 @@
 @keyframes beltFloat {
   0%, 100% { transform: translateX(-50%) rotate(0deg); }
   50% { transform: translateX(-50%) rotate(10deg); }
+} 
+
+.championship-narrative {
+  text-align: center;
+  font-size: 1.1em;
+  color: #ffd700;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-style: italic;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  animation: narrativeGlow 3s ease-in-out infinite;
+  border-left: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.narrative-icon {
+  font-size: 0.9em;
+  color: #ffd700;
+  animation: narrativeIconFloat 2s ease-in-out infinite;
+}
+
+@keyframes narrativeGlow {
+  0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+  50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+}
+
+@keyframes narrativeIconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
 } 
