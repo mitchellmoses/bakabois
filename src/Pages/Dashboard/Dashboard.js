@@ -47,8 +47,9 @@ function Dashboard() {
 
   const getBoxScoreTabIndex = () => {
     const tabHeaders = [
-      "Home", "Championship", "Leaderboard", "Scoreboard", "Box Score",
-      "Total Points", "Playoff Outlook", "Toilet Bowl", "Commissioner Bowl", "Classics", "Championship Race"
+      "Home", "Championship", "Championship Race", "Leaderboard", "Scoreboard", 
+      "Box Score", "Total Points", "Playoff Outlook", "Toilet Bowl", 
+      "Commissioner Bowl", "Classics"
     ];
     return tabHeaders.indexOf("Box Score");
   };
@@ -662,6 +663,9 @@ function Dashboard() {
           <TabPanel header="Championship" leftIcon="pi pi-trophy">
             <Championship />
           </TabPanel>
+          <TabPanel header="Championship Race" leftIcon="pi pi-flag">
+            <ChampionshipRace />
+          </TabPanel>
           <TabPanel header="Leaderboard" leftIcon="pi pi-sitemap">
             <Leaderboard 
               leagueType={leagueTypeLeaderboard}
@@ -704,9 +708,6 @@ function Dashboard() {
           </TabPanel>
           <TabPanel header="Classics" leftIcon="pi pi-history">
             <Classics />
-          </TabPanel>
-          <TabPanel header="Championship Race" leftIcon="pi pi-flag">
-            <ChampionshipRace />
           </TabPanel>
         </TabView>
       </div>

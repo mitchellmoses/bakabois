@@ -271,26 +271,8 @@ function Championship() {
         11th Anniversary BakaBowl
         <FaTrophy className="trophy-icon" />
       </h1>
-      <div className="prize-pool">
-        <GiTrophyCup className="prize-icon" />
-        <div className="prize-text">
-          <div className="prize-tier">
-            <span className="prize-label">CHAMPION</span>
-            <span className="prize-amount">$1,100</span>
-          </div>
-          <div className="prize-tier">
-            <span className="prize-label">RUNNER-UP</span>
-            <span className="prize-amount-second">$400</span>
-          </div>
-        </div>
-        <div className="championship-narrative">
-          <FaCrown className="narrative-icon" />
-          Will 2-Time Champion Kent Defend His Crown or Will a Newcomer Rise to Glory?
-          <FaCrown className="narrative-icon" />
-        </div>
-        <GiTrophyCup className="prize-icon" />
-      </div>
-      
+
+      {/* Teams and Scoring First */}
       <div className="matchup-container">
         <div className={`team-panel ${isWinning(matchupData?.team1?.score, matchupData?.team2?.score) ? 'winning' : ''}`}>
           {isWinning(matchupData?.team1?.score, matchupData?.team2?.score) && 
@@ -353,6 +335,32 @@ function Championship() {
             {matchupData?.team2?.roster && renderRoster(matchupData.team2.roster)}
           </div>
         </div>
+      </div>
+
+      {/* Prize Pool and Narrative Second */}
+      <div className="prize-pool">
+        <GiTrophyCup className="prize-icon" />
+        <div className="prize-text">
+          <div className="prize-tier">
+            <span className="prize-label">CHAMPION</span>
+            <span className="prize-amount">$1,100</span>
+          </div>
+          <div className="prize-tier">
+            <span className="prize-label">RUNNER-UP</span>
+            <span className="prize-amount-second">$400</span>
+          </div>
+        </div>
+        <div className="championship-narrative">
+          <FaCrown className="narrative-icon" />
+          Will 2-Time Champion Kent Defend His Crown or Will a Newcomer Rise to Glory?
+          <FaCrown className="narrative-icon" />
+        </div>
+        <GiTrophyCup className="prize-icon" />
+      </div>
+
+      {/* Christmas Games Section */}
+      <div className="christmas-games">
+        {/* Add Christmas games content here */}
       </div>
 
       <div className="last-updated">

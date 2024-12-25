@@ -6,11 +6,18 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const calculateChampionshipOdds = (team) => {
+  // If team is eliminated, return 0
+  if (team.championshipGame === "Eliminated in Semifinals") {
+    return 0;
+  }
+
+  // If team made it to championship, calculate odds based on performance
   const WEIGHTS = {
-    record: 0.30,             // Regular season record
-    pointsFor: 0.30,          // Season-long scoring potential
-    marginOfVictory: 0.15,    // Points per game differential
-    playoffScoring: 0.25      // How well they're scoring in playoffs
+    record: 0.25,
+    pointsFor: 0.25,
+    marginOfVictory: 0.15,
+    playoffScoring: 0.20,
+    projectedScore: 0.15
   };
 
   // Calculate record score including playoff wins
@@ -24,16 +31,20 @@ const calculateChampionshipOdds = (team) => {
   // Points per game including playoff games
   const marginScore = ((team.pointsFor / (totalGames + 2)) - 100) * 2;
 
-  // Calculate playoff scoring (average of last two weeks relative to 100 points)
-  const avgPlayoffPoints = team.playoffPoints.reduce((sum, pts) => sum + pts, 0) / 2;
+  // Calculate playoff scoring (average of three weeks relative to 100 points)
+  const avgPlayoffPoints = team.playoffPoints.reduce((sum, pts) => sum + pts, 0) / 3;
   const playoffScore = ((avgPlayoffPoints - 100) / 50) * 100;
+
+  // Add projected score calculation
+  const projectedScore = ((team.projectedChampionship - 100) / 50) * 100;
 
   // Calculate weighted score
   const totalScore = (
     recordScore * WEIGHTS.record +
     pointsScore * WEIGHTS.pointsFor +
     marginScore * WEIGHTS.marginOfVictory +
-    playoffScore * WEIGHTS.playoffScoring
+    playoffScore * WEIGHTS.playoffScoring +
+    projectedScore * WEIGHTS.projectedScore
   );
 
   const finalScore = Math.round(totalScore / 4);
@@ -43,6 +54,7 @@ const calculateChampionshipOdds = (team) => {
     pointsScore,
     marginScore,
     playoffScore,
+    projectedScore,
     totalScore,
     finalScore
   });
@@ -142,24 +154,12 @@ const PLAYOFF_TEAMS = {
     teamId: "1",
     color: "#1e3c72",
     gradient: "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)",
-    record: { wins: 11, losses: 2 },
-    pointsFor: 1648,
-    playoffPoints: [174.5, 140.0],
-    championshipOpponent: "Drake",
-    championshipGame: "Semifinal 1"
-  },
-  drakesmydad: {
-    owner: "Drake",
-    name: "Drakes my Dad",
-    leagueId: "1869404038",
-    teamId: "2",
-    color: "#2E7D32",
-    gradient: "linear-gradient(135deg, #2E7D32 0%, #388E3C 100%)",
-    record: { wins: 7, losses: 6 },
-    pointsFor: 1458,
-    playoffPoints: [172.3, 147.3],
-    championshipOpponent: "Gay",
-    championshipGame: "Semifinal 1"
+    record: { wins: 12, losses: 2 },
+    pointsFor: 1822.5,
+    playoffPoints: [174.5, 140.0, 159.7],
+    projectedChampionship: 132.2,
+    championshipOpponent: "The Beast",
+    championshipGame: "Championship"
   },
   thebeast: {
     owner: "Kent Baldy",
@@ -168,11 +168,25 @@ const PLAYOFF_TEAMS = {
     teamId: "3",
     color: "#6A1B9A",
     gradient: "linear-gradient(135deg, #6A1B9A 0%, #8E24AA 100%)",
-    record: { wins: 7, losses: 6 },
-    pointsFor: 1539.8,
-    playoffPoints: [168.1, 146.8],
-    championshipOpponent: "Stanford",
-    championshipGame: "Semifinal 2"
+    record: { wins: 8, losses: 6 },
+    pointsFor: 1707.9,
+    playoffPoints: [168.1, 146.8, 161.6],
+    projectedChampionship: 119.2,
+    championshipOpponent: "Gay",
+    championshipGame: "Championship"
+  },
+  drakesmydad: {
+    owner: "Drake",
+    name: "Drakes my Dad",
+    leagueId: "1869404038",
+    teamId: "2",
+    color: "#2E7D32",
+    gradient: "linear-gradient(135deg, #2E7D32 0%, #388E3C 100%)",
+    record: { wins: 7, losses: 7 },
+    pointsFor: 1630.3,
+    playoffPoints: [172.3, 147.3],
+    championshipOpponent: "Gay",
+    championshipGame: "Eliminated in Semifinals"
   },
   stanford: {
     owner: "Kyle Stanford",
@@ -181,11 +195,11 @@ const PLAYOFF_TEAMS = {
     teamId: "4",
     color: "#C62828",
     gradient: "linear-gradient(135deg, #C62828 0%, #E53935 100%)",
-    record: { wins: 8, losses: 5 },
-    pointsFor: 1428,
+    record: { wins: 8, losses: 6 },
+    pointsFor: 1552.3,
     playoffPoints: [124.3, 114.0],
     championshipOpponent: "Beast",
-    championshipGame: "Semifinal 2"
+    championshipGame: "Eliminated in Semifinals"
   }
 };
 
