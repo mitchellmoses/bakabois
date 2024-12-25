@@ -304,8 +304,13 @@ function Championship() {
               <div className="team-name">
                 {matchupData?.team1?.name || 'Loading...'}
               </div>
-              <div className="team-score">
-                {matchupData?.team1?.score?.toFixed(2) || '0.00'}
+              <div className="score-container">
+                <div className="team-score">
+                  {matchupData?.team1?.score?.toFixed(2) || '0.00'}
+                </div>
+                <div className="projected-score">
+                  Proj: 132.2
+                </div>
               </div>
             </div>
           </div>
@@ -334,8 +339,13 @@ function Championship() {
               <div className="team-name">
                 {matchupData?.team2?.name || 'Loading...'}
               </div>
-              <div className="team-score">
-                {matchupData?.team2?.score?.toFixed(2) || '0.00'}
+              <div className="score-container">
+                <div className="team-score">
+                  {matchupData?.team2?.score?.toFixed(2) || '0.00'}
+                </div>
+                <div className="projected-score">
+                  Proj: 119.2
+                </div>
               </div>
             </div>
           </div>
