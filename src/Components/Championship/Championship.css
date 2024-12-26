@@ -72,6 +72,8 @@
   background: rgba(0, 0, 0, 0.3);
   border-radius: 15px;
   position: relative;
+  margin-top: 0;
+  padding-top: 1rem;
 }
 
 .team-panel {
@@ -715,4 +717,77 @@
     padding-top: 10px;
     margin-top: 10px;
   }
+} 
+
+.championship-header {
+  width: 100%;
+  background: linear-gradient(135deg, #1c1c1c 0%, #2a2a2a 100%);
+  padding: 2rem 0;
+  margin-bottom: 0;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add subtle diagonal stripes in background */
+.championship-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  pointer-events: none;
+}
+
+.championship-header h2 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 3.5rem;
+  color: #ffd700;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  margin: 0;
+  font-weight: 800;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.championship-header .trophy-icon {
+  font-size: 2.8rem;
+  color: #ffd700;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.4));
+}
+
+/* Add the underline effect */
+.championship-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 215, 0, 0.5),
+    rgba(255, 215, 0, 0.8),
+    rgba(255, 215, 0, 0.5),
+    transparent
+  );
 } 

@@ -2,7 +2,7 @@
 <div className="championship-score-banner">
   <div className="championship-score-header">
     <FaTrophy className="championship-trophy" />
-    <h2>CHAMPIONSHIP MATCHUP</h2>
+    <h2>BAKABOWL™ XI</h2>
     <FaTrophy className="championship-trophy" />
   </div>
   <div className="championship-teams">

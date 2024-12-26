@@ -534,15 +534,10 @@ function Dashboard() {
         >
           <TabPanel header="Home" leftIcon="pi pi-home">
             <div className="content-section">
-              <div className="section-title-container">
-                <div className="section-title-background"></div>
-                <h1 className="section-title">Weekly Highlights</h1>
-                <p className="section-subtitle">Top Performers and Notable Moments</p>
-              </div>
-
               <div className="championship-score-banner">
                 <div className="championship-score-header">
-                  <h2>Championship Game</h2>
+                <FaTrophy className="championship-trophy" />
+                  <h2>BAKABOWL™ XI</h2>
                   <FaTrophy className="championship-trophy" />
                 </div>
                 <div className="championship-teams">
@@ -704,7 +699,7 @@ function Dashboard() {
           <TabPanel header="Championship" leftIcon="pi pi-trophy">
             <Championship />
           </TabPanel>
-          <TabPanel header="Past Champions" leftIcon="pi pi-history">
+          <TabPanel header="Hall of Champions" leftIcon="pi pi-history">
             <PastChampions />
           </TabPanel>
           <TabPanel header="Championship Race" leftIcon="pi pi-flag">

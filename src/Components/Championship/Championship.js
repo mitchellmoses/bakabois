@@ -110,7 +110,7 @@ const GameCountdown = () => {
   );
 };
 
-function Championship() {
+function Championship({ championshipGame }) {
   const [matchupData, setMatchupData] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [loading, setLoading] = useState(true);
@@ -259,11 +259,13 @@ function Championship() {
 
   return (
     <div className="championship-container">
-      <h1 className="championship-title">
-        <FaTrophy className="trophy-icon" />
-        11th Anniversary BakaBowl
-        <FaTrophy className="trophy-icon" />
-      </h1>
+      <div className="championship-header">
+        <h2>
+          <FaTrophy className="trophy-icon" />
+          BAKABOWL™ XI
+          <FaTrophy className="trophy-icon" />
+        </h2>
+      </div>
 
       {/* Teams and Scoring First */}
       <div className="matchup-container">
