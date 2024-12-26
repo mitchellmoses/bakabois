@@ -22,6 +22,7 @@ import Headlines from '../../Components/Headlines/Headlines';
 import ChampionshipRace from '../../Components/ChampionshipRace/ChampionshipRace';
 import Championship from '../../Components/Championship/Championship';
 import { useLocation } from "react-router-dom";
+import PastChampions from '../../Components/PastChampions/PastChampions';
 
 function Dashboard() {
   const location = useLocation();
@@ -41,13 +42,21 @@ function Dashboard() {
   const [closestMatchup, setClosestMatchup] = useState(null);
   const [biggestBlowout, setBiggestBlowout] = useState(null);
   const [championshipTeams, setChampionshipTeams] = useState({
-    gay: null,
-    theBeast: null
+    gay: {
+      name: "Gay",
+      score: 0,
+      projected: 132.2
+    },
+    theBeast: {
+      name: "The Beast",
+      score: 0,
+      projected: 119.2
+    }
   });
 
   const getBoxScoreTabIndex = () => {
     const tabHeaders = [
-      "Home", "Championship", "Championship Race", "Leaderboard", "Scoreboard", 
+      "Home", "Championship", "Past Champions", "Championship Race", "Leaderboard", "Scoreboard", 
       "Box Score", "Total Points", "Playoff Outlook", "Toilet Bowl", 
       "Commissioner Bowl", "Classics"
     ];
@@ -455,30 +464,61 @@ function Dashboard() {
     }
   }, [matchupPeriodId]);
 
-  const fetchChampionshipData = async () => {
+  const fetchChampionshipScores = async () => {
     try {
-      const scoringPeriodId = 17; // Championship week
-      
+      // Get both leagues' data since teams are in different leagues
       const [league1Response, league2Response] = await Promise.all([
-        axios.get(`https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1446375?view=mMatchup&view=mMatchupScore&view=mRoster&view=mTeam&view=mProjectedScore&scoringPeriodId=${scoringPeriodId}`),
-        axios.get(`https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1869404038?view=mMatchup&view=mMatchupScore&view=mRoster&view=mTeam&view=mProjectedScore&scoringPeriodId=${scoringPeriodId}`)
+        axios.get(
+          "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1446375?view=mMatchup&view=mMatchupScore&view=mRoster&view=mTeam&scoringPeriodId=17"
+        ),
+        axios.get(
+          "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1869404038?view=mMatchup&view=mMatchupScore&view=mRoster&view=mTeam&scoringPeriodId=17"
+        )
       ]);
 
+      // Gay is in league 2, Beast is in league 1
       const gay = league2Response.data.teams.find(team => team.id === 7);
       const theBeast = league1Response.data.teams.find(team => 
         team.name.toUpperCase().includes('THE BEAST')
       );
 
-      setChampionshipTeams({ gay, theBeast });
+      if (gay && theBeast) {
+        // Get Week 17 stats for each player
+        const getTeamScore = (team) => {
+          return team.roster.entries.reduce((total, entry) => {
+            const playerStats = entry.playerPoolEntry?.player?.stats || [];
+            const week17Stats = playerStats.find(
+              stat => stat.scoringPeriodId === 17 && stat.statSourceId === 0 && stat.statSplitTypeId === 1
+            );
+            return total + (week17Stats?.appliedTotal || 0);
+          }, 0);
+        };
+
+        setChampionshipTeams({
+          gay: {
+            name: gay.name,
+            score: getTeamScore(gay),
+            projected: 132.2
+          },
+          theBeast: {
+            name: theBeast.name,
+            score: getTeamScore(theBeast),
+            projected: 119.2
+          }
+        });
+      }
     } catch (error) {
-      console.error('Error fetching championship data:', error);
+      console.error('Error fetching championship scores:', error);
     }
   };
 
   useEffect(() => {
-    fetchChampionshipData();
-    const interval = setInterval(fetchChampionshipData, 30000);
-    return () => clearInterval(interval);
+    fetchChampionshipScores();
+    const scoresInterval = setInterval(fetchChampionshipScores, 30000);
+    return () => {
+      clearInterval(scoresInterval);
+      // Clear any other existing intervals...
+    };
   }, []);
 
   return (
@@ -502,21 +542,22 @@ function Dashboard() {
 
               <div className="championship-score-banner">
                 <div className="championship-score-header">
-                  <FaTrophy className="championship-trophy" />
-                  <h2>CHAMPIONSHIP MATCHUP</h2>
+                  <h2>Championship Game</h2>
                   <FaTrophy className="championship-trophy" />
                 </div>
                 <div className="championship-teams">
                   <div className="championship-team">
-                    <img src={championshipTeams.gay?.logo} alt="" className="team-logo-champ" />
-                    <span className="team-name-champ">{championshipTeams.gay?.name || 'Loading...'}</span>
-                    <span className="team-score-champ">{(championshipTeams.gay?.score || 0).toFixed(2)}</span>
+                    <div className="team-name-champ">{championshipTeams.gay.name}</div>
+                    <div className="team-score-champ">
+                      {championshipTeams.gay.score.toFixed(2)}
+                    </div>
                   </div>
                   <div className="championship-vs">VS</div>
                   <div className="championship-team">
-                    <img src={championshipTeams.theBeast?.logo} alt="" className="team-logo-champ" />
-                    <span className="team-name-champ">{championshipTeams.theBeast?.name || 'Loading...'}</span>
-                    <span className="team-score-champ">{(championshipTeams.theBeast?.score || 0).toFixed(2)}</span>
+                    <div className="team-name-champ">{championshipTeams.theBeast.name}</div>
+                    <div className="team-score-champ">
+                      {championshipTeams.theBeast.score.toFixed(2)}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -662,6 +703,9 @@ function Dashboard() {
           </TabPanel>
           <TabPanel header="Championship" leftIcon="pi pi-trophy">
             <Championship />
+          </TabPanel>
+          <TabPanel header="Past Champions" leftIcon="pi pi-history">
+            <PastChampions />
           </TabPanel>
           <TabPanel header="Championship Race" leftIcon="pi pi-flag">
             <ChampionshipRace />
