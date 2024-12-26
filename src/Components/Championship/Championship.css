@@ -791,3 +791,36 @@
     transparent
   );
 } 
+
+/* Update mobile styles */
+@media (max-width: 768px) {
+  .championship-header {
+    padding: 1.5rem 0;
+  }
+
+  .championship-header h2 {
+    font-size: 2rem;
+    letter-spacing: 3px;
+    gap: 1rem;
+    padding: 0 1rem;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  .championship-header .trophy-icon {
+    font-size: 1.8rem;
+  }
+}
+
+/* Add specific styles for very small screens */
+@media (max-width: 380px) {
+  .championship-header h2 {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    gap: 0.8rem;
+  }
+
+  .championship-header .trophy-icon {
+    font-size: 1.6rem;
+  }
+} 
