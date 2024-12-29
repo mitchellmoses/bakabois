@@ -138,24 +138,35 @@ function PastChampions() {
           <FaCrown className="section-icon" />
         </h2>
         <div className="champions-grid">
-          {sortedChampions.map((champion) => (
-            <div key={champion.name} className="champion-card">
-              <div className="champion-banner">
-                <GiLaurelCrown className="crown-icon" />
-                <div className="champion-title">
-                  <h3>{champion.name}</h3>
-                  {champion.owner && <span className="owner-name">({champion.owner})</span>}
+          {sortedChampions.map((champion) => {
+            // Check if this is the most recent champion
+            const isCurrentChamp = Math.max(...champion.years) === Math.max(...sortedChampions.flatMap(c => c.years));
+            
+            return (
+              <div key={champion.name} className={`champion-card ${isCurrentChamp ? 'current-champion' : ''}`}>
+                <div className="champion-banner">
+                  <GiLaurelCrown className="crown-icon" />
+                  <div className="champion-title">
+                    <h3>{champion.name}</h3>
+                    {champion.owner && <span className="owner-name">({champion.owner})</span>}
+                  </div>
+                  {isCurrentChamp && (
+                    <div className="current-champion-badge">
+                      <FaTrophy className="trophy-badge-icon" />
+                      <span>Reigning Champ</span>
+                    </div>
+                  )}
+                </div>
+                <div className="champion-content">
+                  <div className="years-list">
+                    {champion.years.sort((a, b) => b - a).map((year) => (
+                      <span key={year} className="year-tag">{year}</span>
+                    ))}
+                  </div>
                 </div>
               </div>
-              <div className="champion-content">
-                <div className="years-list">
-                  {champion.years.sort((a, b) => b - a).map((year) => (
-                    <span key={year} className="year-tag">{year}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
