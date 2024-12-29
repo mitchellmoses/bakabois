@@ -683,41 +683,185 @@
 
 .score-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  gap: 8px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(20, 20, 20, 0.9) 100%
+  );
+  padding: 15px 25px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(10px);
+  transform: perspective(1000px) translateZ(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.score-container:hover {
+  transform: perspective(1000px) translateZ(20px);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(255, 215, 0, 0.2);
+}
+
+/* Animated team score */
+.team-score {
+  font-size: 3em;
+  font-weight: 800;
+  background: linear-gradient(45deg, #ffd700, #ffa500);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 
+    2px 2px 4px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(255, 215, 0, 0.5);
+  position: relative;
+  padding: 0 10px;
+}
+
+.team-score::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: linear-gradient(45deg, #ffd700, transparent);
+  border-radius: 10px;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+/* Enhanced projected score */
 .projected-score {
   font-size: 1.2em;
-  color: #ffd700;
-  opacity: 0.8;
-  font-style: italic;
-} 
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 215, 0, 0.1),
+    rgba(255, 215, 0, 0.2),
+    rgba(255, 215, 0, 0.1)
+  );
+  padding: 5px 15px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  text-transform: uppercase;
+  animation: projectionPulse 2s infinite;
+}
 
+@keyframes projectionPulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+/* Enhanced score difference display */
+.score-difference {
+  font-size: 1.2em;
+  margin: 15px 0;
+  padding: 12px 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(20, 20, 20, 0.9) 100%
+  );
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(255, 215, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.score-difference::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 215, 0, 0.1) 0%,
+    transparent 70%
+  );
+  animation: rotateDifference 10s linear infinite;
+}
+
+@keyframes rotateDifference {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.difference-label {
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+.difference-value {
+  font-size: 1.6em;
+  font-weight: bold;
+  background: linear-gradient(45deg, #ffd700, #ffa500);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 1;
+}
+
+/* Add shine effect to winning team's score */
+.winning .team-score::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: skewX(-25deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  20%, 100% { left: 200%; }
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .championship-narrative {
-    font-size: 0.9em;
-    padding: 0 10px;
-    gap: 8px;
+  .score-container {
+    padding: 12px 20px;
   }
-
-  .narrative-icon {
-    font-size: 0.8em;
+  
+  .team-score {
+    font-size: 2.5em;
   }
-
-  .prize-pool {
-    grid-template-columns: 1fr;
-    text-align: center;
+  
+  .projected-score {
+    font-size: 1em;
   }
-
-  .championship-narrative {
-    border-left: none;
-    border-top: 2px solid rgba(255, 215, 0, 0.3);
-    padding-top: 10px;
-    margin-top: 10px;
+  
+  .difference-value {
+    font-size: 1.4em;
   }
-} 
+}
 
 .championship-header {
   width: 100%;
