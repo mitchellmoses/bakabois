@@ -1,0 +1,619 @@
+.champion-banner-2024 {
+  width: 100%;
+  margin: 20px 0;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 
+    0 0 30px rgba(255, 215, 0, 0.15),
+    inset 0 0 100px rgba(255, 215, 0, 0.1);
+}
+
+.champion-banner-background-2024 {
+  position: relative;
+  border: 2px solid transparent;
+  border-image: linear-gradient(
+    45deg, 
+    #ffd700, 
+    #ff6b6b,
+    #4ecdc4,
+    #ffd700
+  ) 1;
+  animation: borderGlow 4s linear infinite;
+  overflow: hidden;
+}
+
+.champion-banner-background-2024::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    transparent 30%,
+    rgba(255, 215, 0, 0.1) 70%,
+    transparent 100%
+  );
+  animation: rotate-2024 20s linear infinite;
+}
+
+.floating-elements-2024 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.floating-star {
+  position: absolute;
+  color: #ffd700;
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+}
+
+.star1 { 
+  top: 10%; 
+  left: 10%; 
+  animation: floatAndGlow 4s ease-in-out infinite;
+  font-size: 24px;
+}
+
+.star2 { 
+  top: 20%; 
+  right: 15%; 
+  animation: floatAndGlow 5s ease-in-out infinite;
+  font-size: 20px;
+}
+
+.star3 { 
+  bottom: 15%; 
+  left: 20%; 
+  animation: floatAndGlow 6s ease-in-out infinite;
+  font-size: 28px;
+}
+
+.floating-trophy {
+  position: absolute;
+  color: #ffd700;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+}
+
+.trophy1 {
+  top: 30%;
+  right: 10%;
+  animation: spinAndFloat 8s linear infinite;
+  font-size: 32px;
+}
+
+.trophy2 {
+  bottom: 20%;
+  right: 25%;
+  animation: spinAndFloat 10s linear infinite reverse;
+  font-size: 28px;
+}
+
+.champion-content-2024 {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.crown-section-2024 {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.crown-icon {
+  font-size: 48px;
+  color: #ffd700;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+  animation: crownFloat 2s ease-in-out infinite;
+}
+
+.crown-section-2024::after {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse-2024 2s ease-in-out infinite;
+}
+
+.champion-main-2024 {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.champion-image-container-2024 {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #ffd700;
+  box-shadow: 
+    0 0 30px rgba(255, 215, 0, 0.3),
+    inset 0 0 20px rgba(255, 215, 0, 0.3);
+  animation: imagePulse 4s ease-in-out infinite;
+}
+
+.champion-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: slowZoom 10s ease-in-out infinite;
+}
+
+.champion-aura {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  right: -10%;
+  bottom: -10%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+  animation: rotate-2024 10s linear infinite;
+}
+
+.champion-info-2024 {
+  flex: 1;
+  position: relative;
+}
+
+.champion-title-2024 {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.champion-title-2024 h1 {
+  color: #ffd700;
+  font-size: 2.5em;
+  margin: 0;
+  text-shadow: 
+    0 0 10px rgba(255, 215, 0, 0.3),
+    0 0 20px rgba(255, 215, 0, 0.2),
+    0 0 30px rgba(255, 215, 0, 0.1);
+  animation: titleGlow 2s ease-in-out infinite;
+}
+
+.fire-icon {
+  color: #ff6b6b;
+  font-size: 24px;
+  filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.5));
+  animation: flameFlicker 1.5s ease-in-out infinite;
+}
+
+.champion-name-2024 {
+  color: #fff;
+  font-size: 1.8em;
+  margin: 0 0 30px 0;
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.3),
+    0 0 20px rgba(255, 255, 255, 0.2);
+  animation: nameGlow 3s ease-in-out infinite;
+}
+
+.champion-stats-2024 {
+  display: flex;
+  gap: 30px;
+}
+
+.stat-2024 {
+  background: rgba(255, 215, 0, 0.1);
+  padding: 15px 25px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: statFloat 3s ease-in-out infinite;
+}
+
+.stat-2024:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+}
+
+.stat-value-2024 {
+  display: block;
+  color: #ffd700;
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.stat-label-2024 {
+  color: #ffa500;
+  font-size: 0.9em;
+}
+
+@keyframes borderGlow {
+  0%, 100% { border-image-source: linear-gradient(45deg, #ffd700, #ff6b6b, #4ecdc4, #ffd700); }
+  50% { border-image-source: linear-gradient(45deg, #ff6b6b, #4ecdc4, #ffd700, #ff6b6b); }
+}
+
+@keyframes floatAndGlow {
+  0%, 100% { 
+    transform: translateY(0);
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+  }
+  50% { 
+    transform: translateY(-20px);
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+  }
+}
+
+@keyframes spinAndFloat {
+  0% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(180deg) translateY(-15px); }
+  100% { transform: rotate(360deg) translateY(0); }
+}
+
+@keyframes crownFloat {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+@keyframes pulse-2024 {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+}
+
+@keyframes imagePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes slowZoom {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes titleGlow {
+  0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.2); }
+  50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.3); }
+}
+
+@keyframes flameFlicker {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(0.95); }
+}
+
+@keyframes nameGlow {
+  0%, 100% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+  50% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+}
+
+@keyframes statFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@media (max-width: 768px) {
+  .champion-banner-2024 {
+    padding: 15px;
+    margin: 10px 0;
+  }
+
+  .champion-main-2024 {
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .champion-image-container-2024 {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+  }
+
+  .champion-title-2024 {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .champion-title-2024 h1 {
+    font-size: 1.5em;
+    text-align: center;
+  }
+
+  .champion-name-2024 {
+    font-size: 1.4em;
+    text-align: center;
+    margin: 15px 0;
+  }
+
+  .champion-stats-2024 {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .stat-2024 {
+    flex: 1;
+    min-width: 140px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .stat-value-2024 {
+    font-size: 1.6em;
+  }
+
+  .stat-label-2024 {
+    font-size: 0.8em;
+  }
+
+  .crown-icon {
+    font-size: 36px;
+  }
+
+  .floating-star, .floating-trophy {
+    display: none; /* Hide floating elements on mobile for better performance */
+  }
+
+  .champion-ribbon {
+    top: -10px;
+    right: -10px;
+    width: 100px;
+    height: 100px;
+  }
+
+  .champion-ribbon::before {
+    width: 150px;
+    height: 30px;
+    font-size: 0.8em;
+    transform: rotate(45deg) translateY(-15px);
+  }
+
+  .championship-year {
+    font-size: 2em;
+    bottom: 5px;
+    right: 10px;
+  }
+
+  .crown-particles {
+    width: 100px;
+    height: 100px;
+  }
+
+  .particle {
+    width: 3px;
+    height: 3px;
+  }
+
+  /* Adjust animations for better mobile performance */
+  .champion-image {
+    animation: none; /* Disable zoom animation on mobile */
+  }
+
+  .champion-aura {
+    animation-duration: 20s; /* Slow down aura rotation for better performance */
+  }
+
+  .stat-2024:hover {
+    transform: none; /* Disable 3D effect on mobile */
+    box-shadow: none;
+  }
+}
+
+/* Add specific styles for very small screens */
+@media (max-width: 380px) {
+  .champion-title-2024 h1 {
+    font-size: 1.2em;
+  }
+
+  .champion-name-2024 {
+    font-size: 1.2em;
+  }
+
+  .stat-2024 {
+    min-width: 120px;
+    padding: 8px;
+  }
+
+  .stat-value-2024 {
+    font-size: 1.4em;
+  }
+
+  .champion-image-container-2024 {
+    width: 120px;
+    height: 120px;
+  }
+
+  .crown-icon {
+    font-size: 28px;
+  }
+}
+
+/* Add landscape orientation styles */
+@media (max-width: 768px) and (orientation: landscape) {
+  .champion-main-2024 {
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .champion-image-container-2024 {
+    width: 120px;
+    height: 120px;
+  }
+
+  .champion-stats-2024 {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .stat-2024 {
+    min-width: 110px;
+    padding: 8px;
+  }
+}
+
+/* Add iPad/tablet specific styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .champion-main-2024 {
+    gap: 25px;
+  }
+
+  .champion-image-container-2024 {
+    width: 200px;
+    height: 200px;
+  }
+
+  .champion-title-2024 h1 {
+    font-size: 2em;
+  }
+
+  .stat-2024 {
+    padding: 12px 20px;
+  }
+}
+
+/* Add sparkles effect */
+.champion-banner-2024::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.2) 0%, transparent 3%),
+    radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.2) 0%, transparent 3%),
+    radial-gradient(circle at 40% 70%, rgba(255, 215, 0, 0.2) 0%, transparent 3%),
+    radial-gradient(circle at 70% 90%, rgba(255, 215, 0, 0.2) 0%, transparent 3%);
+  animation: sparkle 4s ease-in-out infinite;
+}
+
+/* Add championship ribbon */
+.champion-ribbon {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.champion-ribbon::before {
+  content: 'CHAMPION';
+  position: absolute;
+  width: 200px;
+  height: 40px;
+  background: linear-gradient(45deg, #ffd700, #ff6b6b);
+  transform: rotate(45deg) translateY(-20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-weight: bold;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+  letter-spacing: 2px;
+}
+
+/* Add 3D effect to stats */
+.stat-2024 {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  background: rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(5px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-2024:hover {
+  transform: translateY(-5px) rotateX(10deg);
+  box-shadow: 
+    0 5px 15px rgba(255, 215, 0, 0.2),
+    0 15px 30px rgba(255, 215, 0, 0.1);
+}
+
+/* Add particle effects around the crown */
+.crown-particles {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #ffd700;
+  border-radius: 50%;
+  animation: particle-float 3s ease-in-out infinite;
+}
+
+/* Add championship year effect */
+.championship-year {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  font-size: 4em;
+  font-weight: bold;
+  color: rgba(255, 215, 0, 0.1);
+  letter-spacing: 5px;
+  user-select: none;
+}
+
+/* Enhance image container with championship ring effect */
+.champion-image-container-2024::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #ffd700,
+    #ff6b6b,
+    #4ecdc4,
+    #ffd700
+  );
+  z-index: -1;
+  animation: rotate-2024 10s linear infinite;
+}
+
+/* Add new animations */
+@keyframes sparkle {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes particle-float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(var(--x), var(--y)) scale(1.5);
+    opacity: 1;
+  }
+}
