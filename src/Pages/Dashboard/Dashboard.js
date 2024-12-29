@@ -23,7 +23,7 @@ import ChampionshipRace from '../../Components/ChampionshipRace/ChampionshipRace
 import Championship from '../../Components/Championship/Championship';
 import { useLocation } from "react-router-dom";
 import PastChampions from '../../Components/PastChampions/PastChampions';
-import ChampionBanner from '../../Components/ChampionBanner/ChampionBanner';
+// import ChampionBanner from '../../Components/ChampionBanner/ChampionBanner';
 
 function Dashboard() {
   const location = useLocation();
@@ -541,7 +541,7 @@ function Dashboard() {
         >
           <TabPanel header="Home" leftIcon="pi pi-home">
             <div className="content-section">
-              <ChampionBanner />
+              {/* <ChampionBanner /> */}
               
               <div className="championship-score-banner">
                 <div className="championship-score-header">
