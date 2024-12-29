@@ -426,7 +426,7 @@ function Dashboard() {
                   if (entry.lineupSlotId <= 8) {
                     const playerScore = entry.playerPoolEntry.appliedStatTotal || 0;
                     
-                    console.log(`Player: ${entry.playerPoolEntry.player.fullName}, Score: ${playerScore}, Team: ${teamDetails?.name}`);
+                 //   console.log(`Player: ${entry.playerPoolEntry.player.fullName}, Score: ${playerScore}, Team: ${teamDetails?.name}`);
                     
                     if (playerScore > highestScore) {
                       highestScore = playerScore;
@@ -466,7 +466,6 @@ function Dashboard() {
 
   const fetchChampionshipScores = async () => {
     try {
-      // Get both leagues' data since teams are in different leagues
       const [league1Response, league2Response] = await Promise.all([
         axios.get(
           "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1446375?view=mMatchup&view=mMatchupScore&view=mRoster&view=mTeam&scoringPeriodId=17"
@@ -476,33 +475,40 @@ function Dashboard() {
         )
       ]);
 
-      // Gay is in league 2, Beast is in league 1
       const gay = league2Response.data.teams.find(team => team.id === 7);
       const theBeast = league1Response.data.teams.find(team => 
         team.name.toUpperCase().includes('THE BEAST')
       );
 
       if (gay && theBeast) {
-        // Get Week 17 stats for each player
         const getTeamScore = (team) => {
           return team.roster.entries.reduce((total, entry) => {
+            // Only count starters (not bench)
+            if (entry.lineupSlotId === 20 || entry.lineupSlotId === 21) {
+              return total;
+            }
+
             const playerStats = entry.playerPoolEntry?.player?.stats || [];
             const week17Stats = playerStats.find(
-              stat => stat.scoringPeriodId === 17 && stat.statSourceId === 0 && stat.statSplitTypeId === 1
+              stat => stat.scoringPeriodId === 17 && stat.statSourceId === 0
             );
+
             return total + (week17Stats?.appliedTotal || 0);
           }, 0);
         };
 
+        const gayScore = getTeamScore(gay);
+        const beastScore = getTeamScore(theBeast);
+
         setChampionshipTeams({
           gay: {
             name: gay.name,
-            score: getTeamScore(gay),
+            score: gayScore,
             projected: 132.2
           },
           theBeast: {
             name: theBeast.name,
-            score: getTeamScore(theBeast),
+            score: beastScore,
             projected: 119.2
           }
         });
