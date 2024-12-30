@@ -286,7 +286,7 @@ function Championship({ championshipGame }) {
                   {matchupData?.team1?.score?.toFixed(2) || '0.00'}
                 </div>
                 <div className="projected-score">
-                  Proj: 123.69
+                  Proj: 116.48
                 </div>
               </div>
             </div>
