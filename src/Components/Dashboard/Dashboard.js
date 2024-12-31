@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaTrophy } from 'react-icons/fa';
+import ChampionBanner from '../ChampionBanner/ChampionBanner';
 
 const Dashboard = () => {
   const [championshipTeams, setChampionshipTeams] = useState({});
@@ -21,84 +22,21 @@ const Dashboard = () => {
         team.name.toUpperCase().includes('THE BEAST')
       );
 
-      console.log('Raw team data:', { gay, theBeast });
-
       if (gay && theBeast) {
-        const processRoster = (team) => {
-          console.log(`Processing roster for ${team.name}:`, team.roster);
-          
-          if (!team?.roster?.entries) {
-            console.log('No roster entries found');
-            return [];
-          }
-          
-          const processedRoster = team.roster.entries.map(entry => {
-            const playerStats = entry.playerPoolEntry?.player?.stats || [];
-            const week17Stats = playerStats.find(
-              stat => stat.scoringPeriodId === 17 && stat.statSourceId === 0
-            );
-            
-            console.log('Processing entry:', {
-              lineupSlotId: entry.lineupSlotId,
-              playerName: entry.playerPoolEntry?.player?.fullName,
-              stats: week17Stats
-            });
-            
-            return {
-              position: entry.lineupSlotId,
-              points: week17Stats?.appliedTotal || 0
-            };
-          });
-
-          console.log('Processed roster:', processedRoster);
-          return processedRoster;
-        };
-
-        const championshipData = {
+        setChampionshipTeams({
           gay: {
             name: gay.name,
-            logo: gay.logo,
-            roster: processRoster(gay)
+            score: 118.78
           },
           theBeast: {
             name: theBeast.name,
-            logo: theBeast.logo,
-            roster: processRoster(theBeast)
+            score: 120.72
           }
-        };
-
-        console.log('Setting championship data:', championshipData);
-        setChampionshipTeams(championshipData);
+        });
       }
     } catch (error) {
       console.error('Error fetching championship scores:', error);
     }
-  };
-
-  const calculateStartingScore = (roster) => {
-    console.log('Calculating score for roster:', roster);
-    
-    if (!roster) {
-      console.log('No roster provided');
-      return 0;
-    }
-    
-    const starters = roster.filter(player => {
-      const isStarter = player.position !== 20 && player.position !== 21;
-      console.log(`Position ${player.position}: ${isStarter ? 'Starter' : 'Bench'}`);
-      return isStarter;
-    });
-    
-    console.log('Filtered starters:', starters);
-    
-    const total = starters.reduce((total, player) => {
-      const points = parseFloat(player.points) || 0;
-      console.log(`Adding points: ${points}`);
-      return total + points;
-    }, 0);
-    
-    console.log('Final total:', total);
-    return total;
   };
 
   useEffect(() => {
@@ -108,27 +46,30 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="championship-score-banner">
-      <div className="championship-score-header">
-        <FaTrophy className="championship-trophy" />
-        <h2>BAKABOWL™ XI</h2>
-        <FaTrophy className="championship-trophy" />
+    <div className="dashboard-container">
+      <div className="champion-banner-wrapper">
+        <ChampionBanner />
       </div>
-      <div className="championship-teams">
-        <div className="championship-team">
-          <img src={championshipTeams.gay?.logo} alt="" className="team-logo-champ" />
-          <span className="team-name-champ">{championshipTeams.gay?.name || 'Loading...'}</span>
-          <span className="team-score-champ">
-            {(calculateStartingScore(championshipTeams.gay?.roster) || 0).toFixed(2)}
-          </span>
+      <div className="championship-score-banner">
+        <div className="championship-score-header">
+          <FaTrophy className="championship-trophy" />
+          <h2>BAKABOWL™ XI</h2>
+          <FaTrophy className="championship-trophy" />
         </div>
-        <div className="championship-vs">VS</div>
-        <div className="championship-team">
-          <img src={championshipTeams.theBeast?.logo} alt="" className="team-logo-champ" />
-          <span className="team-name-champ">{championshipTeams.theBeast?.name || 'Loading...'}</span>
-          <span className="team-score-champ">
-            {(calculateStartingScore(championshipTeams.theBeast?.roster) || 0).toFixed(2)}
-          </span>
+        <div className="championship-teams">
+          <div className="championship-team">
+            <div className="team-name-champ">gay</div>
+            <div className="team-score-champ">
+              {championshipTeams.gay?.score || '118.78'}
+            </div>
+          </div>
+          <div className="championship-vs">VS</div>
+          <div className="championship-team">
+            <div className="team-name-champ">THE BEAST</div>
+            <div className="team-score-champ">
+              {championshipTeams.theBeast?.score || '120.72'}
+            </div>
+          </div>
         </div>
       </div>
     </div>

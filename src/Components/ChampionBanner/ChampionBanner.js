@@ -7,17 +7,19 @@ const ChampionBanner = () => {
   const [teamLogo, setTeamLogo] = useState('');
 
   useEffect(() => {
-    // Fetch Gay's team logo from ESPN API
+    // Fetch Kent's (The Beast) team logo from ESPN API
     const fetchTeamLogo = async () => {
       try {
         const response = await axios.get(
-          'https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1869404038?view=mTeam'
+          'https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/1446375?view=mTeam'
         );
         
-        // Gay's team ID is 7 in League 2
-        const gayTeam = response.data.teams.find(team => team.id === 7);
-        if (gayTeam && gayTeam.logo) {
-          setTeamLogo(gayTeam.logo);
+        // Find The Beast's team
+        const kentTeam = response.data.teams.find(team => 
+          team.name.toUpperCase().includes('THE BEAST')
+        );
+        if (kentTeam && kentTeam.logo) {
+          setTeamLogo(kentTeam.logo);
         }
       } catch (error) {
         console.error('Error fetching team logo:', error);
@@ -49,7 +51,7 @@ const ChampionBanner = () => {
             <div className="champion-image-container-2024">
               <img 
                 src={teamLogo || 'https://g.espncdn.com/lm-static/ffl/images/default_logos/1.svg'} 
-                alt="Champion Will" 
+                alt="Champion Kent" 
                 className="champion-image" 
               />
               <div className="champion-aura"></div>
@@ -61,18 +63,18 @@ const ChampionBanner = () => {
                 <h1>BAKABOWL XI CHAMPION</h1>
                 <FaFire className="fire-icon" />
               </div>
-              <h2 className="champion-name-2024">Will "Gay"</h2>
+              <h2 className="champion-name-2024">Kent "The Beast"</h2>
               <div className="champion-stats-2024">
                 <div className="stat-2024">
-                  <span className="stat-value-2024">152.8</span>
+                  <span className="stat-value-2024">156.92</span>
                   <span className="stat-label-2024">Championship Points</span>
                 </div>
                 <div className="stat-2024">
-                  <span className="stat-value-2024">11-2</span>
+                  <span className="stat-value-2024">10-3</span>
                   <span className="stat-label-2024">Regular Season</span>
                 </div>
                 <div className="stat-2024">
-                  <span className="stat-value-2024">1,648.18</span>
+                  <span className="stat-value-2024">1,723.54</span>
                   <span className="stat-label-2024">Total Points</span>
                 </div>
               </div>

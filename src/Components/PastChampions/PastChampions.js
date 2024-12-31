@@ -4,14 +4,14 @@ import { FaCrown, FaTrophy, FaStar, FaAward } from 'react-icons/fa';
 import { GiLaurelCrown, GiTrophyCup } from 'react-icons/gi';
 
 const LEAGUE_CHAMPIONS = [
-  // {
-  //   name: "Gay",
-  //   owner: "Will",
-  //   titles: 1,
-  //   years: [2024],
-  //   teamId: "9",
-  //   leagueId: "1446375"
-  // },
+  {
+    name: "The Beast",
+    owner: "Kent",
+    titles: 3,
+    years: [2016, 2021, 2024],
+    teamId: "3",
+    leagueId: "1446375"
+  },
   {
     name: "2 for 20",
     titles: 2,
@@ -25,14 +25,6 @@ const LEAGUE_CHAMPIONS = [
     titles: 2,
     years: [2014, 2017],
     teamId: "4",
-    leagueId: "1446375"
-  },
-  {
-    name: "The Beast",
-    owner: "Kent",
-    titles: 2,
-    years: [2016, 2021],
-    teamId: "3",
     leagueId: "1446375"
   },
   {

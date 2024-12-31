@@ -1,5 +1,16 @@
+.dashboard-container {
+  width: 100%;
+  padding: 20px;
+  background-color: #1a1a1a;
+}
+
+.champion-banner-wrapper {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
 .championship-score-banner {
-  background: linear-gradient(135deg, #1a237e 0%, #283593 70%, #3949ab 100%);
+  background: #2c2c7b;
   padding: 1.5rem;
   border-radius: 10px;
   margin: 1rem 0;
@@ -12,7 +23,6 @@
   justify-content: center;
   gap: 1.5rem;
   margin-bottom: 1.5rem;
-  position: relative;
 }
 
 .championship-score-header h2 {
@@ -22,95 +32,71 @@
   letter-spacing: 4px;
   margin: 0;
   font-weight: 800;
-  text-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.3),
-    0 4px 8px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .championship-trophy {
   font-size: 2.4rem;
   color: #ffd700;
-  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.4));
-}
-
-/* Add the underline effect */
-.championship-score-header::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(255, 215, 0, 0.5),
-    rgba(255, 215, 0, 0.8),
-    rgba(255, 215, 0, 0.5),
-    transparent
-  );
 }
 
 .championship-teams {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: 4rem;
   color: white;
+  margin-top: 2rem;
 }
 
 .championship-team {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-}
-
-.team-logo-champ {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 2px solid #ffd700;
+  gap: 1rem;
 }
 
 .team-name-champ {
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-weight: 600;
+  color: white;
+  text-transform: uppercase;
 }
 
 .team-score-champ {
-  font-size: 1.8rem;
+  font-size: 3.5rem;
   color: #ffd700;
   font-weight: 700;
 }
 
 .championship-vs {
-  font-size: 1.4rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.8);
+  color: #ffd700;
 }
 
-/* Media Queries */
 @media (max-width: 768px) {
   .championship-score-header h2 {
     font-size: 2rem;
   }
   
   .championship-trophy {
-    font-size: 1.6rem;
-  }
-  
-  .team-logo-champ {
-    width: 50px;
-    height: 50px;
+    font-size: 1.8rem;
   }
   
   .team-name-champ {
-    font-size: 1rem;
+    font-size: 1.6rem;
   }
   
   .team-score-champ {
-    font-size: 1.5rem;
+    font-size: 2.8rem;
+  }
+
+  .championship-vs {
+    font-size: 2rem;
+  }
+
+  .championship-teams {
+    gap: 2rem;
   }
 } 
